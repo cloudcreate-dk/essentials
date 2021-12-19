@@ -1,7 +1,7 @@
 # Essentials Java building blocks
 
 Essentials is a set of Java version 11 (and later) building blocks built from the ground up to have no dependencies
-other libraries, unless explicitly mentioned.
+on other libraries, unless explicitly mentioned.
 
 The Essentials philosophy is to provide high level building blocks and coding constructs that allows for concise and
 strongly typed code, which doesn't depend on other libraries or frameworks, but instead allows easy integrations with
@@ -16,14 +16,14 @@ This library contains the smallest set of supporting building blocks needed for 
 
 - **Tuples**
     - E.g. `Triple<String, Long, BigDecimal> tuple = Tuple.of("Hello", 100L, new BigDecimal("125.95"));`
+- **Collections**
+    - E.g. `Stream<Pair<Integer, String>> indexedStream = Lists.toIndexedStream(List.of("A", "B", "C"));`
 - **Functional Interfaces**
-  -
-  E.g. `Tuple.of("Hello", 100L, new BigDecimal("125.95")).map((_1, _2, _3) -> Tuple.of(_1.toString(), _2.toString(), _3.toString))`
+    - E.g. `Tuple.of("Hello", 100L, new BigDecimal("125.95")).map((_1, _2, _3) -> Tuple.of(_1.toString(), _2.toString(), _3.toString))`
 - **FailFast** argument validation (Objects.requireNonNull replacement)
     - E.g. `FailFast.requireNonBlank(fieldName, "You must supply a fieldName");`
 - SLF4J compatible **Message formatter**
-  -
-  E.g. `msg("Failed to find static method '{}' on type '{}' taking arguments of {}", methodName, type.getName(), Arrays.toString(argumentTypes))`
+  - E.g. `msg("Failed to find static method '{}' on type '{}' taking arguments of {}", methodName, type.getName(), Arrays.toString(argumentTypes))`
 - High level **Reflection** API
     - E.g. `Reflector.reflectOn(someType).invokeStatic("of");`
 

@@ -1,7 +1,7 @@
 # Essentials Java building blocks
 
 Essentials is a set of Java version 11 (and later) building blocks built from the ground up to have no dependencies
-other libraries, unless explicitly mentioned.
+on other libraries, unless explicitly mentioned.
 
 The Essentials philosophy is to provide high level building blocks and coding constructs that allows for concise and
 strongly typed code, which doesn't depend on other libraries or frameworks, but instead allows easy integrations with
@@ -37,6 +37,12 @@ Triple<String, String, String> stringTuple  = tuple.map((_1, _2, _3) -> Tuple.of
 Triple<String, String, String> stringTuple2 = tuple.map(Object::toString, Object::toString, Object::toString);
 
 ```
+
+### Collections
+
+Different utility functions for working with Collections, such as
+
+`Stream<Pair<Integer, String>> indexedStream = Lists.toIndexedStream(List.of("A", "B", "C"));`
 
 ### Functional interfaces
 
