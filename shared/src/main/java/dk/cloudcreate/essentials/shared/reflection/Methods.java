@@ -1,0 +1,121 @@
+/*
+ * Copyright 2021 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package dk.cloudcreate.essentials.shared.reflection;
+
+
+import dk.cloudcreate.essentials.shared.FailFast;
+
+import java.lang.reflect.Method;
+import java.util.*;
+
+import static dk.cloudcreate.essentials.shared.reflection.Parameters.parameterTypesMatches;
+
+public final class Methods {
+    /**
+     * Find a matching method based on:
+     * <ul>
+     *     <li>method name</li>
+     *     <li>return type</li>
+     *     <li>exact parameter-type comparison using {@link Parameters#parameterTypesMatches(Class[], Class[], boolean)}</li>
+     * </ul>
+     *
+     * @param methods         the set of method to search (e.g. fetched using {@link #methods(Class)})
+     * @param methodName      the name of the method we're looking for
+     * @param returnType      the method return type that much match
+     * @param parametersTypes the method parameter types that must be matched
+     * @return Optional with the exact matching method or {@link Optional#empty()}
+     */
+    public static Optional<Method> findMatchingMethod(Set<Method> methods,
+                                                      String methodName,
+                                                      Class<?> returnType,
+                                                      Class<?>... parametersTypes) {
+        FailFast.requireNonNull(methods, "You must supply a set of Methods");
+        FailFast.requireNonBlank(methodName, "You must supply a methodName");
+        FailFast.requireNonNull(returnType, "You must supply a returnType");
+        FailFast.requireNonNull(parametersTypes, "You must supply parametersTypes");
+
+        return methods.stream()
+                      .filter(method -> method.getName().equals(methodName))
+                      .filter(method -> method.getReturnType().equals(returnType))
+                      .filter(method -> Parameters.parameterTypesMatches(method.getParameterTypes(), parametersTypes, true))
+                      .findFirst();
+    }
+
+    /**
+     * Get all methods on type (for overridden methods only the last overridden method is returned)
+     *
+     * @param type the type we want to find all methods within
+     * @return the list of all methods (each marked as accessible) on this type
+     * @see Accessibles#accessible
+     */
+    @SuppressWarnings("DuplicatedCode")
+    public static Set<Method> methods(final Class<?> type) {
+        FailFast.requireNonNull(type, "You must supply a type");
+        Set<Method> methods = new HashSet<>();
+
+        Class<?> currentType = type;
+        while (currentType != null) {
+            for (Method declaredMethod : currentType.getDeclaredMethods()) {
+                boolean overridden = false;
+
+                for (Method alreadyDiscoveredMethod : methods) {
+                    if (alreadyDiscoveredMethod.getName().equals(declaredMethod.getName()) && parameterTypesMatches(declaredMethod.getParameterTypes(), alreadyDiscoveredMethod.getParameterTypes(), true)) {
+                        // Overridden
+
+                        // Check which method has the most concrete return type (e.g. in case of an overridden method with covariant return type - such as a Base class/interface method returning CharSequence
+                        // but where a more concrete (sub)class overrides the methods and the return type to String instead of CharSequence)
+                        int specificity = Classes.compareTypeSpecificity(declaredMethod.getReturnType(), alreadyDiscoveredMethod.getReturnType());
+                        if (specificity <= 0) {
+                            // The return-type of the declaredMethod is LESS or EQUALLY specific then return-type of the alreadyDiscoveredMethod - so it's safe to ignore it
+                            overridden = true;
+                        } else {
+                            // The return-type of the declaredMethod is MORE specific then return-type of the alreadyDiscoveredMethod - so we remove the alreadyDiscoveredMethod and add the declaredMethod
+                            methods.remove(alreadyDiscoveredMethod);
+                        }
+                        break;
+                    }
+                }
+
+                if (!overridden) {
+                    methods.add(Accessibles.accessible(declaredMethod));
+                }
+            }
+
+            currentType = currentType.getSuperclass();
+        }
+
+        for (Class<?> _interface : Interfaces.interfaces(type)) {
+            for (Method declaredMethod : _interface.getDeclaredMethods()) {
+                boolean overridden = false;
+                for (Method alreadyDiscoveredMethod : methods) {
+                    if (alreadyDiscoveredMethod.getName().equals(declaredMethod.getName()) && parameterTypesMatches(declaredMethod.getParameterTypes(), alreadyDiscoveredMethod.getParameterTypes(), true)) {
+                        overridden = true;
+                        break;
+                    }
+                }
+
+                if (!overridden) {
+                    methods.add(Accessibles.accessible(declaredMethod));
+                }
+            }
+        }
+
+        return methods;
+    }
+
+
+}
