@@ -25,6 +25,10 @@
         <artifactId>parent</artifactId>
         <version>${revision}</version>
     </parent>
+    <description>
+        This library focuses purely on providing base types and utility types that can be used to better documented and more
+        strongly typed code.
+    </description>
 
     <artifactId>types</artifactId>
     <packaging>jar</packaging>
