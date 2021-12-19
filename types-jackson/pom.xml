@@ -24,6 +24,10 @@
         <artifactId>parent</artifactId>
         <version>${revision}</version>
     </parent>
+    <description>
+        This library focuses purely on providing https://github.com/FasterXML/jackson serialization and deserialization support
+        for the types defined in the Essentials types library.
+    </description>
 
     <artifactId>types-jackson</artifactId>
     <packaging>jar</packaging>
@@ -43,6 +47,7 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>${jackson.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
