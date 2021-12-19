@@ -27,7 +27,7 @@
     <name>essentials-parent</name>
     <description>
         Essentials is a set of Java version 11 (and later) building blocks built from the ground up to have no
-        dependencies other libraries, unless explicitly mentioned.
+        dependencies on other libraries, unless explicitly mentioned.
 
         The Essentials philosophy is to provide high level building blocks and coding constructs that allows for concise
         and strongly typed code, which doesn't depend on other libraries or frameworks, but instead allows easy integrations

@@ -24,6 +24,10 @@
         <artifactId>parent</artifactId>
         <version>${revision}</version>
     </parent>
+    <description>
+        This library contains the smallest set of supporting building blocks needed for other Essentials libraries, such as:
+        Tuples, Collections, Functional Interfaces, FailFast, SLF4J compatible Message formatter, High level Reflection API
+    </description>
 
     <artifactId>shared</artifactId>
     <packaging>jar</packaging>
