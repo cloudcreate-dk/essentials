@@ -7,6 +7,11 @@
         <artifactId>parent</artifactId>
         <version>${revision}</version>
     </parent>
+    <description>
+        This library focuses purely on providing Spring Data Mongo persistence support for the types defined in the
+        Essentials types library.
+    </description>
+
     <artifactId>types-springdata-mongo</artifactId>
     <name>essentials-types-springdata-mongo</name>
 
@@ -37,11 +42,24 @@
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-mongodb</artifactId>
             <version>3.3.0</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-mongodb</artifactId>
             <version>${spring-boot.version}</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.logging.log4j</groupId>
+                    <artifactId>log4j-to-slf4j</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-to-slf4j</artifactId>
+            <version>2.17.0</version>
             <scope>test</scope>
         </dependency>
 
