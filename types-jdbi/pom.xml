@@ -18,12 +18,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>dk.cloudcreate.essentials</groupId>
         <artifactId>parent</artifactId>
         <version>${revision}</version>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
+    <description>
+        This library focuses purely on providing JDBI argument support for the types defined in the Essentials types
+        library.
+    </description>
 
     <artifactId>types-jdbi</artifactId>
     <name>essentials-types-jdbi</name>
@@ -38,6 +42,7 @@
             <groupId>org.jdbi</groupId>
             <artifactId>jdbi3-core</artifactId>
             <version>3.25.0</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
