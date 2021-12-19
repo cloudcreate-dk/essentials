@@ -26,17 +26,18 @@
     <version>${revision}</version>
     <name>essentials-parent</name>
     <description>
-        Essentials is a set of Java version 11 (and later) building blocks built from the ground up to have no dependencies
-        other libraries, unless explicitly mentioned.
+        Essentials is a set of Java version 11 (and later) building blocks built from the ground up to have no
+        dependencies other libraries, unless explicitly mentioned.
 
-        The Essentials philosophy is to provide high level building blocks and coding constructs that allows for concise and
-        strongly typed code, which doesn't depend on other libraries or frameworks, but instead allows easy integrations with
-        many of the most popular libraries and frameworks such as Jackson, Spring Boot, Spring Data, JPA, etc.
+        The Essentials philosophy is to provide high level building blocks and coding constructs that allows for concise
+        and strongly typed code, which doesn't depend on other libraries or frameworks, but instead allows easy integrations
+        with many of the most popular libraries and frameworks such as Jackson, Spring Boot, Spring Data, JPA, etc.
     </description>
     <url>https://github.com/cloudcreate-dk/essentials</url>
 
     <scm>
-
+        <url>https://github.com/cloudcreate-dk/essentials</url>
+        <developerConnection>scm:https://github.com/cloudcreate-dk/essentials.git</developerConnection>
     </scm>
 
     <licenses>
@@ -123,6 +124,11 @@
     <build>
         <pluginManagement>
             <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>3.2.0</version>
+                </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-project-info-reports-plugin</artifactId>
