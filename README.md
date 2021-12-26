@@ -61,7 +61,7 @@ public class OrderId extends CharSequenceType<OrderId> implements Identifier {
 This library focuses purely on providing https://github.com/FasterXML/jackson serialization and deserialization support
 for the **types** defined in the Essentials `types` library.
 
-All you need to do is to add the `essentials.types.EssentialTypesJacksonModule` to your `ObjectMapper` configuration:
+All you need to do is to add the `dk.cloudcreate.essentials.types.EssentialTypesJacksonModule` to your `ObjectMapper` configuration:
 
 ```
 objectMapper.registerModule(new EssentialTypesJacksonModule());
