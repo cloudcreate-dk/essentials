@@ -27,7 +27,7 @@
     <name>essentials-parent</name>
     <description>
         Essentials is a set of Java version 11 (and later) building blocks built from the ground up to have no
-        dependencies on /other libraries, unless explicitly mentioned.
+        dependencies on other libraries, unless explicitly mentioned.
 
         The Essentials philosophy is to provide high level building blocks and coding constructs that allows for concise
         and strongly typed code, which doesn't depend on other libraries or frameworks, but instead allows easy integrations
@@ -119,7 +119,7 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.2.9</version>
+            <version>1.2.10</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -217,6 +217,9 @@
                                 <requireMavenVersion>
                                     <version>3.8.1</version>
                                 </requireMavenVersion>
+                                <requireJavaVersion>
+                                    <version>11</version>
+                                </requireJavaVersion>
                             </rules>
                         </configuration>
                     </execution>
@@ -239,7 +242,6 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
                     <doclint>none</doclint>
-                    <!--                    <additionalOptions>-html5</additionalOptions>-->
                 </configuration>
                 <executions>
                     <execution>
