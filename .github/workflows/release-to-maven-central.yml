@@ -1,0 +1,32 @@
+name: Release to Maven Central
+on:
+  release:
+    types: [created]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Will release version ${{ github.event.release.tag_name }} to Maven Central"
+      - uses: actions/checkout@v2.4.0
+      - name: Set up JDK 11 with Maven Central Release settings
+        uses: actions/setup-java@v2.5.0
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+          cache: maven
+          server-id: ossrh
+          server-username: OSS_SONATYPE_USERNAME
+          server-password: OSS_SONATYPE_PASSWORD
+          gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
+          gpg-passphrase: MAVEN_GPG_PASSPHRASE
+
+      - name: Setting Project version to release tag_name
+        run: mvn -B versions:set -DnewVersion=${{ github.event.release.tag_name }} -DgenerateBackupPoms=false
+
+      - name: Release to Maven Central
+        run: mvn -B clean deploy -P release
+        env:
+          OSS_SONATYPE_USERNAME: ${{ secrets.OSS_SONATYPE_USERNAME }}
+          OSS_SONATYPE_PASSWORD: ${{ secrets.OSS_SONATYPE_PASSWORD }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
