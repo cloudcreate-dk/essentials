@@ -27,6 +27,15 @@ This library contains the smallest set of supporting building blocks needed for 
 - High level **Reflection** API
     - E.g. `Reflector.reflectOn(someType).invokeStatic("of");`
 
+To use `Shared` just add the following Maven dependency:
+```
+<dependency>
+    <groupId>dk.cloudcreate.essentials</groupId>
+    <artifactId>shared</artifactId>
+    <version>0.1.0</version>
+</dependency>
+```
+
 ## Types
 
 This library focuses purely on providing base types and utility types that can be used to better documented and more
@@ -56,6 +65,16 @@ public class OrderId extends CharSequenceType<OrderId> implements Identifier {
 }
 ```
 
+To use `Types` just add the following Maven dependency:
+```
+<dependency>
+    <groupId>dk.cloudcreate.essentials</groupId>
+    <artifactId>types</artifactId>
+    <version>0.1.0</version>
+</dependency>
+```
+
+
 ## Types Jackson
 
 This library focuses purely on providing https://github.com/FasterXML/jackson serialization and deserialization support
@@ -66,6 +85,16 @@ All you need to do is to add the `dk.cloudcreate.essentials.types.EssentialTypes
 ```
 objectMapper.registerModule(new EssentialTypesJacksonModule());
 ```
+
+To use `Types-Jackson` just add the following Maven dependency:
+```
+<dependency>
+    <groupId>dk.cloudcreate.essentials</groupId>
+    <artifactId>types-jackson</artifactId>
+    <version>0.1.0</version>
+</dependency>
+```
+
 
 ## Types Spring Data Mongo
 
@@ -101,6 +130,15 @@ public class Order {
 }    
 ```
 
+To use `Types-SpringData-Mongo` just add the following Maven dependency:
+```
+<dependency>
+    <groupId>dk.cloudcreate.essentials</groupId>
+    <artifactId>types-springdata-mongo</artifactId>
+    <version>0.1.0</version>
+</dependency>
+```
+
 ## Types Spring Data JPA
 
 This library focuses purely on providing Spring Data JPA persistence support for the **types** defined in the
@@ -123,6 +161,15 @@ public class Order {
 
 will work out of the box without the need for any custom `AttributeConverter`'s. BUT we currently don't support
 automatic Id generation.
+
+To use `Types-SpringData-JPA` just add the following Maven dependency:
+```
+<dependency>
+    <groupId>dk.cloudcreate.essentials</groupId>
+    <artifactId>types-springdata-jpa</artifactId>
+    <version>0.1.0</version>
+</dependency>
+```
 
 ## Types JDBI (v3)
 
@@ -166,4 +213,13 @@ And the `CustomerIdArgumentFactory` of type `CharSequenceType` must extend `Char
 ```
 public class CustomerIdArgumentFactory extends CharSequenceTypeArgumentFactory<CustomerId> {
 }
+```
+
+To use `Types-JDBI` just add the following Maven dependency:
+```
+<dependency>
+    <groupId>dk.cloudcreate.essentials</groupId>
+    <artifactId>types-jdbi</artifactId>
+    <version>0.1.0</version>
+</dependency>
 ```
