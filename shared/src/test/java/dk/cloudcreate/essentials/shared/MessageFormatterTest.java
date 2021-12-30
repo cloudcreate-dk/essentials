@@ -20,20 +20,22 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 
+import static dk.cloudcreate.essentials.shared.MessageFormatter.NamedArgumentBinding.arg;
+import static dk.cloudcreate.essentials.shared.MessageFormatter.msg;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class MessageFormatterTest {
     @Test
     void msg_with_no_placeholders_returns_the_original_message() {
         var given  = "This is a simple message example";
-        var result = MessageFormatter.msg(given);
+        var result = msg(given);
         assertThat(result).isEqualTo(given);
     }
 
     @Test
     void msg_with_placeholders_will_get_placeholder_values_merged_into_the_original_message() {
         var given  = "This {} a {} message {}";
-        var result = MessageFormatter.msg(given, "is", "simple", "example");
+        var result = msg(given, "is", "simple", "example");
         assertThat(result).isEqualTo("This is a simple message example");
     }
 
@@ -42,8 +44,8 @@ class MessageFormatterTest {
         var danishText = "Kære {:firstName} {:lastName}";
 
         var mergedDanishText = MessageFormatter.bind(danishText,
-                                                     MessageFormatter.Binding.arg("firstName", "John"),
-                                                     MessageFormatter.Binding.arg("lastName", "Doe"));
+                                                     arg("firstName", "John"),
+                                                     arg("lastName", "Doe"));
         assertThat(mergedDanishText).isEqualTo("Kære John Doe");
 
         var englishText = "Dear {:lastName}, {:firstName}";
