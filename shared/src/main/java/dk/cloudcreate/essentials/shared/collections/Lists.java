@@ -22,6 +22,11 @@ import dk.cloudcreate.essentials.shared.functional.tuple.*;
 import java.util.List;
 import java.util.stream.*;
 
+import static dk.cloudcreate.essentials.shared.FailFast.requireNonNull;
+
+/**
+ * {@link List} utility methods
+ */
 public class Lists {
     /**
      * Convert the <code>list</code> to an 0-based Indexed Stream consisting of {@link Pair}'s, where each {@link Pair}
@@ -40,7 +45,7 @@ public class Lists {
      * @return the indexed list
      */
     public static <T> Stream<Pair<Integer, T>> toIndexedStream(List<T> list) {
-        FailFast.requireNonNull(list, "No list provided");
+        requireNonNull(list, "No list provided");
         if (list.isEmpty()) return Stream.empty();
 
         var listElementIterator = list.listIterator();

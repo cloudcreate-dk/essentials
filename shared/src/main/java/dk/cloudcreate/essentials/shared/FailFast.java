@@ -20,7 +20,9 @@ import java.util.*;
 
 import static dk.cloudcreate.essentials.shared.MessageFormatter.msg;
 
-
+/**
+ * Collection of {@link Objects#requireNonNull(Object)} replacement methods
+ */
 public final class FailFast {
     /**
      * Assert that the <code>objectThatMustBeAnInstanceOf</code> is an instance of <code>mustBeAnInstanceOf</code> parameter, if not then {@link IllegalArgumentException} is thrown

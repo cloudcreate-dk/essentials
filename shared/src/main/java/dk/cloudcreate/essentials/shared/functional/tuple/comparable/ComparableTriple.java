@@ -16,11 +16,12 @@
 
 package dk.cloudcreate.essentials.shared.functional.tuple.comparable;
 
-import dk.cloudcreate.essentials.shared.FailFast;
 import dk.cloudcreate.essentials.shared.functional.TripleFunction;
 
 import java.util.*;
 import java.util.function.Function;
+
+import static dk.cloudcreate.essentials.shared.FailFast.requireNonNull;
 
 /**
  * Represents a {@link ComparableTuple} with three elements.<br>
@@ -132,7 +133,7 @@ public class ComparableTriple<T1 extends Comparable<? super T1>,
     public <R1 extends Comparable<? super R1>,
             R2 extends Comparable<? super R2>,
             R3 extends Comparable<? super R3>> ComparableTriple<R1, R2, R3> map(TripleFunction<? super T1, ? super T2, ? super T3, ComparableTriple<R1, R2, R3>> mappingFunction) {
-        FailFast.requireNonNull(mappingFunction, "You must supply a mapping function");
+        requireNonNull(mappingFunction, "You must supply a mapping function");
         return mappingFunction.apply(_1, _2, _3);
     }
 
@@ -153,9 +154,9 @@ public class ComparableTriple<T1 extends Comparable<? super T1>,
             R3 extends Comparable<? super R3>> ComparableTriple<R1, R2, R3> map(Function<? super T1, ? super R1> mappingFunction1,
                                                                                 Function<? super T2, ? super R2> mappingFunction2,
                                                                                 Function<? super T3, ? super R3> mappingFunction3) {
-        FailFast.requireNonNull(mappingFunction1, "You must supply a mappingFunction1");
-        FailFast.requireNonNull(mappingFunction2, "You must supply a mappingFunction2");
-        FailFast.requireNonNull(mappingFunction3, "You must supply a mappingFunction3");
+        requireNonNull(mappingFunction1, "You must supply a mappingFunction1");
+        requireNonNull(mappingFunction2, "You must supply a mappingFunction2");
+        requireNonNull(mappingFunction3, "You must supply a mappingFunction3");
         R1 r1 = (R1) mappingFunction1.apply(_1);
         R2 r2 = (R2) mappingFunction2.apply(_2);
         R3 r3 = (R3) mappingFunction3.apply(_3);
@@ -173,7 +174,7 @@ public class ComparableTriple<T1 extends Comparable<? super T1>,
      */
     @SuppressWarnings("unchecked")
     public <R1 extends Comparable<? super R1>> ComparableTriple<R1, T2, T3> map1(Function<? super T1, ? super R1> mappingFunction1) {
-        FailFast.requireNonNull(mappingFunction1, "You must supply a mappingFunction1");
+        requireNonNull(mappingFunction1, "You must supply a mappingFunction1");
         R1 r1 = (R1) mappingFunction1.apply(_1);
         return ComparableTuple.of(r1,
                                   _2,
@@ -189,7 +190,7 @@ public class ComparableTriple<T1 extends Comparable<? super T1>,
      */
     @SuppressWarnings("unchecked")
     public <R2 extends Comparable<? super R2>> ComparableTriple<T1, R2, T3> map2(Function<? super T2, ? super R2> mappingFunction2) {
-        FailFast.requireNonNull(mappingFunction2, "You must supply a mappingFunction2");
+        requireNonNull(mappingFunction2, "You must supply a mappingFunction2");
         R2 r2 = (R2) mappingFunction2.apply(_2);
         return ComparableTuple.of(_1,
                                   r2,
@@ -205,7 +206,7 @@ public class ComparableTriple<T1 extends Comparable<? super T1>,
      */
     @SuppressWarnings("unchecked")
     public <R3 extends Comparable<? super R3>> ComparableTriple<T1, T2, R3> map3(Function<? super T3, ? super R3> mappingFunction3) {
-        FailFast.requireNonNull(mappingFunction3, "You must supply a mappingFunction3");
+        requireNonNull(mappingFunction3, "You must supply a mappingFunction3");
         R3 r3 = (R3) mappingFunction3.apply(_3);
         return ComparableTuple.of(_1,
                                   _2,
@@ -216,7 +217,7 @@ public class ComparableTriple<T1 extends Comparable<? super T1>,
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof ComparableTriple)) return false;
-        ComparableTriple<?, ?, ?> that = (ComparableTriple<?, ?, ?>) o;
+        var that = (ComparableTriple<?, ?, ?>) o;
         return Objects.equals(_1, that._1) && Objects.equals(_2, that._2) && Objects.equals(_3, that._3);
     }
 

@@ -16,10 +16,10 @@
 
 package dk.cloudcreate.essentials.shared.functional.tuple.comparable;
 
-import dk.cloudcreate.essentials.shared.FailFast;
-
 import java.util.*;
 import java.util.function.Function;
+
+import static dk.cloudcreate.essentials.shared.FailFast.requireNonNull;
 
 /**
  * Represents a {@link ComparableTuple} with one element.<br>
@@ -77,7 +77,7 @@ public class ComparableSingle<T1 extends Comparable<? super T1>> implements Comp
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof ComparableSingle)) return false;
-        ComparableSingle<?> that = (ComparableSingle<?>) o;
+        var that = (ComparableSingle<?>) o;
         return Objects.equals(_1, that._1);
     }
 
@@ -94,7 +94,7 @@ public class ComparableSingle<T1 extends Comparable<? super T1>> implements Comp
      * @return a new {@link ComparableSingle} with the result of applying the mapping function to this {@link ComparableSingle}
      */
     public <R1 extends Comparable<? super R1>> ComparableSingle<R1> map(Function<? super T1, ? extends R1> mappingFunction) {
-        FailFast.requireNonNull(mappingFunction, "You must supply a mapping function");
+        requireNonNull(mappingFunction, "You must supply a mapping function");
         return ComparableTuple.of(mappingFunction.apply(_1));
     }
 

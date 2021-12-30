@@ -16,10 +16,10 @@
 
 package dk.cloudcreate.essentials.shared.functional.tuple.comparable;
 
-import dk.cloudcreate.essentials.shared.FailFast;
-
 import java.util.*;
 import java.util.function.*;
+
+import static dk.cloudcreate.essentials.shared.FailFast.requireNonNull;
 
 /**
  * Represents a {@link ComparableTuple} with two elements.<br>
@@ -125,7 +125,7 @@ public class ComparablePair<T1 extends Comparable<? super T1>,
      * @return a new {@link ComparablePair} with the result of applying the mapping function to this {@link ComparablePair}
      */
     public <R1 extends Comparable<? super R1>, R2 extends Comparable<? super R2>> ComparablePair<R1, R2> map(BiFunction<? super T1, ? super T2, ComparablePair<R1, R2>> mappingFunction) {
-        FailFast.requireNonNull(mappingFunction, "You must supply a mapping function");
+        requireNonNull(mappingFunction, "You must supply a mapping function");
         return mappingFunction.apply(_1, _2);
     }
 
@@ -141,8 +141,8 @@ public class ComparablePair<T1 extends Comparable<? super T1>,
     @SuppressWarnings("unchecked")
     public <R1 extends Comparable<? super R1>, R2 extends Comparable<? super R2>> ComparablePair<R1, R2> map(Function<? super T1, ? super R1> mappingFunction1,
                                                                                                              Function<? super T2, ? super R2> mappingFunction2) {
-        FailFast.requireNonNull(mappingFunction1, "You must supply a mappingFunction1");
-        FailFast.requireNonNull(mappingFunction2, "You must supply a mappingFunction2");
+        requireNonNull(mappingFunction1, "You must supply a mappingFunction1");
+        requireNonNull(mappingFunction2, "You must supply a mappingFunction2");
         R1 r1 = (R1) mappingFunction1.apply(_1);
         R2 r2 = (R2) mappingFunction2.apply(_2);
         return ComparableTuple.of(r1,
@@ -158,7 +158,7 @@ public class ComparablePair<T1 extends Comparable<? super T1>,
      */
     @SuppressWarnings("unchecked")
     public <R1 extends Comparable<? super R1>> ComparablePair<R1, T2> map1(Function<? super T1, ? super R1> mappingFunction1) {
-        FailFast.requireNonNull(mappingFunction1, "You must supply a mappingFunction1");
+        requireNonNull(mappingFunction1, "You must supply a mappingFunction1");
         R1 r1 = (R1) mappingFunction1.apply(_1);
         return ComparableTuple.of(r1,
                                   _2);
@@ -173,7 +173,7 @@ public class ComparablePair<T1 extends Comparable<? super T1>,
      */
     @SuppressWarnings("unchecked")
     public <R2 extends Comparable<? super R2>> ComparablePair<T1, R2> map2(Function<? super T2, ? super R2> mappingFunction2) {
-        FailFast.requireNonNull(mappingFunction2, "You must supply a mappingFunction2");
+        requireNonNull(mappingFunction2, "You must supply a mappingFunction2");
         R2 r2 = (R2) mappingFunction2.apply(_2);
         return ComparableTuple.of(_1,
                                   r2);
@@ -183,7 +183,7 @@ public class ComparablePair<T1 extends Comparable<? super T1>,
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof ComparablePair)) return false;
-        ComparablePair<?, ?> that = (ComparablePair<?, ?>) o;
+        var that = (ComparablePair<?, ?>) o;
         return Objects.equals(_1, that._1) && Objects.equals(_2, that._2);
     }
 
