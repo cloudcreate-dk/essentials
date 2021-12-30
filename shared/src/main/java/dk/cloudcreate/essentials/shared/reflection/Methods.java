@@ -17,13 +17,15 @@
 package dk.cloudcreate.essentials.shared.reflection;
 
 
-import dk.cloudcreate.essentials.shared.FailFast;
-
 import java.lang.reflect.Method;
 import java.util.*;
 
+import static dk.cloudcreate.essentials.shared.FailFast.*;
 import static dk.cloudcreate.essentials.shared.reflection.Parameters.parameterTypesMatches;
 
+/**
+ * Utility class for working with {@link Method}'s
+ */
 public final class Methods {
     /**
      * Find a matching method based on:
@@ -43,10 +45,10 @@ public final class Methods {
                                                       String methodName,
                                                       Class<?> returnType,
                                                       Class<?>... parametersTypes) {
-        FailFast.requireNonNull(methods, "You must supply a set of Methods");
-        FailFast.requireNonBlank(methodName, "You must supply a methodName");
-        FailFast.requireNonNull(returnType, "You must supply a returnType");
-        FailFast.requireNonNull(parametersTypes, "You must supply parametersTypes");
+        requireNonNull(methods, "You must supply a set of Methods");
+        requireNonBlank(methodName, "You must supply a methodName");
+        requireNonNull(returnType, "You must supply a returnType");
+        requireNonNull(parametersTypes, "You must supply parametersTypes");
 
         return methods.stream()
                       .filter(method -> method.getName().equals(methodName))
@@ -56,7 +58,7 @@ public final class Methods {
     }
 
     /**
-     * Get all methods on type (for overridden methods only the last overridden method is returned)
+     * Get all methods on type. For overridden methods only the most specific (typically being the method overridden by a subclass) is returned
      *
      * @param type the type we want to find all methods within
      * @return the list of all methods (each marked as accessible) on this type
@@ -64,33 +66,34 @@ public final class Methods {
      */
     @SuppressWarnings("DuplicatedCode")
     public static Set<Method> methods(final Class<?> type) {
-        FailFast.requireNonNull(type, "You must supply a type");
-        Set<Method> methods = new HashSet<>();
+        requireNonNull(type, "You must supply a type");
+        var methods = new HashSet<Method>();
 
-        Class<?> currentType = type;
+        var currentType = type;
         while (currentType != null) {
-            for (Method declaredMethod : currentType.getDeclaredMethods()) {
-                boolean overridden = false;
+            for (var declaredMethod : currentType.getDeclaredMethods()) {
+                boolean hasAlreadyBeenOverriddenByASubClass = false;
 
-                for (Method alreadyDiscoveredMethod : methods) {
-                    if (alreadyDiscoveredMethod.getName().equals(declaredMethod.getName()) && parameterTypesMatches(declaredMethod.getParameterTypes(), alreadyDiscoveredMethod.getParameterTypes(), true)) {
+                for (var alreadyDiscoveredMethod : methods) {
+                    if (alreadyDiscoveredMethod.getName().equals(declaredMethod.getName()) &&
+                            parameterTypesMatches(declaredMethod.getParameterTypes(), alreadyDiscoveredMethod.getParameterTypes(), true)) {
                         // Overridden
 
                         // Check which method has the most concrete return type (e.g. in case of an overridden method with covariant return type - such as a Base class/interface method returning CharSequence
                         // but where a more concrete (sub)class overrides the methods and the return type to String instead of CharSequence)
                         int specificity = Classes.compareTypeSpecificity(declaredMethod.getReturnType(), alreadyDiscoveredMethod.getReturnType());
                         if (specificity <= 0) {
-                            // The return-type of the declaredMethod is LESS or EQUALLY specific then return-type of the alreadyDiscoveredMethod - so it's safe to ignore it
-                            overridden = true;
+                            // The return-type of the declaredMethod is LESS or EQUALLY specific than the return-type of the alreadyDiscoveredMethod - so it's safe to ignore it
+                            hasAlreadyBeenOverriddenByASubClass = true;
                         } else {
-                            // The return-type of the declaredMethod is MORE specific then return-type of the alreadyDiscoveredMethod - so we remove the alreadyDiscoveredMethod and add the declaredMethod
+                            // The return-type of the declaredMethod is MORE specific than the return-type of the alreadyDiscoveredMethod - so we remove the alreadyDiscoveredMethod and add the declaredMethod
                             methods.remove(alreadyDiscoveredMethod);
                         }
                         break;
                     }
                 }
 
-                if (!overridden) {
+                if (!hasAlreadyBeenOverriddenByASubClass) {
                     methods.add(Accessibles.accessible(declaredMethod));
                 }
             }
@@ -98,17 +101,18 @@ public final class Methods {
             currentType = currentType.getSuperclass();
         }
 
-        for (Class<?> _interface : Interfaces.interfaces(type)) {
-            for (Method declaredMethod : _interface.getDeclaredMethods()) {
-                boolean overridden = false;
-                for (Method alreadyDiscoveredMethod : methods) {
-                    if (alreadyDiscoveredMethod.getName().equals(declaredMethod.getName()) && parameterTypesMatches(declaredMethod.getParameterTypes(), alreadyDiscoveredMethod.getParameterTypes(), true)) {
-                        overridden = true;
+        for (var _interface : Interfaces.interfaces(type)) {
+            for (var declaredMethod : _interface.getDeclaredMethods()) {
+                boolean hasAlreadyBeenOverriddenByASubClass = false;
+                for (var alreadyDiscoveredMethod : methods) {
+                    if (alreadyDiscoveredMethod.getName().equals(declaredMethod.getName()) &&
+                            parameterTypesMatches(declaredMethod.getParameterTypes(), alreadyDiscoveredMethod.getParameterTypes(), true)) {
+                        hasAlreadyBeenOverriddenByASubClass = true;
                         break;
                     }
                 }
 
-                if (!overridden) {
+                if (!hasAlreadyBeenOverriddenByASubClass) {
                     methods.add(Accessibles.accessible(declaredMethod));
                 }
             }
@@ -116,6 +120,4 @@ public final class Methods {
 
         return methods;
     }
-
-
 }

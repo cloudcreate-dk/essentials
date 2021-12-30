@@ -21,6 +21,9 @@ import dk.cloudcreate.essentials.shared.FailFast;
 
 import java.util.*;
 
+/**
+ * Utility class for working with {@link Interfaces}'s
+ */
 public final class Interfaces {
     /**
      * Returns a set of all interfaces implemented by type supplied<br>
@@ -30,10 +33,10 @@ public final class Interfaces {
      */
     public static Set<Class<?>> interfaces(Class<?> type) {
         FailFast.requireNonNull(type, "You must supply a type");
-        Set<Class<?>> interfaces = new HashSet<>();
+        var interfaces = new HashSet<Class<?>>();
 
         while (type != null) {
-            for (Class<?> _interface : type.getInterfaces()) {
+            for (var _interface : type.getInterfaces()) {
                 interfaces.add(_interface);
                 interfaces.addAll(interfaces(_interface));
             }

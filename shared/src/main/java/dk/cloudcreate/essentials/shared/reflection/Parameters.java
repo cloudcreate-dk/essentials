@@ -22,7 +22,8 @@ import java.lang.reflect.*;
 import java.util.Arrays;
 
 /**
- * Utility class for working with {@link Methods}/{@link Method} parameters and {@link Constructors}/{@link Constructor} declaration parameters or method/constructor call arguments
+ * Utility class for working with {@link Methods}/{@link Method} <b>parameters</b> and {@link Constructors}/{@link Constructor}
+ * declaration <b>parameters</b> or method/constructor call <b>arguments</b>
  */
 public class Parameters {
     /**
@@ -59,8 +60,8 @@ public class Parameters {
             for (int index = 0; index < actualParameterTypes.length; index++) {
                 Class<?> actualParameterType = BoxedTypes.boxedType(actualParameterTypes[index]);
                 if (actualParameterType != NULL_ARGUMENT_TYPE.class) {
-                    Class<?> declaredparameterType = BoxedTypes.boxedType(declaredParameterTypes[index]);
-                    if (!declaredparameterType.isAssignableFrom(actualParameterType)) {
+                    Class<?> declaredParameterType = BoxedTypes.boxedType(declaredParameterTypes[index]);
+                    if (!declaredParameterType.isAssignableFrom(actualParameterType)) {
                         return false;
                     }
                 }
@@ -82,8 +83,8 @@ public class Parameters {
             return new Class[0];
         }
 
-        Class<?>[] parameterTypes = new Class[arguments.length];
-        for (int index = 0; index < arguments.length; index++) {
+        var parameterTypes = new Class<?>[arguments.length];
+        for (var index = 0; index < arguments.length; index++) {
             parameterTypes[index] = arguments[index] != null ? arguments[index].getClass() : NULL_ARGUMENT_TYPE.class;
         }
 

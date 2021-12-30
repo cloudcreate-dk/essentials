@@ -16,10 +16,9 @@
 
 package dk.cloudcreate.essentials.shared.reflection;
 
-import dk.cloudcreate.essentials.shared.FailFast;
-
 import java.lang.reflect.*;
 
+import static dk.cloudcreate.essentials.shared.FailFast.requireNonNull;
 import static java.lang.reflect.Modifier.isPublic;
 
 /**
@@ -35,7 +34,7 @@ public final class Accessibles {
      * @throws ReflectionException in case we couldn't mark the <code>object</code> as accessible
      */
     public static <T extends AccessibleObject> T accessible(T object) {
-        FailFast.requireNonNull(object, "No object supplied");
+        requireNonNull(object, "No object supplied");
         if (!isAccessible(object)) {
             object.setAccessible(true);
         }
@@ -45,9 +44,9 @@ public final class Accessibles {
 
     @SuppressWarnings("deprecation")
     public static boolean isAccessible(AccessibleObject object) {
-        FailFast.requireNonNull(object, "No object supplied");
+        requireNonNull(object, "No object supplied");
         if (object instanceof Member) {
-            Member member = (Member) object;
+            var member = (Member) object;
 
             if (isPublic(member.getModifiers()) && isPublic(member.getDeclaringClass().getModifiers())) {
                 return true;

@@ -20,6 +20,8 @@ import dk.cloudcreate.essentials.shared.*;
 
 import java.util.*;
 
+import static dk.cloudcreate.essentials.shared.FailFast.requireNonNull;
+
 /**
  * Utility class for working with {@link Class}'s
  */
@@ -29,13 +31,14 @@ public final class Classes {
      *
      * @param fullyQualifiedClassName the Fully Qualified Class Name as a
      * @return The class loaded
+     * @throws ReflectionException in case loading the class failed
      */
     public static Class<?> forName(String fullyQualifiedClassName) throws ReflectionException {
-        FailFast.requireNonNull(fullyQualifiedClassName, "You must supply a fullyQualifiedClassName");
+        requireNonNull(fullyQualifiedClassName, "You must supply a fullyQualifiedClassName");
         try {
             return Class.forName(fullyQualifiedClassName);
         } catch (Exception e) {
-            throw new ReflectionException(MessageFormatter.msg("Failed to load class based on name '{}'", fullyQualifiedClassName), e);
+            throw new LoadingClassFailedException(MessageFormatter.msg("Failed to load class based on name '{}'", fullyQualifiedClassName), e);
         }
     }
 
@@ -45,14 +48,15 @@ public final class Classes {
      * @param fullyQualifiedClassName the Fully Qualified Class Name as a string
      * @param classLoader             the class loader to use
      * @return The class loaded
+     * @throws ReflectionException in case loading the class failed
      */
     public static Class<?> forName(String fullyQualifiedClassName, ClassLoader classLoader) throws ReflectionException {
-        FailFast.requireNonNull(fullyQualifiedClassName, "You must supply a fullyQualifiedClassName");
-        FailFast.requireNonNull(classLoader, "You must supply a classLoader");
+        requireNonNull(fullyQualifiedClassName, "You must supply a fullyQualifiedClassName");
+        requireNonNull(classLoader, "You must supply a classLoader");
         try {
             return Class.forName(fullyQualifiedClassName, true, classLoader);
         } catch (Exception e) {
-            throw new ReflectionException(MessageFormatter.msg("Failed to load class '{}'", fullyQualifiedClassName), e);
+            throw new LoadingClassFailedException(MessageFormatter.msg("Failed to load class '{}'", fullyQualifiedClassName), e);
         }
     }
 
@@ -74,8 +78,8 @@ public final class Classes {
      * @throws IllegalArgumentException in case leftSide and rightSide aren't either the same class or in a inheritance hierarchy with each other
      */
     public static int compareTypeSpecificity(Class<?> leftSide, Class<?> rightSide) {
-        FailFast.requireNonNull(leftSide, "No leftSide supplied");
-        FailFast.requireNonNull(rightSide, "No rightSide supplied");
+        requireNonNull(leftSide, "No leftSide supplied");
+        requireNonNull(rightSide, "No rightSide supplied");
 
         if (leftSide == rightSide) {
             return 0;
@@ -97,8 +101,8 @@ public final class Classes {
      * @return All superclasses of <code>type</code>
      */
     public static List<Class<?>> superClasses(Class<?> type) {
-        FailFast.requireNonNull(type, "No type supplied");
-        List<Class<?>> superClasses = new ArrayList<>();
+        requireNonNull(type, "No type supplied");
+        var superClasses = new ArrayList<Class<?>>();
         while (type != null && !type.equals(Object.class)) {
             type = type.getSuperclass();
             if (type != null) {

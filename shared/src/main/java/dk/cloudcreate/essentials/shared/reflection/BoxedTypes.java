@@ -18,14 +18,16 @@ package dk.cloudcreate.essentials.shared.reflection;
 
 import dk.cloudcreate.essentials.shared.*;
 
+import static dk.cloudcreate.essentials.shared.FailFast.requireNonNull;
+
 public final class BoxedTypes {
     public static boolean isPrimitiveType(Class<?> type) {
-        FailFast.requireNonNull(type, "You must supply a type");
+        requireNonNull(type, "You must supply a type");
         return type.isPrimitive();
     }
 
     public static boolean isBoxedType(Class<?> type) {
-        FailFast.requireNonNull(type, "You must supply a type");
+        requireNonNull(type, "You must supply a type");
         return Boolean.class == type ||
                 Integer.class == type ||
                 Long.class == type ||

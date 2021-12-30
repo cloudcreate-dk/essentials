@@ -30,7 +30,7 @@ class ReflectorTest {
         assertThat(reflector.type()).isEqualTo(TestSubject.class);
         assertThat(reflector.constructors.size()).isEqualTo(2);
         assertThat(reflector.methods.size()).isEqualTo(4 + Reflector.reflectOn(Object.class).methods.size());
-        assertThat(reflector.fields.size()).isEqualTo(2);
+        assertThat(reflector.fields.size()).isEqualTo(3);
     }
 
     @Test
@@ -149,9 +149,25 @@ class ReflectorTest {
         assertThat((String) reflector.getStatic(field.get())).isEqualTo("New static value!");
     }
 
+    @Test
+    void test_findFieldByAnnotation() {
+        var reflector = Reflector.reflectOn(TestSubject.class);
+
+        // Match test
+        var match = reflector.findFieldByAnnotation(Deprecated.class);
+        assertThat(match).isPresent();
+        assertThat(match.get().getName()).isEqualTo("annotationMatchingField");
+
+        // No match test
+        match = reflector.findFieldByAnnotation(Test.class);
+        assertThat(match).isEmpty();
+    }
+
     private static class TestSubject {
-        private static String STATIC_VARIABLE  = "DEFAULT";
-        private        String instanceVariable = "default";
+        private static String STATIC_VARIABLE         = "DEFAULT";
+        private        String instanceVariable        = "default";
+        @Deprecated
+        private        String annotationMatchingField = "test";
 
         public TestSubject() {
         }

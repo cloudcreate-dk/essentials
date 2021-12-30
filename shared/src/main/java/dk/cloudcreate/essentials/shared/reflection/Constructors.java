@@ -16,11 +16,11 @@
 
 package dk.cloudcreate.essentials.shared.reflection;
 
-import dk.cloudcreate.essentials.shared.FailFast;
-
 import java.lang.reflect.Constructor;
 import java.util.List;
 import java.util.stream.*;
+
+import static dk.cloudcreate.essentials.shared.FailFast.requireNonNull;
 
 /**
  * Utility class for working with {@link Constructor}'s
@@ -34,7 +34,7 @@ public final class Constructors {
      * @see Accessibles#accessible
      */
     public static List<Constructor<?>> constructors(Class<?> type) {
-        FailFast.requireNonNull(type, "No type supplied");
+        requireNonNull(type, "No type supplied");
         return Stream.of(type.getDeclaredConstructors())
                      .map(Accessibles::accessible)
                      .collect(Collectors.toList());

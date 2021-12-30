@@ -17,10 +17,10 @@
 package dk.cloudcreate.essentials.shared.reflection;
 
 
-import dk.cloudcreate.essentials.shared.FailFast;
-
 import java.lang.reflect.Field;
 import java.util.*;
+
+import static dk.cloudcreate.essentials.shared.FailFast.*;
 
 /**
  * Utility class for working with {@link Field}'s
@@ -37,9 +37,9 @@ public class Fields {
     public static Optional<Field> findField(Set<Field> fields,
                                             String fieldName,
                                             Class<?> fieldType) {
-        FailFast.requireNonNull(fields, "You must supply a fields set");
-        FailFast.requireNonBlank(fieldName, "You must supply a fieldName");
-        FailFast.requireNonNull(fieldType, "You must supply a fieldType");
+        requireNonNull(fields, "You must supply a fields set");
+        requireNonBlank(fieldName, "You must supply a fieldName");
+        requireNonNull(fieldType, "You must supply a fieldType");
         return fields.stream()
                      .filter(field -> field.getName().equals(fieldName))
                      .filter(field -> field.getType().equals(fieldType))
@@ -53,12 +53,12 @@ public class Fields {
      * @return all fields (each marked as accessible) in the type
      */
     public static Set<Field> fields(Class<?> type) {
-        FailFast.requireNonNull(type, "You must supply a type");
-        Set<Field> fields = new HashSet<>();
+        requireNonNull(type, "You must supply a type");
+        var fields = new HashSet<Field>();
 
-        Class<?> currentType = type;
+        var currentType = type;
         while (currentType != null) {
-            for (Field declaredField : currentType.getDeclaredFields()) {
+            for (var declaredField : currentType.getDeclaredFields()) {
                 if (fields.stream().noneMatch(field -> field.getName().equals(declaredField.getName()))) {
                     fields.add(Accessibles.accessible(declaredField));
                 }
