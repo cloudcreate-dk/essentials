@@ -111,9 +111,8 @@ public abstract class NumberType<NUMBER_TYPE extends Number, CONCRETE_TYPE exten
 
     @Override
     public double doubleValue() {
-        return value.floatValue();
+        return value.doubleValue();
     }
-
 
     @Override
     public int hashCode() {
