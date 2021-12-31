@@ -74,6 +74,7 @@
         <module>types-springdata-mongo</module>
         <module>types-springdata-jpa</module>
         <module>types-jdbi</module>
+        <module>types-avro</module>
     </modules>
 
     <dependencyManagement>
