@@ -40,6 +40,8 @@ import org.apache.avro.*;
  * <b>Example:Support AVRO serialization and Deserialization for a given Tax type:</b><br>
  * <b><u>1. Create the <code>TaxLogicalType</code> and <code>TaxLogicalTypeFactory</code></u></b>:<br>
  * <pre>{@code
+ * package com.myproject.types.avro;
+ *
  * public class TaxLogicalTypeFactory implements LogicalTypes.LogicalTypeFactory {
  *     public static final LogicalType TAX = new TaxLogicalType("Tax");
  *
@@ -70,6 +72,8 @@ import org.apache.avro.*;
  * }</pre>
  * <b><u>2. Create the <code>TaxConversion</code></u></b>:<br>
  * <pre>{@code
+ * package com.myproject.types.avro;
+ *
  * public class TaxConversion extends BaseFloatTypeConversion<Tax> {
  *     @Override
  *     public Class<Tax> getConvertedType() {

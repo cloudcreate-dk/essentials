@@ -41,6 +41,8 @@ import java.nio.charset.StandardCharsets;
  * <b>Example:Support AVRO serialization and Deserialization for {@link CurrencyCode}:</b><br>
  * <b><u>1. Create the <code>CurrencyCodeLogicalType</code> and <code>CurrencyCodeLogicalTypeFactory</code></u></b>:<br>
  * <pre>{@code
+ * package dk.cloudcreate.essentials.types.avro;
+ *
  * public class CurrencyCodeLogicalTypeFactory implements LogicalTypes.LogicalTypeFactory {
  *     public static final LogicalType CURRENCY_CODE = new CurrencyCodeLogicalType("CurrencyCode");
  *
@@ -71,6 +73,8 @@ import java.nio.charset.StandardCharsets;
  * }</pre>
  * <b><u>2. Create the <code>CurrencyCodeConversion</code></u></b>:<br>
  * <pre>{@code
+ * package dk.cloudcreate.essentials.types.avro;
+ *
  * public class CurrencyCodeConversion extends BaseCharSequenceConversion<CurrencyCode> {
  *     @Override
  *     public Class<CurrencyCode> getConvertedType() {

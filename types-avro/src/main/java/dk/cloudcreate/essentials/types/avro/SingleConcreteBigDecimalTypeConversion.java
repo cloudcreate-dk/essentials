@@ -20,12 +20,19 @@ import dk.cloudcreate.essentials.types.*;
 import org.apache.avro.*;
 import org.apache.avro.generic.GenericFixed;
 
+import java.math.BigDecimal;
 import java.nio.ByteBuffer;
 
 /**
- * If you only wish to use a <b>single</b> {@link BigDecimalType} that ALL Avro "decimal" fields/properties will map to, then you can create your own
- * concrete {@link SingleConcreteBigDecimalTypeConversion} custom conversion:
+ * If you only wish to use a <b>single</b> {@link BigDecimalType} that ALL Avro <code>decimal</code> fields/properties will map to, then you can create your own
+ * concrete {@link SingleConcreteBigDecimalTypeConversion} custom conversion. The advantage is that you can retain full precision in the number representation in the conversion between the internal
+ * {@link BigDecimalType}'s {@link BigDecimal} and the corresponding <code>decimal</code> value in Avro!<br>
+ * The disadvantage is that ALL Avro <code>decimal</code> fields/properties will be mapped to a single concrete {@link BigDecimalType} supported by your implementation of the {@link SingleConcreteBigDecimalTypeConversion}<br>
+ * <br>
+ * Example of a {@link SingleConcreteBigDecimalTypeConversion} conversion that converts all Avro <code>decimal</code>'s to the {@link Amount} type:
  * <pre>{@code
+ * package com.myproject.types.avro;
+ *
  * public class AmountConversion extends SingleConcreteBigDecimalTypeConversion<Amount> {
  *     @Override
  *     public Class<Amount> getConvertedType() {
@@ -33,8 +40,8 @@ import java.nio.ByteBuffer;
  *     }
  * }
  * }</pre>
- * and combine the <b><code>avro-maven-plugin</code></b> with <code>enableDecimalLogicalType</code> set to <b>true</b> <br>
- * and register your custom <code>conversion</code> in the <code>customConversions</code> section:
+ * This must be combined with setting <code>enableDecimalLogicalType</code> set to <b>true</b> on the <b><code>avro-maven-plugin</code></b><br>
+ * and adding your custom <code>conversion</code> in the <code>customConversions</code> section:
  * <pre>{@code
  * <plugin>
  *     <groupId>org.apache.avro</groupId>
@@ -49,7 +56,7 @@ import java.nio.ByteBuffer;
  *             <configuration>
  *                 <enableDecimalLogicalType>true</enableDecimalLogicalType>
  *                 <customConversions>
- *                     <conversion>dk.cloudcreate.essentials.types.avro.AmountConversion</conversion>
+ *                     <conversion>com.myproject.types.avro.AmountConversion</conversion>
  *                 </customConversions>
  *             </configuration>
  *         </execution>

@@ -40,6 +40,8 @@ import org.apache.avro.*;
  * <b>Example:Support AVRO serialization and Deserialization for a given Quantity type:</b><br>
  * <b><u>1. Create the <code>QuantityLogicalType</code> and <code>QuantityLogicalTypeFactory</code></u></b>:<br>
  * <pre>{@code
+ * package com.myproject.types.avro;
+ *
  * public class QuantityLogicalTypeFactory implements LogicalTypes.LogicalTypeFactory {
  *     public static final LogicalType QUANTITY = new QuantityLogicalType("Quantity");
  *
@@ -70,6 +72,8 @@ import org.apache.avro.*;
  * }</pre>
  * <b><u>2. Create the <code>QuantityConversion</code></u></b>:<br>
  * <pre>{@code
+ * package com.myproject.types.avro;
+ *
  * public class QuantityConversion extends BaseLongTypeConversion<Quantity> {
  *     @Override
  *     public Class<Quantity> getConvertedType() {

@@ -23,10 +23,17 @@ import java.math.BigDecimal;
 
 /**
  * Base {@link Conversion} for all custom types of type {@link BigDecimalType}.<br>
- * <b>NOTICE:</b> This Conversion requires that AVRO field/property must be use the AVRO primitive type: <b><code>double</code></b> and NOT the more sophisticated logical type <code>"decimal"</code>.<br>
- * In case you want to use logical type <code>"decimal"</code> then you need to use the {@link SingleConcreteBigDecimalTypeConversion}<br>
+ * <b>NOTICE:</b>
+ * <blockquote>
+ * This Conversion requires that AVRO field/property must be use the AVRO primitive type: <b><code>double</code></b> and NOT the more sophisticated logical type <code>"decimal"</code>.<br>
+ * This means that you can have multiple concrete {@link BigDecimalType}'s mapped with in a single Schema, which comes at the risk of loosing precision in the number representation in the conversion between the concrete
+ * {@link BigDecimalType}'s internal {@link BigDecimal} and the corresponding <code>double</code> value in Avro!<br>
  * <br>
- * Each concrete {@link BigDecimalType} that must be support Avro serialization and deserialization must have a dedicated
+ * In case you want to use logical type <code>decimal</code> then you need to use the {@link SingleConcreteBigDecimalTypeConversion}, which comes with the limitation that ALL Avro <code>decimal</code> fields/properties will be
+ * mapped to a single concrete {@link BigDecimalType} supported by your implementation of the {@link SingleConcreteBigDecimalTypeConversion}<br>
+ * </blockquote>
+ * <br>
+ * Each concrete {@link BigDecimalType} that must be support Avro serialization and deserialization to/from <code>double</code> must have a dedicated
  * {@link Conversion}, {@link LogicalType} and {@link org.apache.avro.LogicalTypes.LogicalTypeFactory} pair registered with the <b><code>avro-maven-plugin</code></b>.<br>
  * <br>
  * <b>Important:</b> The AVRO field/property must be use the AVRO primitive type: <b><code>double</code></b><br>
