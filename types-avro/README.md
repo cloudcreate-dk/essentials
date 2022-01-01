@@ -7,18 +7,17 @@ instead allows easy integrations with many of the most popular libraries and fra
 
 ## Types-Avro
 
-This library focuses purely on providing AVRO serialization and deserialization support for the **types*defined in the Essentials `types` library.
+This library focuses purely on providing AVRO serialization and deserialization support for the **types** defined in the Essentials `types` library.
 
 **NOTE:**
 **This library is WORK-IN-PROGRESS**
 
 ### Configuration
 
-To support your own concrete `SingleValueType` that must be support Avro serialization and deserialization you must create a specific `LogicalType` and specify this logical type in your Avro
-Schema/IDL.  
+To support your own concrete `SingleValueType` that must be support Avro serialization and deserialization you must create a specific `LogicalType` and specify this logical type in your Avro Schema/IDL.  
 Each concrete `SingleValueType` must have a dedicated `Conversion`, `LogicalType` and `LogicalTypeFactory` pair and must be registered with the `avro-maven-plugin`
 
-Depending on the `SingleValueType` you implement you can choose to extend one of the supplied **Base*Conversions provided with this library:
+Depending on the `SingleValueType` you implement you can choose to extend one of the supplied **Base** Conversions provided with this library:
 
 | `SingleValueType` specialization | Base `Conversion` class                  | Avro primitive type | 
 |----------------------------------|------------------------------------------|---------------------|
@@ -30,8 +29,8 @@ Depending on the `SingleValueType` you implement you can choose to extend one of
 | `IntegerType`                    | `BaseIntegerTypeConversion`              | `int`               |
 | `LongType`                       | `BaseLongTypeConversion`                 | `long`              |
 
-Some concrete `Types` such as `Amount`, `Percentage` and `CurrencyCode` come with supported our of the box. This allows you to define Avro schema/IDL protocol and directly refer these logical-types in
-your Avro Schema/IDL protocol. Example `order.avdl`:
+Some concrete `Types` such as `Amount`, `Percentage` and `CurrencyCode` come with supported our of the box.  
+This allows you to define Avro schema/IDL protocol and directly refer these logical-types in your Avro Schema/IDL protocol. Example `order.avdl`:
 
 ```
 @namespace("dk.cloudcreate.essentials.types.avro.test")
