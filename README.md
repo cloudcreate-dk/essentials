@@ -225,10 +225,10 @@ To use `Types-JDBI` just add the following Maven dependency:
 ```
 
 ## Types Avro
-This library focuses purely on providing AVRO serialization and deserialization support for the **types*defined in the Essentials `types` library.
+This library focuses purely on providing AVRO serialization and deserialization support for the **types** defined in the Essentials `types` library.
 
-Some concrete `Types` such as `Amount`, `Percentage` and `CurrencyCode` come with supported our of the box. This allows you to define Avro schema/IDL protocol and directly refer these logical-types in
-your Avro Schema/IDL protocol. 
+Some concrete `Types` such as `Amount`, `Percentage` and `CurrencyCode` come with supported our of the box. 
+This allows you to define Avro schema/IDL protocol and directly refer these logical-types in your Avro Schema/IDL protocol. 
 
 Example `order.avdl`:
 
