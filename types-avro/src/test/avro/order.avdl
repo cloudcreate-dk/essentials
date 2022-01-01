@@ -1,0 +1,16 @@
+@namespace("dk.cloudcreate.essentials.types.avro.test")
+protocol Test {
+  record Order {
+      string           id;
+      @logicalType("Amount")
+      double  totalAmountWithoutSalesTax;
+      @logicalType("CurrencyCode")
+      string           currency;
+      @logicalType("Percentage")
+      double           salesTax;
+
+      array<@logicalType("CurrencyCode") string>  arrayOfCurrencies;
+      map<@logicalType("CurrencyCode") string>  mapOfCurrencyValues;
+      union { null, @logicalType("CurrencyCode") string } optionalCurrency;
+  }
+}
