@@ -72,7 +72,7 @@ import java.math.BigDecimal;
  *         public void validate(Schema schema) {
  *             super.validate(schema);
  *             if (schema.getType() != Schema.Type.DOUBLE) {
- *                 throw new IllegalArgumentException("Amount can only be used with an underlying Double type");
+ *                 throw new IllegalArgumentException("'" + getName() + "' can only be used with type '" + Schema.Type.DOUBLE.getName() + "'. Invalid schema: " + schema.toString(true));
  *             }
  *         }
  *     }

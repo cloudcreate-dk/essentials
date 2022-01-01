@@ -23,6 +23,7 @@ import org.apache.avro.specific.*;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -41,6 +42,12 @@ public class CustomConversionsTest {
                          .setTotalAmountWithoutSalesTax(Amount.of("100.5"))
                          .setCurrency(CurrencyCode.of("DKK"))
                          .setSalesTax(Percentage.from("25"))
+                         .setArrayOfCurrencies(List.of(CurrencyCode.of("USD"), CurrencyCode.of("DKK"), CurrencyCode.of("EUR")))
+                         .setMapOfCurrencyValues(Map.of("USD", CurrencyCode.of("USD"),
+                                                        "DKK", CurrencyCode.of("DKK"),
+                                                        "EUR", CurrencyCode.of("EUR")
+                                                       ))
+                         .setOptionalCurrency(CurrencyCode.of("EUR"))
                          .build();
 
         // When
@@ -53,6 +60,9 @@ public class CustomConversionsTest {
         assertThat(deserializedOrder.getTotalAmountWithoutSalesTax()).isEqualTo(order.getTotalAmountWithoutSalesTax());
         assertThat((CharSequence) deserializedOrder.getCurrency()).isEqualTo(order.getCurrency());
         assertThat(deserializedOrder.getSalesTax()).isEqualTo(order.getSalesTax());
+        assertThat(deserializedOrder.getArrayOfCurrencies()).isEqualTo(order.getArrayOfCurrencies());
+        assertThat(deserializedOrder.getMapOfCurrencyValues()).isEqualTo(order.getMapOfCurrencyValues());
+        assertThat((CharSequence) deserializedOrder.getOptionalCurrency()).isEqualTo(order.getOptionalCurrency());
         assertThat(deserializedOrder).isEqualTo(order);
     }
 

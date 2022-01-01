@@ -65,7 +65,7 @@ import java.nio.charset.StandardCharsets;
  *         public void validate(Schema schema) {
  *             super.validate(schema);
  *             if (schema.getType() != Schema.Type.STRING) {
- *                 throw new IllegalArgumentException("CurrencyCode can only be used with an underlying String type");
+ *                 throw new IllegalArgumentException("'" + getName() + "' can only be used with type '" + Schema.Type.STRING.getName() + "'. Invalid schema: " + schema.toString(true));
  *             }
  *         }
  *     }

@@ -64,7 +64,7 @@ import org.apache.avro.*;
  *         public void validate(Schema schema) {
  *             super.validate(schema);
  *             if (schema.getType() != Schema.Type.LONG) {
- *                 throw new IllegalArgumentException("Quantity can only be used with an underlying Long type");
+ *                 throw new IllegalArgumentException("'" + getName() + "' can only be used with type '" + Schema.Type.LONG.getName() + "'. Invalid schema: " + schema.toString(true));
  *             }
  *         }
  *     }

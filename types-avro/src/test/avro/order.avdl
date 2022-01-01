@@ -8,5 +8,9 @@ protocol Test {
       string           currency;
       @logicalType("Percentage")
       double           salesTax;
+
+      array<@logicalType("CurrencyCode") string>  arrayOfCurrencies;
+      map<@logicalType("CurrencyCode") string>  mapOfCurrencyValues;
+      union { null, @logicalType("CurrencyCode") string } optionalCurrency;
   }
 }

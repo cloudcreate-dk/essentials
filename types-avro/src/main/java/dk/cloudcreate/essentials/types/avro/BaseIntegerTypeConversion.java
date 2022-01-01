@@ -64,7 +64,7 @@ import org.apache.avro.*;
  *         public void validate(Schema schema) {
  *             super.validate(schema);
  *             if (schema.getType() != Schema.Type.INT) {
- *                 throw new IllegalArgumentException("Quantity can only be used with an underlying Int type");
+ *                 throw new IllegalArgumentException("'" + getName() + "' can only be used with type '" + Schema.Type.INT.getName() + "'. Invalid schema: " + schema.toString(true));
  *             }
  *         }
  *     }
