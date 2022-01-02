@@ -16,9 +16,9 @@
 
 package dk.cloudcreate.essentials.types;
 
-import dk.cloudcreate.essentials.shared.FailFast;
-
 import java.math.*;
+
+import static dk.cloudcreate.essentials.shared.FailFast.requireNonNull;
 
 /**
  * Base class for all {@link SingleValueType}'s that encapsulate {@link Number}.<br>
@@ -85,7 +85,7 @@ public abstract class NumberType<NUMBER_TYPE extends Number, CONCRETE_TYPE exten
     protected final NUMBER_TYPE value;
 
     public NumberType(NUMBER_TYPE value) {
-        FailFast.requireNonNull(value, "You must provide a value");
+        requireNonNull(value, "You must provide a value");
         this.value = value;
     }
 

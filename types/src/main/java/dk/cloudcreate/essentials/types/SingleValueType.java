@@ -24,7 +24,7 @@ import java.math.*;
 import java.util.Map;
 
 /**
- * Common interface for all immutable single value Types - see {@link CharSequenceType} and {@link NumberType} for more details about types supported directly<br>
+ * Common interface for all <b>immutable</b> single value Types - see {@link CharSequenceType} and {@link NumberType} for more details about types supported directly<br>
  * <br>
  * <b>Purpose:</b><br>
  * {@link SingleValueType}'s are typically used to create strongly typed wrappers for simple values to increase readability, code search capabilities (e.g. searching for where a given type is referenced).<br>
