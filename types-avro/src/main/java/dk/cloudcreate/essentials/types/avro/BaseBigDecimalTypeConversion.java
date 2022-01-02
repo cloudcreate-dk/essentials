@@ -194,13 +194,13 @@ public abstract class BaseBigDecimalTypeConversion<T extends BigDecimalType<T>> 
 
     /**
      * Converts the internal {@link BigDecimal} (inside the {@link BigDecimalType}) to a stringValue<br>
-     * Default conversion is to use the {@link BigDecimalType#toString()} representation<br>
+     * Default conversion is to use the internal {@link BigDecimalType}'s {@link BigDecimal} string representation<br>
      * Override this method to provide a custom from {@link BigDecimal} conversion
      * @param value the {@link BigDecimal} value
      * @return the <code>stringValue</code> representation of the <code>value</code>>
      */
     protected String convertFromBigDecimalType(T value) {
-        return value.toString();
+        return value.value().toString();
     }
 
 

@@ -48,9 +48,4 @@ public class PercentageConversion extends BaseBigDecimalTypeConversion<Percentag
     protected LogicalType getLogicalType() {
         return PERCENTAGE;
     }
-
-    @Override
-    protected Percentage convertToBigDecimalType(String stringValue) {
-        return Percentage.from(stringValue);
-    }
 }
