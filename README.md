@@ -238,11 +238,15 @@ protocol Test {
   record Order {
       string           id;
       @logicalType("Amount")
-      double           totalAmountWithoutSalesTax;
+      string           totalAmountWithoutSalesTax;
       @logicalType("CurrencyCode")
       string           currency;
+      @logicalType("CountryCode")
+      string           country;
       @logicalType("Percentage")
-      double           salesTax;
+      string           salesTax;
+      @logicalType("EmailAddress")
+      string           email;
   }
 }
 ```
@@ -272,11 +276,15 @@ protocol Test {
       @logicalType("OrderId")
       string           id;
       @logicalType("Amount")
-      double           totalAmountWithoutSalesTax;
+      string           totalAmountWithoutSalesTax;
       @logicalType("CurrencyCode")
       string           currency;
+      @logicalType("CountryCode")
+      string           country;
       @logicalType("Percentage")
-      double           salesTax;
+      string           salesTax;
+      @logicalType("EmailAddress")
+      string           email;
   }
 }
 ```
@@ -355,12 +363,16 @@ public class OrderIdConversion extends BaseCharSequenceConversion<OrderId> {
                     <logicalTypeFactory>dk.cloudcreate.essentials.types.avro.CurrencyCodeLogicalTypeFactory</logicalTypeFactory>
                     <logicalTypeFactory>dk.cloudcreate.essentials.types.avro.AmountLogicalTypeFactory</logicalTypeFactory>
                     <logicalTypeFactory>dk.cloudcreate.essentials.types.avro.PercentageLogicalTypeFactory</logicalTypeFactory>
+                    <logicalTypeFactory>dk.cloudcreate.essentials.types.avro.CountryCodeLogicalTypeFactory</logicalTypeFactory>
+                    <logicalTypeFactory>dk.cloudcreate.essentials.types.avro.EmailAddressLogicalTypeFactory</logicalTypeFactory>
                     <logicalTypeFactory>com.myproject.types.avro.OrderIdLogicalTypeFactory</logicalTypeFactory>
                 </customLogicalTypeFactories>
                 <customConversions>
                     <conversion>dk.cloudcreate.essentials.types.avro.CurrencyCodeConversion</conversion>
                     <conversion>dk.cloudcreate.essentials.types.avro.AmountConversion</conversion>
                     <conversion>dk.cloudcreate.essentials.types.avro.PercentageConversion</conversion>
+                    <conversion>dk.cloudcreate.essentials.types.avro.CountryCodeConversion</conversion>
+                    <conversion>dk.cloudcreate.essentials.types.avro.EmailAddressConversion</conversion>
                     <conversion>com.myproject.types.avro.OrderIdConversion</conversion>
                 </customConversions>
             </configuration>
@@ -378,7 +390,9 @@ public class Order extends org.apache.avro.specific.SpecificRecordBase implement
   private com.myproject.types.OrderId                  id;
   private dk.cloudcreate.essentials.types.Amount       totalAmountWithoutSalesTax;
   private dk.cloudcreate.essentials.types.CurrencyCode currency;
+  private dk.cloudcreate.essentials.types.CountryCode  country;
   private dk.cloudcreate.essentials.types.Percentage   salesTax;
+  private dk.cloudcreate.essentials.types.EmailAddress email;
   ...
 }
 ```

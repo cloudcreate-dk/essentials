@@ -16,36 +16,34 @@
 
 package dk.cloudcreate.essentials.types.avro;
 
-import dk.cloudcreate.essentials.types.*;
+import dk.cloudcreate.essentials.types.EmailAddress;
 import org.apache.avro.LogicalType;
 
-import java.math.BigDecimal;
-
-import static dk.cloudcreate.essentials.types.avro.PercentageLogicalTypeFactory.PERCENTAGE;
+import static dk.cloudcreate.essentials.types.avro.EmailAddressLogicalTypeFactory.EMAIL_ADDRESS;
 
 /**
- * {@link org.apache.avro.Conversion} for {@link Percentage} - see {@link PercentageLogicalTypeFactory}
+ * {@link org.apache.avro.Conversion} for {@link EmailAddress} - see {@link EmailAddressLogicalTypeFactory}
  * for information about how to configure this conversion to be used during Avro code generation<br>
  * <br>
- * <b>Important:</b> The AVRO field/property must be use the AVRO primitive type: <b><code>double</code></b><br>
+ * <b>Important:</b> The AVRO field/property must be use the AVRO primitive type: <b><code>string</code></b><br>
  * <pre>{@code
  * @namespace("dk.cloudcreate.essentials.types.avro.test")
  * protocol Test {
  *   record Order {
- *       @logicalType("Percentage")
- *       double  tax;
+ *       @logicalType("EmailAddress")
+ *       string  email;
  *   }
  * }
  * }</pre>
  */
-public class PercentageConversion extends BaseBigDecimalTypeConversion<Percentage> {
+public class EmailAddressConversion extends BaseCharSequenceConversion<EmailAddress> {
     @Override
-    public Class<Percentage> getConvertedType() {
-        return Percentage.class;
+    public Class<EmailAddress> getConvertedType() {
+        return EmailAddress.class;
     }
 
     @Override
     protected LogicalType getLogicalType() {
-        return PERCENTAGE;
+        return EMAIL_ADDRESS;
     }
 }

@@ -16,6 +16,7 @@
 
 package dk.cloudcreate.essentials.types.springdata.jpa;
 
+import dk.cloudcreate.essentials.types.*;
 import dk.cloudcreate.essentials.types.springdata.jpa.model.Order;
 import dk.cloudcreate.essentials.types.springdata.jpa.model.*;
 import org.junit.jupiter.api.*;
@@ -58,12 +59,22 @@ class OrderRepositoryIT {
 
     @Test
     void test_we_can_store_an_order_and_load_it_again() {
+        var currencyCode = CurrencyCode.of("DKK");
+        var amount       = Amount.of("123.456");
+        var percentage   = Percentage.from("40.5%");
+
         var storedOrder = orderRepository.save(new Order(OrderId.random(),
                                                          CustomerId.random(),
                                                          AccountId.random(),
                                                          Map.of(ProductId.random(), Quantity.of(10),
                                                                 ProductId.random(), Quantity.of(5),
-                                                                ProductId.random(), Quantity.of(1))));
+                                                                ProductId.random(), Quantity.of(1)),
+                                                         amount,
+                                                         percentage,
+                                                         currencyCode,
+                                                         CountryCode.of("DK"),
+                                                         EmailAddress.of("john@nonexistingdomain.com"),
+                                                         new Money(amount.add(percentage.of(amount)), currencyCode)));
 
         assertThat(storedOrder.getId()).isNotNull();
 

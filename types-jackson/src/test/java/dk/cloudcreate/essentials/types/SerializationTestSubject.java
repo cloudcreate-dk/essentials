@@ -26,13 +26,32 @@ public class SerializationTestSubject {
     private Amount     amount;
     private Percentage percentage;
 
-    public SerializationTestSubject(CustomerId customerId, OrderId orderId, ProductId productId, AccountId accountId, Amount amount, Percentage percentage) {
+    private CurrencyCode currency;
+    private CountryCode  country;
+    private EmailAddress email;
+
+    private Money totalPrice;
+
+    public SerializationTestSubject(CustomerId customerId,
+                                    OrderId orderId,
+                                    ProductId productId,
+                                    AccountId accountId,
+                                    Amount amount,
+                                    Percentage percentage,
+                                    CurrencyCode currency,
+                                    CountryCode country,
+                                    EmailAddress email,
+                                    Money totalPrice) {
         this.customerId = customerId;
         this.orderId = orderId;
         this.productId = productId;
         this.accountId = accountId;
         this.amount = amount;
         this.percentage = percentage;
+        this.currency = currency;
+        this.country = country;
+        this.email = email;
+        this.totalPrice = totalPrice;
     }
 
     public SerializationTestSubject() {
@@ -86,16 +105,48 @@ public class SerializationTestSubject {
         this.percentage = percentage;
     }
 
+    public CurrencyCode getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(CurrencyCode currency) {
+        this.currency = currency;
+    }
+
+    public CountryCode getCountry() {
+        return country;
+    }
+
+    public void setCountry(CountryCode country) {
+        this.country = country;
+    }
+
+    public EmailAddress getEmail() {
+        return email;
+    }
+
+    public void setEmail(EmailAddress email) {
+        this.email = email;
+    }
+
+    public Money getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(Money totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SerializationTestSubject that = (SerializationTestSubject) o;
-        return Objects.equals(customerId, that.customerId) && Objects.equals(orderId, that.orderId) && Objects.equals(productId, that.productId) && Objects.equals(accountId, that.accountId) && Objects.equals(amount, that.amount) && Objects.equals(percentage, that.percentage);
+        return Objects.equals(customerId, that.customerId) && Objects.equals(orderId, that.orderId) && Objects.equals(productId, that.productId) && Objects.equals(accountId, that.accountId) && Objects.equals(amount, that.amount) && Objects.equals(percentage, that.percentage) && Objects.equals(currency, that.currency) && Objects.equals(country, that.country) && Objects.equals(email, that.email) && Objects.equals(totalPrice, that.totalPrice);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(customerId, orderId, productId, accountId, amount, percentage);
+        return Objects.hash(customerId, orderId, productId, accountId, amount, percentage, currency, country, email, totalPrice);
     }
 }

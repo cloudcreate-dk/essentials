@@ -27,8 +27,15 @@ class PercentageTest {
     @Test
     void test_from() {
         var percentage = Percentage.from("50");
-        assertThat(percentage.value).isEqualTo(new BigDecimal("0.50"));
+        assertThat(percentage.value).isEqualTo(new BigDecimal("50.00"));
         assertThat(percentage.toString()).isEqualTo("50.00%");
+    }
+
+    @Test
+    void test_from_with_pct_sign() {
+        var percentage = Percentage.from("51.5 %");
+        assertThat(percentage.value).isEqualTo(new BigDecimal("51.50"));
+        assertThat(percentage.toString()).isEqualTo("51.50%");
     }
 
     @Test

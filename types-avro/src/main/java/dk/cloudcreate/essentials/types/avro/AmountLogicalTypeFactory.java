@@ -22,13 +22,13 @@ import org.apache.avro.*;
  * {@link LogicalType} and {@link org.apache.avro.LogicalTypes.LogicalTypeFactory} for
  * {@link dk.cloudcreate.essentials.types.Amount}.<br>
  * <br>
- * <b>Important:</b> The AVRO field/property must be use the AVRO primitive type: <b><code>double</code></b><br>
+ * <b>Important:</b> The AVRO field/property must be use the AVRO primitive type: <b><code>string</code></b>, otherwise we loose precision<br>
  * <pre>{@code
  * @namespace("dk.cloudcreate.essentials.types.avro.test")
  * protocol Test {
  *   record Order {
  *       @logicalType("Amount")
- *       double  totalAmountWithoutSalesTax;
+ *       string  totalAmountWithoutSalesTax;
  *   }
  * }
  * }</pre>
@@ -69,7 +69,7 @@ import org.apache.avro.*;
  *   record Order {
  *       string           id;
  *       @logicalType("Amount")
- *       double  totalAmountWithoutSalesTax;
+ *       string  totalAmountWithoutSalesTax;
  *   }
  * }
  * }</pre>
@@ -105,8 +105,8 @@ public class AmountLogicalTypeFactory implements LogicalTypes.LogicalTypeFactory
         @Override
         public void validate(Schema schema) {
             super.validate(schema);
-            if (schema.getType() != Schema.Type.DOUBLE) {
-                throw new IllegalArgumentException("'" + getName() + "' can only be used with type '" + Schema.Type.DOUBLE.getName() + "'. Invalid schema: " + schema.toString(true));
+            if (schema.getType() != Schema.Type.STRING) {
+                throw new IllegalArgumentException("'" + getName() + "' can only be used with type '" + Schema.Type.STRING.getName() + "'. Invalid schema: " + schema.toString(true));
             }
         }
     }

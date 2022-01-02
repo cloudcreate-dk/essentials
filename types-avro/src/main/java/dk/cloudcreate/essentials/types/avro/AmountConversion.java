@@ -25,13 +25,13 @@ import static dk.cloudcreate.essentials.types.avro.AmountLogicalTypeFactory.AMOU
  * {@link org.apache.avro.Conversion} for {@link Amount} - see {@link AmountLogicalTypeFactory}
  * for information about how to configure this conversion to be used during Avro code generation<br>
  * <br>
- * <b>Important:</b> The AVRO field/property must be use the AVRO primitive type: <b><code>double</code></b><br>
+ * <b>Important:</b> The AVRO field/property must be use the AVRO primitive type: <b><code>string</code></b><br>
  * <pre>{@code
  * @namespace("dk.cloudcreate.essentials.types.avro.test")
  * protocol Test {
  *   record Order {
  *       @logicalType("Amount")
- *       double  tax;
+ *       string  tax;
  *   }
  * }
  * }</pre>

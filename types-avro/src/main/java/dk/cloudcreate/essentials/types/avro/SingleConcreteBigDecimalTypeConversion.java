@@ -29,6 +29,8 @@ import java.nio.ByteBuffer;
  * {@link BigDecimalType}'s {@link BigDecimal} and the corresponding <code>decimal</code> value in Avro!<br>
  * The disadvantage is that ALL Avro <code>decimal</code> fields/properties will be mapped to a single concrete {@link BigDecimalType} supported by your implementation of the {@link SingleConcreteBigDecimalTypeConversion}<br>
  * <br>
+ * <b>In case you want each {@link BigDecimalType} field/property to be mappable to an individual logical-type, then you need to use the {@link BaseBigDecimalTypeConversion} for each concrete {@link BigDecimalType} you want to support!</b><br>
+ * <br>
  * Example of a {@link SingleConcreteBigDecimalTypeConversion} conversion that converts all Avro <code>decimal</code>'s to the {@link Amount} type:
  * <pre>{@code
  * package com.myproject.types.avro;

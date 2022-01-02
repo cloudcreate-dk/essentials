@@ -33,12 +33,18 @@ class EssentialTypesJacksonModuleTest {
 
     @Test
     void test_serialization_and_deserialization() throws IOException {
+        var amount = Amount.of("123.45");
+        var percentage   = Percentage.from("30%");
         var testSubject = new SerializationTestSubject(CustomerId.random(),
                                                        OrderId.random(),
                                                        ProductId.random(),
                                                        AccountId.random(),
-                                                       Amount.of("123.45"),
-                                                       Percentage.from("30"));
+                                                       amount,
+                                                       percentage,
+                                                       CurrencyCode.DKK,
+                                                       CountryCode.of("DK"),
+                                                       EmailAddress.of("john@nonexistingdomain.com"),
+                                                       Money.of(amount.add(percentage.of(amount)), CurrencyCode.DKK));
 
         var serialized = objectMapper.writeValueAsString(testSubject);
         System.out.println(serialized);
@@ -50,6 +56,13 @@ class EssentialTypesJacksonModuleTest {
         assertThat((CharSequence) deserializedSubject.getProductId()).isInstanceOf(ProductId.class);
         assertThat(deserializedSubject.getAmount()).isInstanceOf(Amount.class);
         assertThat(deserializedSubject.getPercentage()).isInstanceOf(Percentage.class);
+        assertThat((CharSequence) deserializedSubject.getCurrency()).isInstanceOf(CurrencyCode.class);
+        assertThat((CharSequence) deserializedSubject.getCountry()).isInstanceOf(CountryCode.class);
+        assertThat((CharSequence) deserializedSubject.getEmail()).isInstanceOf(EmailAddress.class);
+        assertThat(deserializedSubject.getTotalPrice()).isInstanceOf(Money.class);
+        assertThat(deserializedSubject.getTotalPrice().getAmount()).isInstanceOf(Amount.class);
+        assertThat((CharSequence) deserializedSubject.getTotalPrice().getCurrency()).isInstanceOf(CurrencyCode.class);
+
         assertThat(deserializedSubject).isEqualTo(testSubject);
     }
 }

@@ -17,7 +17,8 @@
 package dk.cloudcreate.essentials.types.avro;
 
 import dk.cloudcreate.essentials.types.*;
-import dk.cloudcreate.essentials.types.avro.test.Order;
+import dk.cloudcreate.essentials.types.avro.test.Money;
+import dk.cloudcreate.essentials.types.avro.test.*;
 import org.apache.avro.io.*;
 import org.apache.avro.specific.*;
 import org.junit.jupiter.api.Test;
@@ -37,11 +38,20 @@ public class CustomConversionsTest {
     @Test
     void test_Order_Serialization_and_Deserialization() throws IOException {
         // Given
+        var totalAmountWithoutSalesTax = Amount.of("100.5");
+        var salesTax                   = Percentage.from("25");
+        var totalPrice                 = totalAmountWithoutSalesTax.add(salesTax.of(totalAmountWithoutSalesTax));
         var order = Order.newBuilder()
                          .setId("TestOrderId")
-                         .setTotalAmountWithoutSalesTax(Amount.of("100.5"))
+                         .setTotalAmountWithoutSalesTax(totalAmountWithoutSalesTax)
                          .setCurrency(CurrencyCode.of("DKK"))
-                         .setSalesTax(Percentage.from("25"))
+                         .setCountry(CountryCode.of("DK"))
+                         .setSalesTax(salesTax)
+                         .setEmail(EmailAddress.of("john@nonexistingdomain.com"))
+                         .setTotalPrice(Money.newBuilder()
+                                             .setAmount(totalPrice)
+                                             .setCurrency(CurrencyCode.DKK)
+                                             .build())
                          .setArrayOfCurrencies(List.of(CurrencyCode.of("USD"), CurrencyCode.of("DKK"), CurrencyCode.of("EUR")))
                          .setMapOfCurrencyValues(Map.of("USD", CurrencyCode.of("USD"),
                                                         "DKK", CurrencyCode.of("DKK"),
@@ -59,7 +69,12 @@ public class CustomConversionsTest {
         assertThat(deserializedOrder.getId()).isEqualTo(order.getId());
         assertThat(deserializedOrder.getTotalAmountWithoutSalesTax()).isEqualTo(order.getTotalAmountWithoutSalesTax());
         assertThat((CharSequence) deserializedOrder.getCurrency()).isEqualTo(order.getCurrency());
+        assertThat((CharSequence) deserializedOrder.getCountry()).isEqualTo(order.getCountry());
         assertThat(deserializedOrder.getSalesTax()).isEqualTo(order.getSalesTax());
+        assertThat((CharSequence) deserializedOrder.getEmail()).isEqualTo(order.getEmail());
+        assertThat(deserializedOrder.getTotalPrice()).isEqualTo(order.getTotalPrice());
+        assertThat(deserializedOrder.getTotalPrice().getAmount()).isEqualTo(totalPrice);
+        assertThat((CharSequence) deserializedOrder.getTotalPrice().getCurrency()).isEqualTo(CurrencyCode.DKK);
         assertThat(deserializedOrder.getArrayOfCurrencies()).isEqualTo(order.getArrayOfCurrencies());
         assertThat(deserializedOrder.getMapOfCurrencyValues()).isEqualTo(order.getMapOfCurrencyValues());
         assertThat((CharSequence) deserializedOrder.getOptionalCurrency()).isEqualTo(order.getOptionalCurrency());

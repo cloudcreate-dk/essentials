@@ -20,29 +20,31 @@ import dk.cloudcreate.essentials.types.*;
 import org.apache.avro.*;
 
 import java.math.BigDecimal;
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Base {@link Conversion} for all custom types of type {@link BigDecimalType}.<br>
  * <b>NOTICE:</b>
  * <blockquote>
- * This Conversion requires that AVRO field/property must be use the AVRO primitive type: <b><code>double</code></b> and NOT the more sophisticated logical type <code>"decimal"</code>.<br>
+ * This Conversion requires that AVRO field/property must be use the AVRO primitive type: <b><code>string</code></b> and NEITHER the <code>"double"</code> NOR the more sophisticated logical type <code>"decimal"</code>.<br>
  * This means that you can have multiple concrete {@link BigDecimalType}'s mapped with in a single Schema, which comes at the risk of loosing precision in the number representation in the conversion between the concrete
- * {@link BigDecimalType}'s internal {@link BigDecimal} and the corresponding <code>double</code> value in Avro!<br>
+ * {@link BigDecimalType}'s internal {@link BigDecimal} and the corresponding <code>string</code> value in Avro!<br>
  * <br>
  * In case you want to use logical type <code>decimal</code> then you need to use the {@link SingleConcreteBigDecimalTypeConversion}, which comes with the limitation that ALL Avro <code>decimal</code> fields/properties will be
  * mapped to a single concrete {@link BigDecimalType} supported by your implementation of the {@link SingleConcreteBigDecimalTypeConversion}<br>
  * </blockquote>
  * <br>
- * Each concrete {@link BigDecimalType} that must be support Avro serialization and deserialization to/from <code>double</code> must have a dedicated
+ * Each concrete {@link BigDecimalType} that must be support Avro serialization and deserialization to/from <code>string</code> must have a dedicated
  * {@link Conversion}, {@link LogicalType} and {@link org.apache.avro.LogicalTypes.LogicalTypeFactory} pair registered with the <b><code>avro-maven-plugin</code></b>.<br>
  * <br>
- * <b>Important:</b> The AVRO field/property must be use the AVRO primitive type: <b><code>double</code></b><br>
+ * <b>Important:</b> The AVRO field/property must be use the AVRO primitive type: <b><code>string</code></b><br>
  * <pre>{@code
  * @namespace("dk.cloudcreate.essentials.types.avro.test")
  * protocol Test {
  *   record Order {
  *       @logicalType("MyLogicalType")
- *       double  tax;
+ *       string  tax;
  *   }
  * }
  * }</pre>
@@ -71,8 +73,8 @@ import java.math.BigDecimal;
  *         @Override
  *         public void validate(Schema schema) {
  *             super.validate(schema);
- *             if (schema.getType() != Schema.Type.DOUBLE) {
- *                 throw new IllegalArgumentException("'" + getName() + "' can only be used with type '" + Schema.Type.DOUBLE.getName() + "'. Invalid schema: " + schema.toString(true));
+ *             if (schema.getType() != Schema.Type.STRING) {
+ *                 throw new IllegalArgumentException("'" + getName() + "' can only be used with type '" + Schema.Type.STRING.getName() + "'. Invalid schema: " + schema.toString(true));
  *             }
  *         }
  *     }
@@ -126,7 +128,7 @@ import java.math.BigDecimal;
  *   record Order {
  *       string           id;
  *       @logicalType("Amount")
- *       double  totalAmountWithoutSalesTax;
+ *       string  totalAmountWithoutSalesTax;
  *   }
  * }
  * }</pre>
@@ -151,7 +153,7 @@ public abstract class BaseBigDecimalTypeConversion<T extends BigDecimalType<T>> 
 
     @Override
     public final Schema getRecommendedSchema() {
-        return getLogicalType().addToSchema(Schema.create(Schema.Type.DOUBLE));
+        return getLogicalType().addToSchema(Schema.create(Schema.Type.STRING));
     }
 
     @Override
@@ -160,12 +162,46 @@ public abstract class BaseBigDecimalTypeConversion<T extends BigDecimalType<T>> 
     }
 
     @Override
-    public T fromDouble(Double value, Schema schema, LogicalType type) {
-        return SingleValueType.from(new BigDecimal(value), getConvertedType());
+    public T fromBytes(ByteBuffer value, Schema schema, LogicalType type) {
+        var stringValue = StandardCharsets.UTF_8.decode(value).toString();
+        return convertToBigDecimalType(stringValue);
     }
 
     @Override
-    public Double toDouble(T value, Schema schema, LogicalType type) {
-        return value.doubleValue();
+    public ByteBuffer toBytes(T value, Schema schema, LogicalType type) {
+        return StandardCharsets.UTF_8.encode(convertFromBigDecimalType(value));
     }
+
+    @Override
+    public T fromCharSequence(CharSequence value, Schema schema, LogicalType type) {
+        return convertToBigDecimalType(value.toString());
+    }
+
+    @Override
+    public CharSequence toCharSequence(T value, Schema schema, LogicalType type) {
+        return convertFromBigDecimalType(value);
+    }
+    /**
+     * Converts the stringValue to a {@link BigDecimalType}<br>
+     * Default conversion uses this logic: <code>SingleValueType.from(new BigDecimal(value), getConvertedType());</code>
+     * Override this method to provide a custom to {@link BigDecimalType} conversion
+     * @param stringValue the {@link BigDecimalType}øs value represented as a string
+     * @return the {@link BigDecimalType} instance corresponding to the <code>stringValue</code>
+     */
+    protected T convertToBigDecimalType(String stringValue) {
+        return SingleValueType.from(new BigDecimal(stringValue), getConvertedType());
+    }
+
+    /**
+     * Converts the internal {@link BigDecimal} (inside the {@link BigDecimalType}) to a stringValue<br>
+     * Default conversion is to use the internal {@link BigDecimalType}'s {@link BigDecimal} string representation<br>
+     * Override this method to provide a custom from {@link BigDecimal} conversion
+     * @param value the {@link BigDecimal} value
+     * @return the <code>stringValue</code> representation of the <code>value</code>>
+     */
+    protected String convertFromBigDecimalType(T value) {
+        return value.value().toString();
+    }
+
+
 }

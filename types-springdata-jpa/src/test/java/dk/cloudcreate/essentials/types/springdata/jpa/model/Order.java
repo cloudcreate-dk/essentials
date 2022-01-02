@@ -16,6 +16,8 @@
 
 package dk.cloudcreate.essentials.types.springdata.jpa.model;
 
+import dk.cloudcreate.essentials.types.*;
+
 import javax.persistence.*;
 import java.util.*;
 
@@ -23,20 +25,39 @@ import java.util.*;
 @Table(name = "orders")
 public class Order {
     @Id
-    public OrderId                  id;
-    public CustomerId               customerId;
-    public AccountId                accountId;
+    public  OrderId                  id;
+    public  CustomerId               customerId;
+    public  AccountId                accountId;
     @ElementCollection
-    public Map<ProductId, Quantity> orderLines;
+    public  Map<ProductId, Quantity> orderLines;
+    private Amount                   amount;
+    private Percentage               percentage;
+
+    private CurrencyCode currency;
+    private CountryCode  country;
+    private EmailAddress email;
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name="amount", column=@Column(name="total_price_amount")),
+            @AttributeOverride(name="currency", column=@Column(name="total_price_currency"))
+    })
+    private Money totalPrice;
 
     public Order() {
     }
 
-    public Order(OrderId id, CustomerId customerId, AccountId accountId, Map<ProductId, Quantity> orderLines) {
+    public Order(OrderId id, CustomerId customerId, AccountId accountId, Map<ProductId, Quantity> orderLines, Amount amount, Percentage percentage, CurrencyCode currency, CountryCode country, EmailAddress email, Money totalPrice) {
         this.id = id;
         this.customerId = customerId;
         this.accountId = accountId;
         this.orderLines = orderLines;
+        this.amount = amount;
+        this.percentage = percentage;
+        this.currency = currency;
+        this.country = country;
+        this.email = email;
+        this.totalPrice = totalPrice;
     }
 
     public OrderId getId() {
@@ -67,16 +88,66 @@ public class Order {
         this.orderLines = orderLines;
     }
 
+    public Amount getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Amount amount) {
+        this.amount = amount;
+    }
+
+    public Percentage getPercentage() {
+        return percentage;
+    }
+
+    public void setPercentage(Percentage percentage) {
+        this.percentage = percentage;
+    }
+
+    public CurrencyCode getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(CurrencyCode currency) {
+        this.currency = currency;
+    }
+
+    public CountryCode getCountry() {
+        return country;
+    }
+
+    public void setCountry(CountryCode country) {
+        this.country = country;
+    }
+
+    public EmailAddress getEmail() {
+        return email;
+    }
+
+    public void setEmail(EmailAddress email) {
+        this.email = email;
+    }
+
+    public Money getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(Money totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
-        return Objects.equals(id, order.id) && Objects.equals(customerId, order.customerId) && Objects.equals(accountId, order.accountId) && Objects.equals(orderLines, order.orderLines);
+        return Objects.equals(id, order.id) && Objects.equals(customerId, order.customerId) && Objects.equals(accountId, order.accountId) &&
+                Objects.equals(orderLines, order.orderLines) && Objects.equals(amount, order.amount) && Objects.equals(percentage, order.percentage) &&
+                Objects.equals(currency, order.currency) && Objects.equals(country, order.country) && Objects.equals(email, order.email) && Objects.equals(totalPrice, order.totalPrice);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, customerId, accountId, orderLines);
+        return Objects.hash(id, customerId, accountId, orderLines, amount, percentage, currency, country, email, totalPrice);
     }
 }
