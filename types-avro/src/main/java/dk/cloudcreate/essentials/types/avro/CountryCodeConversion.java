@@ -16,41 +16,34 @@
 
 package dk.cloudcreate.essentials.types.avro;
 
-import dk.cloudcreate.essentials.types.*;
+import dk.cloudcreate.essentials.types.CountryCode;
 import org.apache.avro.LogicalType;
 
-import java.math.BigDecimal;
-
-import static dk.cloudcreate.essentials.types.avro.PercentageLogicalTypeFactory.PERCENTAGE;
+import static dk.cloudcreate.essentials.types.avro.CountryCodeLogicalTypeFactory.COUNTRY_CODE;
 
 /**
- * {@link org.apache.avro.Conversion} for {@link Percentage} - see {@link PercentageLogicalTypeFactory}
+ * {@link org.apache.avro.Conversion} for {@link CountryCode} - see {@link CountryCodeLogicalTypeFactory}
  * for information about how to configure this conversion to be used during Avro code generation<br>
  * <br>
- * <b>Important:</b> The AVRO field/property must be use the AVRO primitive type: <b><code>double</code></b><br>
+ * <b>Important:</b> The AVRO field/property must be use the AVRO primitive type: <b><code>string</code></b><br>
  * <pre>{@code
  * @namespace("dk.cloudcreate.essentials.types.avro.test")
  * protocol Test {
  *   record Order {
- *       @logicalType("Percentage")
- *       double  tax;
+ *       @logicalType("CountryCode")
+ *       string  country;
  *   }
  * }
  * }</pre>
  */
-public class PercentageConversion extends BaseBigDecimalTypeConversion<Percentage> {
+public class CountryCodeConversion extends BaseCharSequenceConversion<CountryCode> {
     @Override
-    public Class<Percentage> getConvertedType() {
-        return Percentage.class;
+    public Class<CountryCode> getConvertedType() {
+        return CountryCode.class;
     }
 
     @Override
     protected LogicalType getLogicalType() {
-        return PERCENTAGE;
-    }
-
-    @Override
-    protected Percentage convertToBigDecimalType(String stringValue) {
-        return Percentage.from(stringValue);
+        return COUNTRY_CODE;
     }
 }
