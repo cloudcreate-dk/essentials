@@ -18,13 +18,20 @@ package dk.cloudcreate.essentials.types;
 
 import java.math.BigDecimal;
 
+import static dk.cloudcreate.essentials.shared.FailFast.requireNonNull;
+
+/**
+ * Represents an immutable Monetary Amount without any {@link CurrencyCode}
+ *
+ * @see Money
+ */
 public class Amount extends BigDecimalType<Amount> {
     public Amount(BigDecimal value) {
         super(value);
     }
 
     public static Amount of(String value) {
-        return new Amount(new BigDecimal(value));
+        return new Amount(new BigDecimal(requireNonNull(value, "value is null")));
     }
 
     public static Amount ofNullable(String value) {
