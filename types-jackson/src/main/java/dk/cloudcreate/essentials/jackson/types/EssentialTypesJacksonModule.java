@@ -41,6 +41,7 @@ public final class EssentialTypesJacksonModule extends SimpleModule {
     public void setupModule(SetupContext context) {
         addSerializer(CharSequenceType.class, new CharSequenceTypeJsonSerializer());
         addSerializer(NumberType.class, new NumberTypeJsonSerializer());
+        addDeserializer(Money.class, new MoneyDeserializer());
         super.setupModule(context);
     }
 
