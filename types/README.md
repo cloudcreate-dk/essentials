@@ -74,6 +74,9 @@ public class CreateOrder {
     public final Percentage               salesTax;
     public final Map<ProductId, Quantity> orderLines;
 
+    private CurrencyCode currency;
+    private CountryCode  country;
+    private EmailAddress email;
     ...
 }
 ```
@@ -136,9 +139,10 @@ Here's a list of the currently supported top level types:
 - `Amount` - which is a specialization of `BigDecimalType` that can be used to encapsulate (money) amounts.
 - `Percentage` - which is a specialization of `BigDecimalType` that can be used to encapsulate percentages and which can
   be used percentage calculations
-
-Later we will add more types such as ISO-3166 2 and 3 character `CountryCode`'s, ISO-4217 3 character `CurrencyCode`
-, `Money` type that combines `Amount` and `CurrencyCode`, etc.
+- ISO-3166 2 character `CountryCode`'s 
+- ISO-4217 3 character `CurrencyCode`
+- `EmailAddress` which is an immutable Email address value type that supports configurable validation
+- `Money` type that combines `Amount` and `CurrencyCode`
 
 ## Framework support
 
@@ -148,4 +152,5 @@ libraries:
 - **Jackson** JSON: using the `types-jackson` library
 - **Spring Data Mongo**: using the `types-springdata-mongo` library
 - **Spring Data JPA**: using the  `types-springdata-jpa` library
-- **Jdbi v3**: using the `types.jdbi` library
+- **Jdbi v3**: using the `types-jdbi` library
+- **Avro**: using the `types-avro` library

@@ -20,12 +20,23 @@ This library contains the smallest set of supporting building blocks needed for 
     - E.g. `Stream<Pair<Integer, String>> indexedStream = Lists.toIndexedStream(List.of("A", "B", "C"));`
 - **Functional Interfaces**
     - E.g. `Tuple.of("Hello", 100L, new BigDecimal("125.95")).map((_1, _2, _3) -> Tuple.of(_1.toString(), _2.toString(), _3.toString))`
+    - Checked variant of the classic Functional-Interfaces (`Runnable`, `Consumer`, `Supplier`, `Function`, `BiFunction` and `TripleFunction`)
+      that behaves like the normal Functional-Interface, but which allows checked `Exception`'s to be thrown from their method:
+      - `CheckedRunnable`
+      - `CheckedConsumer`
+      - `CheckedSupplier`
+      - `CheckedFunction`
+      - `CheckedBiFunction`
+      - `CheckedTripleFunction`
 - **FailFast** argument validation (Objects.requireNonNull replacement)
     - E.g. `FailFast.requireNonBlank(fieldName, "You must supply a fieldName");`
+- `StopWatch` for timing different methods/operations
+- `Exceptions` that allow `sneakyThrow` and getting a stacktrace as a String
 - SLF4J compatible **Message formatter**
   - E.g. `msg("Failed to find static method '{}' on type '{}' taking arguments of {}", methodName, type.getName(), Arrays.toString(argumentTypes))`
 - High level **Reflection** API
     - E.g. `Reflector.reflectOn(someType).invokeStatic("of");`
+- `PatternMatchingMethodInvoker` which supports creating your own reflective pattern matching method invokers.
 
 To use `Shared` just add the following Maven dependency:
 ```
