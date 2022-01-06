@@ -22,12 +22,12 @@ public class OrderEventHandlerWithoutFallback {
     public Map<String, OrderEvent> methodCalledWithArgument = new HashMap<>();
 
     @EventHandler
-    public void orderCreated(OrderCreated orderCreated) {
+    private void orderCreated(OrderCreated orderCreated) {
         methodCalledWithArgument.put("orderCreated", orderCreated);
     }
 
     @EventHandler
-    public void orderCancelled(OrderCancelled orderCancelled) {
+    private void orderCancelled(OrderCancelled orderCancelled) {
         methodCalledWithArgument.put("orderCancelled", orderCancelled);
     }
 

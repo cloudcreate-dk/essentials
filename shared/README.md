@@ -55,6 +55,48 @@ public <R1, R2, R3> Triple<R1, R2, R3> map(TripleFunction<? super T1, ? super T2
 }
 ```
 
+or the Checked variant of the classic Functional-Interfaces (`Runnable`, `Consumer`, `Supplier`, `Function`, `BiFunction` and `TripleFunction`) 
+that behaves like the normal Functional-Interface, but which allows checked `Exception`'s to be thrown from their method:
+- `CheckedRunnable`
+- `CheckedConsumer`
+- `CheckedSupplier`
+- `CheckedFunction`
+- `CheckedBiFunction`
+- `CheckedTripleFunction`
+
+#### Checked `CheckedRunnable` usage example:
+
+Let's say we have a method called `someOperation` that cannot change, but which accepts a `Runnable` with the purpose of the calling `Runnable.run()`.
+```
+public void someOperation(Runnable operation) {        
+    // ... Logic ...           
+    operation.run();           
+    // ... More logic ---   
+}
+```
+
+The problem with `Runnable.run()` occurs when a `Runnable` lambda/instance calls an API that throws a checked `Exception`, e.g. the `java.io.File` API.  
+Since `Runnable.run()` doesn't define that it throws any `Exception`'s we're forced to add a `try/catch` to handle the `java.io.IOException` 
+for the code to compile:
+```
+someOperation(() -> {                       
+    try {                           
+        // Logic that uses the File API                       
+    } catch (IOException e) {                           
+        throw new RuntimeException(e);                       
+    }                 
+}));
+```
+
+This is where the `CheckedRunnable` comes to the aid as its `run()` method defines that it throws a Checked `Exception` and its `safe(CheckedRunnable)` method
+will return a new `Runnable` instance with a `Runnable.run()` method that ensures that the `run()` method is called and any checked `Exception`'s 
+thrown will be caught and rethrown as a `CheckedExceptionRethrownException`:
+```
+someOperation(CheckedRunnable.safe(() -> {                       
+     // Logic that uses the File API that throws IOException                 
+}));
+```
+
 ### FailFast argument validation (replacements for Objects.requireNonNull)
 
 The `Objects.requireNonNull()` function is nice to have, but it's only limited to checking for null arguments, and it
@@ -69,7 +111,6 @@ a `IllegalArgumentException` if the argument doesn't pass the assertion:
 - `requireFalse`
 - `requireNonEmpty`
 
-Example:
 
 ``` 
 public static Optional<Field> findField(Set<Field> fields,
@@ -125,6 +166,32 @@ var mergedEnglishText = MessageFormatter.bind(englishText,
 assertThat(mergedEnglishText).isEqualTo("Dear Doe, John");
 ```
 
+### `StopWatch` for timing different methods/operations
+
+```
+Duration duration = StopWatch.time(CheckedRunnable.safe(() -> someMethodCall()));
+```
+
+or operations/method that return a value
+
+```
+TimingResult<String> result = StopWatch.time(CheckedSupplier.safe(() -> return someMethodCall()));
+Duration duration = result.getDuration();
+String result = result.getResult();
+```
+### `Exceptions` 
+
+That support `sneakyThrow` (use with caution) as well as getting a stacktrace as a String.
+
+```
+try {
+    var duration = time(CheckedRunnable.safe(() -> methodPatternMatcher.invokeMethod(methodToInvoke, argument, invokeMethodsOn, resolvedInvokeMethodWithArgumentOfType)));
+} catch (CheckedExceptionRethrownException e) {
+    // Unwrap the real cause and rethrow this exception
+    sneakyThrow(e.getCause());
+}
+```
+
 ### High level Reflection package
 
 Writing reflection can be cumbersome and there are many checked exception to handle. The `Reflector` class, and it's
@@ -143,5 +210,41 @@ if (reflector.hasMatchingConstructorBasedOnArguments(arguments)) {
     return reflector.newInstance(arguments);
 } else {
     return reflector.invokeStatic("of", arguments);
+}
+```
+
+### Reflective `PatternMatchingMethodInvoker`
+
+Which supports creating your own reflective pattern matching method invokers.
+
+Example using `PatternMatchingMethodInvoker` together with the provided `SingleArgumentAnnotatedMethodPatternMatcher`:
+```
+public class OrderEventHandler {
+    private final PatternMatchingMethodInvoker patternMatchingInvoker;
+    
+    public OrderEventHandler() {
+      patternMatchingInvoker = new PatternMatchingMethodInvoker<>(testSubject,
+                                                                  new SingleArgumentAnnotatedMethodPatternMatcher<>(EventHandler.class,
+                                                                                                                    OrderEvent.class),
+                                                                  InvocationStrategy.InvokeMostSpecificTypeMatched);
+    }
+    
+    public void handle(OrderEvent orderEvent) {
+      // Find the single best matching method annotated with @EventHandler and invoke it based on the orderEvent argument
+      patternMatchingInvoker.invoke(orderCreated);
+    }
+
+    @EventHandler
+    private void orderEvent(OrderEvent orderEvent) {
+      // Fallback event handler that will be called for e.g. OrderAccepted event as there isn't a method that explicitly handle this event
+    }
+
+    @EventHandler
+    private void orderCreated(OrderCreated orderCreated) {
+    }
+
+    @EventHandler
+    private void orderCancelled(OrderCancelled orderCancelled) {
+    }
 }
 ```
