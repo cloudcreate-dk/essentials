@@ -188,6 +188,9 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-failsafe-plugin</artifactId>
+                    <configuration>
+                        <argLine>--add-opens java.base/java.lang=ALL-UNNAMED</argLine>
+                    </configuration>
                     <version>3.0.0-M5</version>
                 </plugin>
                 <plugin>
