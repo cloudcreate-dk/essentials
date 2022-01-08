@@ -1,5 +1,7 @@
 package dk.cloudcreate.essentials.shared.reflection.invocation;
 
+import dk.cloudcreate.essentials.shared.types.GenericType;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
@@ -29,6 +31,19 @@ public class SingleArgumentAnnotatedMethodPatternMatcher<ARGUMENT_COMMON_ROOT_TY
                                                        Class<ARGUMENT_COMMON_ROOT_TYPE> argumentCommonRootType) {
         this.matchOnMethodsAnnotatedWith = requireNonNull(matchOnMethodsAnnotatedWith, "You must provide an Annotation that invokable methods are annotated with");
         this.argumentCommonRootType = requireNonNull(argumentCommonRootType, "You must provide an argumentCommonRootType value");
+    }
+
+    /**
+     * Create a new strategy that matches methods annotated with <code>matchOnMethodsAnnotatedWith</code>
+     * and have a single method argument that is the same type or a sub-type of the <code>ARGUMENT_COMMON_ROOT_TYPE</code>
+     *
+     * @param matchOnMethodsAnnotatedWith the annotation that invokable methods are annotated with
+     * @param argumentCommonRootType      the base type for the single method argument
+     */
+    public SingleArgumentAnnotatedMethodPatternMatcher(Class<? extends Annotation> matchOnMethodsAnnotatedWith,
+                                                       GenericType<ARGUMENT_COMMON_ROOT_TYPE> argumentCommonRootType) {
+        this.matchOnMethodsAnnotatedWith = requireNonNull(matchOnMethodsAnnotatedWith, "You must provide an Annotation that invokable methods are annotated with");
+        this.argumentCommonRootType = requireNonNull(argumentCommonRootType, "You must provide an argumentCommonRootType value").getType();
     }
 
     @Override

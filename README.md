@@ -28,8 +28,10 @@ This library contains the smallest set of supporting building blocks needed for 
       - `CheckedFunction`
       - `CheckedBiFunction`
       - `CheckedTripleFunction`
-- **FailFast** argument validation (Objects.requireNonNull replacement)
+- `FailFast` argument validation (Objects.requireNonNull replacement)
     - E.g. `FailFast.requireNonBlank(fieldName, "You must supply a fieldName");`
+- `GenericType`
+    - With `GenericType` you can specify and capture parameterized type information: `var genericType = new GenericType<List<Money>>(){};`
 - `StopWatch` for timing different methods/operations
 - `Exceptions` that allow `sneakyThrow` and getting a stacktrace as a String
 - SLF4J compatible **Message formatter**
