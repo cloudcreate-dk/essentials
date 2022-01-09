@@ -25,6 +25,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -33,8 +34,9 @@ class EssentialTypesJacksonModuleTest {
 
     @Test
     void test_serialization_and_deserialization() throws IOException {
-        var amount = Amount.of("123.45");
-        var percentage   = Percentage.from("30%");
+        var amount     = Amount.of("123.45");
+        var percentage = Percentage.from("30%");
+        var orderLineProductId     = ProductId.random();
         var testSubject = new SerializationTestSubject(CustomerId.random(),
                                                        OrderId.random(),
                                                        ProductId.random(),
@@ -44,6 +46,9 @@ class EssentialTypesJacksonModuleTest {
                                                        CurrencyCode.DKK,
                                                        CountryCode.of("DK"),
                                                        EmailAddress.of("john@nonexistingdomain.com"),
+                                                       Map.of(orderLineProductId, Quantity.of(10),
+                                                              ProductId.random(), Quantity.of(5),
+                                                              ProductId.random(), Quantity.of(1)),
                                                        Money.of(amount.add(percentage.of(amount)), CurrencyCode.DKK));
 
         var serialized = objectMapper.writeValueAsString(testSubject);
@@ -62,6 +67,7 @@ class EssentialTypesJacksonModuleTest {
         assertThat(deserializedSubject.getTotalPrice()).isInstanceOf(Money.class);
         assertThat(deserializedSubject.getTotalPrice().getAmount()).isInstanceOf(Amount.class);
         assertThat((CharSequence) deserializedSubject.getTotalPrice().getCurrency()).isInstanceOf(CurrencyCode.class);
+        assertThat(deserializedSubject.getOrderLines().get(orderLineProductId)).isEqualTo(testSubject.getOrderLines().get(orderLineProductId));
 
         assertThat(deserializedSubject).isEqualTo(testSubject);
     }

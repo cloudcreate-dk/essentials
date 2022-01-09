@@ -14,17 +14,20 @@
  * limitations under the License.
  */
 
-package dk.cloudcreate.essentials.types;
+package dk.cloudcreate.essentials.types.spring.web.model;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.*;
+import dk.cloudcreate.essentials.types.*;
 
 import java.util.*;
 
-public class SerializationTestSubject {
-    private CustomerId customerId;
-    private OrderId    orderId;
-    private ProductId  productId;
-    private AccountId  accountId;
+public class Order {
+    public OrderId                  id;
+    public CustomerId               customerId;
+    public AccountId                accountId;
+    @JsonDeserialize(keyUsing = ProductIdKeyDeserializer.class)
+    public Map<ProductId, Quantity> orderLines;
+
     private Amount     amount;
     private Percentage percentage;
 
@@ -32,36 +35,55 @@ public class SerializationTestSubject {
     private CountryCode  country;
     private EmailAddress email;
 
-    @JsonDeserialize(keyUsing = ProductIdKeyDeserializer.class)
-    public Map<ProductId, Quantity> orderLines;
-
     private Money totalPrice;
 
-    public SerializationTestSubject(CustomerId customerId,
-                                    OrderId orderId,
-                                    ProductId productId,
-                                    AccountId accountId,
-                                    Amount amount,
-                                    Percentage percentage,
-                                    CurrencyCode currency,
-                                    CountryCode country,
-                                    EmailAddress email,
-                                    Map<ProductId, Quantity> orderLines,
-                                    Money totalPrice) {
+    public Order() {
+    }
+
+    public Order(OrderId id,
+                 CustomerId customerId,
+                 AccountId accountId,
+                 Map<ProductId, Quantity> orderLines,
+                 Amount amount,
+                 Percentage percentage,
+                 CurrencyCode currency,
+                 CountryCode country,
+                 EmailAddress email,
+                 Money totalPrice) {
+        this.id = id;
         this.customerId = customerId;
-        this.orderId = orderId;
-        this.productId = productId;
         this.accountId = accountId;
+        this.orderLines = orderLines;
         this.amount = amount;
         this.percentage = percentage;
         this.currency = currency;
         this.country = country;
         this.email = email;
-        this.orderLines = orderLines;
         this.totalPrice = totalPrice;
     }
 
-    public SerializationTestSubject() {
+    public Order(CustomerId customerId,
+                 AccountId accountId,
+                 Map<ProductId, Quantity> orderLines,
+                 Amount amount,
+                 Percentage percentage,
+                 CurrencyCode currency,
+                 CountryCode country,
+                 EmailAddress email,
+                 Money totalPrice) {
+        this.customerId = customerId;
+        this.accountId = accountId;
+        this.orderLines = orderLines;
+        this.amount = amount;
+        this.percentage = percentage;
+        this.currency = currency;
+        this.country = country;
+        this.email = email;
+        this.totalPrice = totalPrice;
+    }
+
+    public OrderId getId() {
+        return id;
     }
 
     public CustomerId getCustomerId() {
@@ -72,28 +94,20 @@ public class SerializationTestSubject {
         this.customerId = customerId;
     }
 
-    public OrderId getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(OrderId orderId) {
-        this.orderId = orderId;
-    }
-
-    public ProductId getProductId() {
-        return productId;
-    }
-
-    public void setProductId(ProductId productId) {
-        this.productId = productId;
-    }
-
     public AccountId getAccountId() {
         return accountId;
     }
 
     public void setAccountId(AccountId accountId) {
         this.accountId = accountId;
+    }
+
+    public Map<ProductId, Quantity> getOrderLines() {
+        return orderLines;
+    }
+
+    public void setOrderLines(Map<ProductId, Quantity> orderLines) {
+        this.orderLines = orderLines;
     }
 
     public Amount getAmount() {
@@ -144,24 +158,18 @@ public class SerializationTestSubject {
         this.totalPrice = totalPrice;
     }
 
-    public Map<ProductId, Quantity> getOrderLines() {
-        return orderLines;
-    }
-
-    public void setOrderLines(Map<ProductId, Quantity> orderLines) {
-        this.orderLines = orderLines;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        SerializationTestSubject that = (SerializationTestSubject) o;
-        return Objects.equals(customerId, that.customerId) && Objects.equals(orderId, that.orderId) && Objects.equals(productId, that.productId) && Objects.equals(accountId, that.accountId) && Objects.equals(amount, that.amount) && Objects.equals(percentage, that.percentage) && Objects.equals(currency, that.currency) && Objects.equals(country, that.country) && Objects.equals(email, that.email) && Objects.equals(orderLines, that.orderLines) && Objects.equals(totalPrice, that.totalPrice);
+        Order order = (Order) o;
+        return Objects.equals(id, order.id) && Objects.equals(customerId, order.customerId) && Objects.equals(accountId, order.accountId) &&
+                Objects.equals(orderLines, order.orderLines) && Objects.equals(amount, order.amount) && Objects.equals(percentage, order.percentage) &&
+                Objects.equals(currency, order.currency) && Objects.equals(country, order.country) && Objects.equals(email, order.email) && Objects.equals(totalPrice, order.totalPrice);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(customerId, orderId, productId, accountId, amount, percentage, currency, country, email, orderLines, totalPrice);
+        return Objects.hash(id, customerId, accountId, orderLines, amount, percentage, currency, country, email, totalPrice);
     }
 }
