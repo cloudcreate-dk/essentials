@@ -34,3 +34,28 @@ It also supports registering additional Jackson modules:
 ```
 ObjectMapper objectMapper = EssentialTypesJacksonModule.createObjectMapper(new Jdk8Module(), new JavaTimeModule());
 ```
+
+### Jackson Map key deserialization
+Serialization of `SingleValueType`'s works automatically for `Map` key's and value's, but to deserialize a `Map` you need to specify a `KeyDeserializer`.
+
+Luckily these are easy to create:
+```
+public class ProductIdKeyDeserializer extends KeyDeserializer {
+    @Override
+    public Object deserializeKey(String key, DeserializationContext ctxt) {
+        return ProductId.of(key);
+    }
+}
+```
+
+with the `ProductIdKeyDeserializer` we can now serialize `Map`'s that specify `ProductId` as keys:
+```
+public class Order {
+    public OrderId                  id;
+
+    @JsonDeserialize(keyUsing = ProductIdKeyDeserializer.class)
+    public Map<ProductId, Quantity> orderLines;
+    
+    ...
+}
+```

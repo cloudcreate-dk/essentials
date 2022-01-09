@@ -16,7 +16,9 @@
 
 package dk.cloudcreate.essentials.types;
 
-import java.util.Objects;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import java.util.*;
 
 public class SerializationTestSubject {
     private CustomerId customerId;
@@ -30,6 +32,9 @@ public class SerializationTestSubject {
     private CountryCode  country;
     private EmailAddress email;
 
+    @JsonDeserialize(keyUsing = ProductIdKeyDeserializer.class)
+    public Map<ProductId, Quantity> orderLines;
+
     private Money totalPrice;
 
     public SerializationTestSubject(CustomerId customerId,
@@ -41,6 +46,7 @@ public class SerializationTestSubject {
                                     CurrencyCode currency,
                                     CountryCode country,
                                     EmailAddress email,
+                                    Map<ProductId, Quantity> orderLines,
                                     Money totalPrice) {
         this.customerId = customerId;
         this.orderId = orderId;
@@ -51,6 +57,7 @@ public class SerializationTestSubject {
         this.currency = currency;
         this.country = country;
         this.email = email;
+        this.orderLines = orderLines;
         this.totalPrice = totalPrice;
     }
 
@@ -137,16 +144,24 @@ public class SerializationTestSubject {
         this.totalPrice = totalPrice;
     }
 
+    public Map<ProductId, Quantity> getOrderLines() {
+        return orderLines;
+    }
+
+    public void setOrderLines(Map<ProductId, Quantity> orderLines) {
+        this.orderLines = orderLines;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SerializationTestSubject that = (SerializationTestSubject) o;
-        return Objects.equals(customerId, that.customerId) && Objects.equals(orderId, that.orderId) && Objects.equals(productId, that.productId) && Objects.equals(accountId, that.accountId) && Objects.equals(amount, that.amount) && Objects.equals(percentage, that.percentage) && Objects.equals(currency, that.currency) && Objects.equals(country, that.country) && Objects.equals(email, that.email) && Objects.equals(totalPrice, that.totalPrice);
+        return Objects.equals(customerId, that.customerId) && Objects.equals(orderId, that.orderId) && Objects.equals(productId, that.productId) && Objects.equals(accountId, that.accountId) && Objects.equals(amount, that.amount) && Objects.equals(percentage, that.percentage) && Objects.equals(currency, that.currency) && Objects.equals(country, that.country) && Objects.equals(email, that.email) && Objects.equals(orderLines, that.orderLines) && Objects.equals(totalPrice, that.totalPrice);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(customerId, orderId, productId, accountId, amount, percentage, currency, country, email, totalPrice);
+        return Objects.hash(customerId, orderId, productId, accountId, amount, percentage, currency, country, email, orderLines, totalPrice);
     }
 }
