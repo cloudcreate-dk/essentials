@@ -17,6 +17,7 @@
 package dk.cloudcreate.essentials.shared.reflection.invocation;
 
 import dk.cloudcreate.essentials.shared.reflection.invocation.test_subjects.*;
+import dk.cloudcreate.essentials.shared.types.GenericType;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
@@ -59,7 +60,7 @@ class PatternMatchingMethodInvokerTest {
         var noMatchingMethodsHandler = new TestNoMatchingMethodsHandler();
         var patternMatchingInvoker = new PatternMatchingMethodInvoker<>(testSubject,
                                                                         new SingleArgumentAnnotatedMethodPatternMatcher<>(EventHandler.class,
-                                                                                                                          OrderEvent.class),
+                                                                                                                          new GenericType<OrderEvent>() {}),
                                                                         InvocationStrategy.InvokeMostSpecificTypeMatched,
                                                                         Optional.empty());
 

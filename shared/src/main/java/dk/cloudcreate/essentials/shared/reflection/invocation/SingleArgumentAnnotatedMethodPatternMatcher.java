@@ -10,7 +10,24 @@ import static dk.cloudcreate.essentials.shared.FailFast.requireNonNull;
 /**
  * A strategy that matches methods annotated with <code>matchOnMethodsAnnotatedWith</code>
  * and have a single method argument that is the same type or a sub-type of the <code>ARGUMENT_COMMON_ROOT_TYPE</code>
+ * <br>
+ * <br>
+ * Example using parameterized types:
+ * <pre>{@code
+ * var patternMatchingInvoker = new PatternMatchingMethodInvoker<>(invokeMethodsOn,
+ *                                                                 new SingleArgumentAnnotatedMethodPatternMatcher<>(EventHandler.class,
+ *                                                                                                                   new GenericType<Event<OrderId>>() {}),
+ *                                                                 InvocationStrategy.InvokeMostSpecificTypeMatched);
+ * }</pre>
  *
+ * Example using non-parameterized types:
+ * <pre>{@code
+ * var patternMatchingInvoker = new PatternMatchingMethodInvoker<>(invokeMethodsOn,
+ *                                                                 new SingleArgumentAnnotatedMethodPatternMatcher<>(EventHandler.class,
+ *                                                                                                                   OrderEvent.class,
+ *                                                                 InvocationStrategy.InvokeMostSpecificTypeMatched);
+ * }</pre>
+
  * @param <ARGUMENT_COMMON_ROOT_TYPE> The method argument common root type (i.e. a common superclass or common interface) for the argument-type that we're performing pattern matching on. <br>
  *                                    If there isn't a common root type, then you can specify {@link Object} instead<p>
  *                                    Example: Within a single class we have placed a set methods that can handle <code>OrderEvent</code>'s, such as <code>OrderCreated, OrderShipped, OrderAccepted</code>, etc.<br>

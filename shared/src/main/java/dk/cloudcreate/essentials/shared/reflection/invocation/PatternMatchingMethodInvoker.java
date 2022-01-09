@@ -101,12 +101,14 @@ import static dk.cloudcreate.essentials.shared.time.StopWatch.time;
  *                                                                 InvocationStrategy.InvokeMostSpecificTypeMatched,
  *                                                                 Optional.empty());
  * }</pre>
- * and you want {@link PatternMatchingMethodInvoker} logging then you should set the logging level for <code>dk.cloudcreate.handlers.OrderEventsHandler</code> to <code>TRACE</code>
+ * and you want {@link PatternMatchingMethodInvoker} logging then you should set the logging level for <code>dk.cloudcreate.handlers.OrderEventsHandler</code> to <code>TRACE</code><br>
+ * <br>
  *
  * @param <ARGUMENT_COMMON_ROOT_TYPE> The method argument common root type (i.e. a common superclass or common interface) for the argument-type that we're performing pattern matching on. <br>
  *                                    If there isn't a common root type, then you can specify {@link Object} instead<p>
  *                                    Example: Within a single class we have placed a set methods that can handle <code>OrderEvent</code>'s, such as <code>OrderCreated, OrderShipped, OrderAccepted</code>, etc.<br>
  *                                    In this case <code>OrderEvent</code> will be our <code>ARGUMENT_ROOT_TYPE</code> as it forms the root of the type hierarchy.
+ * @see SingleArgumentAnnotatedMethodPatternMatcher
  */
 public final class PatternMatchingMethodInvoker<ARGUMENT_COMMON_ROOT_TYPE> {
     private final Logger                                          log;
