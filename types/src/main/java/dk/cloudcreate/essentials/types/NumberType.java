@@ -19,6 +19,7 @@ package dk.cloudcreate.essentials.types;
 import java.math.*;
 
 import static dk.cloudcreate.essentials.shared.FailFast.requireNonNull;
+import static dk.cloudcreate.essentials.shared.MessageFormatter.msg;
 
 /**
  * Base class for all {@link SingleValueType}'s that encapsulate {@link Number}.<br>
@@ -87,6 +88,41 @@ public abstract class NumberType<NUMBER_TYPE extends Number, CONCRETE_TYPE exten
     public NumberType(NUMBER_TYPE value) {
         requireNonNull(value, "You must provide a value");
         this.value = value;
+    }
+
+    /**
+     * Reverse lookup - returns which {@link Number} type a given {@link NumberType} supports
+     * @param numberType the {@link NumberType} class
+     * @return {@link Number} type the specified {@link NumberType} supports
+     */
+    @SuppressWarnings("rawtypes")
+    public static Class<? extends Number> resolveNumberClass(Class<?> numberType) {
+        requireNonNull(numberType, "No numberType provided");
+        if (BigDecimalType.class.isAssignableFrom(numberType)) {
+            return BigDecimal.class;
+        }
+        if (BigIntegerType.class.isAssignableFrom(numberType)) {
+            return BigInteger.class;
+        }
+        if (ByteType.class.isAssignableFrom(numberType)) {
+            return Byte.class;
+        }
+        if (DoubleType.class.isAssignableFrom(numberType)) {
+            return Double.class;
+        }
+        if (FloatType.class.isAssignableFrom(numberType)) {
+            return Float.class;
+        }
+        if (IntegerType.class.isAssignableFrom(numberType)) {
+            return Integer.class;
+        }
+        if (LongType.class.isAssignableFrom(numberType)) {
+            return Long.class;
+        }
+        if (ShortType.class.isAssignableFrom(numberType)) {
+            return Short.class;
+        }
+        throw new IllegalArgumentException(msg("Unsupported NumberType {}", numberType));
     }
 
     @Override
