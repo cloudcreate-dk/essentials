@@ -184,6 +184,36 @@ To use `Types-SpringData-JPA` just add the following Maven dependency:
 </dependency>
 ```
 
+## Types Spring Web
+
+This library focuses purely on providing Spring WebMvc/WebFlux Converter support for the **types** defined in the
+Essentials `types` library.
+
+```
+<dependency>
+    <groupId>dk.cloudcreate.essentials</groupId>
+    <artifactId>types-spring-web</artifactId>
+    <version>0.1.1</version>
+</dependency>
+```
+
+Using this library will allow you to deserialize `@PathVariable` `@RequestParam` method parameters of type `SingleValueType` for **WebMvc**
+```
+@PostMapping("/order/for-customer/{customerId}/update/total-price")
+public ResponseEntity<Order> updatePrice(@PathVariable CustomerId customerId,
+                                         @RequestParam("price") Amount price) {
+    ...
+}
+```
+and for **WebFlux**
+```
+@PostMapping("/reactive-order/for-customer/{customerId}/update/total-price")
+public Mono<Order> updatePrice(@PathVariable CustomerId customerId,
+                               @RequestParam("price") Amount price) {
+    ...
+}
+```
+
 ## Types JDBI (v3)
 
 This library focuses purely on providing JDBI **argument** support for the **types** defined in the Essentials `types`
