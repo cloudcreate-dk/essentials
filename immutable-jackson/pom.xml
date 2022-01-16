@@ -30,7 +30,7 @@
 
     <artifactId>immutable-jackson</artifactId>
     <packaging>jar</packaging>
-    <name>immutable-jackson</name>
+    <name>essentials-immutable-jackson</name>
 
     <properties>
         <jackson.version>2.13.1</jackson.version>
