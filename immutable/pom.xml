@@ -19,26 +19,32 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <groupId>dk.cloudcreate.essentials</groupId>
         <artifactId>parent</artifactId>
         <version>${revision}</version>
     </parent>
     <description>
-        This library contains the smallest set of supporting building blocks needed for other Essentials libraries, such as:
-        Tuples, Collections, Functional Interfaces, FailFast, SLF4J compatible Message formatter, High level Reflection API
+        This library focuses purely on providing utility classes that make it easier to create immutable types/classes without
+        having to use code generators like Lombok.
     </description>
 
-    <artifactId>shared</artifactId>
+    <artifactId>immutable</artifactId>
     <packaging>jar</packaging>
-    <name>essentials-shared</name>
+    <name>essentials-immutable</name>
 
     <dependencies>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.7.33</version>
-            <scope>provided</scope>
+            <groupId>dk.cloudcreate.essentials</groupId>
+            <artifactId>shared</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>dk.cloudcreate.essentials</groupId>
+            <artifactId>types</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -51,7 +57,7 @@
                     <configuration>
                         <archive>
                             <manifestEntries>
-                                <Automatic-Module-Name>dk.cloudcreate.essentials.shared</Automatic-Module-Name>
+                                <Automatic-Module-Name>dk.cloudcreate.essentials.immutable</Automatic-Module-Name>
                             </manifestEntries>
                         </archive>
                     </configuration>

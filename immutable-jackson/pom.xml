@@ -25,29 +25,59 @@
         <version>${revision}</version>
     </parent>
     <description>
-        This library focuses purely on providing JDBI argument support for the types defined in the Essentials types
-        library.
+        This library focuses purely on providing https://github.com/FasterXML/jackson deserialization support for deserializing immutable objects
     </description>
 
-    <artifactId>types-jdbi</artifactId>
-    <name>essentials-types-jdbi</name>
+    <artifactId>immutable-jackson</artifactId>
+    <packaging>jar</packaging>
+    <name>essentials-immutable-jackson</name>
+
+    <properties>
+        <jackson.version>2.13.1</jackson.version>
+    </properties>
 
     <dependencies>
         <dependency>
             <groupId>dk.cloudcreate.essentials</groupId>
-            <artifactId>types</artifactId>
+            <artifactId>shared</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.jdbi</groupId>
-            <artifactId>jdbi3-core</artifactId>
-            <version>3.27.0</version>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>2.0.206</version>
+            <groupId>org.objenesis</groupId>
+            <artifactId>objenesis</artifactId>
+            <version>3.2</version>
+            <scope>provided</scope>
+        </dependency>
+
+
+        <dependency>
+            <groupId>dk.cloudcreate.essentials</groupId>
+            <artifactId>immutable</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>dk.cloudcreate.essentials</groupId>
+            <artifactId>types-jackson</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jdk8</artifactId>
+            <version>${jackson.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>${jackson.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -61,7 +91,7 @@
                     <configuration>
                         <archive>
                             <manifestEntries>
-                                <Automatic-Module-Name>dk.cloudcreate.essentials.types.jdbi</Automatic-Module-Name>
+                                <Automatic-Module-Name>dk.cloudcreate.essentials.immutable.jackson</Automatic-Module-Name>
                             </manifestEntries>
                         </archive>
                     </configuration>

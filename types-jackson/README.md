@@ -27,16 +27,16 @@ objectMapper.registerModule(new EssentialTypesJacksonModule());
 ```
 
 Alternatively you can use the `EssentialTypesJacksonModule.createObjectMapper()` static method that creates a new
-`ObjectMapper` with the `EssentialTypesJacksonModule` registered and with an opinionated default configuration.
+`ObjectMapper` with the `EssentialTypesJacksonModule` registered combined with an opinionated default configuration.
 
 It also supports registering additional Jackson modules:
 
 ```
-ObjectMapper objectMapper = EssentialTypesJacksonModule.createObjectMapper(new Jdk8Module(), new JavaTimeModule());
+ObjectMapper objectMapper = EssentialTypesJacksonModule.createObjectMapper(new EssentialsImmutableJacksonModule(), new Jdk8Module(), new JavaTimeModule());
 ```
 
 ### Jackson Map key deserialization
-Serialization of `SingleValueType`'s works automatically for `Map` key's and value's, but to deserialize a `Map` you need to specify a `KeyDeserializer`.
+Serialization of `SingleValueType`'s works automatically for `Map` key's and value's, but to deserialize a `Map` that has a Key of type `SingleValueType`, then you need to specify a `KeyDeserializer`.
 
 Luckily these are easy to create:
 ```
