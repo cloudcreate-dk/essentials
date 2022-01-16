@@ -87,6 +87,46 @@ To use `Types` just add the following Maven dependency:
 </dependency>
 ```
 
+## Immutable
+
+This library focuses purely on providing utility classes that make it easier to create **simple** immutable types/classes, that
+doesn't rely on code generators.
+
+The base type `ImmutableValueObject` supports creating immutable (i.e. an object where its values cannot change after object instantiation/creation) **Value Object**  
+The core feature set of `ImmutableValueObject` is that it provides default implementations for `toString`, `equals` and `hashCode`, but you're always free to override this and provide your own
+implementation.
+
+Example:
+```
+public class ImmutableOrder extends ImmutableValueObject {
+    public final OrderId                  orderId;
+    public final CustomerId               customerId;
+    @Exclude.EqualsAndHashCode
+    public final Percentage               percentage;
+    @Exclude.ToString
+    public final Money                    totalPrice;
+
+    public ImmutableOrder(OrderId orderId,
+                          CustomerId customerId,
+                          Percentage percentage,
+                          EmailAddress email,
+                          Money totalPrice) {
+        this.orderId = orderId;
+        this.customerId = customerId;
+        this.percentage = percentage;
+        this.totalPrice = totalPrice;
+    }
+}
+```
+
+To use `immutable` just add the following Maven dependency:
+```
+<dependency>
+    <groupId>dk.cloudcreate.essentials</groupId>
+    <artifactId>immutable</artifactId>
+    <version>0.1.1</version>
+</dependency>
+```
 
 ## Types Jackson
 
@@ -104,6 +144,52 @@ To use `Types-Jackson` just add the following Maven dependency:
 <dependency>
     <groupId>dk.cloudcreate.essentials</groupId>
     <artifactId>types-jackson</artifactId>
+    <version>0.1.1</version>
+</dependency>
+```
+
+## Immutable Jackson
+This library focuses purely on providing https://github.com/FasterXML/jackson deserialization support for immutable classes or other classes that don't have a suitable creator
+(constructor, or no-arg static factory method, etc.).  
+This is very useful for when you're using `Record`'s (in Java 14+) or other types supporting immutable objects, as it allows Jackson to create an object instance without requiring
+a matching constructing.
+
+Using this module means that you can deserialize an immutable class such as this one that only consists of `public final` fields and a single constructor that doesn't allow initialization of
+all fields values during deserialization.
+``` 
+public final class ImmutableOrder {
+    public final OrderId       orderId;
+    public final CustomerId    customerId;
+    public final Money         totalPrice;
+    public final LocalDateTime orderedTimestamp;
+
+    public ImmutableOrder(OrderId orderId,
+                          CustomerId customerId,
+                          Money totalPrice) {
+        this.orderId = orderId;
+        this.customerId = customerId;
+        this.totalPrice = totalPrice;
+        this.orderedTimestamp = LocalDateTime.now();
+    }
+}
+```
+
+### Configuration
+
+All you need to do is to add the `dk.cloudcreate.essentials.jackson.immutable.EssentialsImmutableJacksonModule` to your `ObjectMapper`
+configuration.
+
+Example:
+
+```
+objectMapper.registerModule(new EssentialsImmutableJacksonModule());
+```
+
+To use `Immutable-Jackson` just add the following Maven dependency:
+```
+<dependency>
+    <groupId>dk.cloudcreate.essentials</groupId>
+    <artifactId>immutable-jackson</artifactId>
     <version>0.1.1</version>
 </dependency>
 ```

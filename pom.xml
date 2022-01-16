@@ -76,6 +76,8 @@
         <module>types-jdbi</module>
         <module>types-avro</module>
         <module>types-spring-web</module>
+        <module>immutable</module>
+        <module>immutable-jackson</module>
     </modules>
 
     <dependencyManagement>
