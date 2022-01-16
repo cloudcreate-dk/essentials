@@ -52,9 +52,7 @@ configuration.
 Example:
 
 ```
-
 objectMapper.registerModule(new EssentialsImmutableJacksonModule());
-
 ```
 
 Alternatively you can use the `EssentialsImmutableJacksonModule.createObjectMapper(Module...)` static method that creates a new
@@ -63,7 +61,5 @@ Alternatively you can use the `EssentialsImmutableJacksonModule.createObjectMapp
 It also supports registering additional Jackson modules:
 
 ```
-
 ObjectMapper objectMapper = EssentialsImmutableJacksonModule.createObjectMapper(new EssentialTypesJacksonModule(), new Jdk8Module(), new JavaTimeModule())
-
 ```
