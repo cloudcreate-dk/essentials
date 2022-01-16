@@ -14,13 +14,15 @@
  * limitations under the License.
  */
 
-package dk.cloudcreate.essentials.types;
+package dk.cloudcreate.essentials.jackson;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import dk.cloudcreate.essentials.jackson.types.EssentialTypesJacksonModule;
+import dk.cloudcreate.essentials.jackson.model.*;
+import dk.cloudcreate.essentials.jackson.types.*;
+import dk.cloudcreate.essentials.types.*;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;

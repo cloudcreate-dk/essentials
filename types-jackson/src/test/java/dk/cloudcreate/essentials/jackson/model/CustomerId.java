@@ -14,26 +14,27 @@
  * limitations under the License.
  */
 
-package dk.cloudcreate.essentials.types;
+package dk.cloudcreate.essentials.jackson.model;
 
-import java.util.Random;
+import dk.cloudcreate.essentials.types.*;
 
-public class OrderId extends LongType<OrderId> implements Identifier {
-    private static Random RANDOM_ID_GENERATOR = new Random();
+import java.util.UUID;
 
-    public OrderId(Long value) {
+public class CustomerId extends CharSequenceType<CustomerId> implements Identifier {
+    public CustomerId(CharSequence value) {
         super(value);
     }
 
-    public static OrderId of(long value) {
-        return new OrderId(value);
+    public static CustomerId of(CharSequence value) {
+        return new CustomerId(value);
     }
 
-    public static OrderId ofNullable(Long value) {
-        return value != null ? new OrderId(value) : null;
+    public static CustomerId ofNullable(CharSequence value) {
+        return value != null ? new CustomerId(value) : null;
     }
 
-    public static OrderId random() {
-        return new OrderId(RANDOM_ID_GENERATOR.nextLong());
+    public static CustomerId random() {
+        // You can use any random Id generator like e.g. https://github.com/codahale/time-id
+        return new CustomerId(UUID.randomUUID().toString());
     }
 }

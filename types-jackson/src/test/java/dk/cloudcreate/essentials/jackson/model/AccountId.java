@@ -14,19 +14,28 @@
  * limitations under the License.
  */
 
-package dk.cloudcreate.essentials.types;
+package dk.cloudcreate.essentials.jackson.model;
 
-public class Quantity extends IntegerType<Quantity> {
+import dk.cloudcreate.essentials.types.*;
 
-    public Quantity(Integer value) {
+import java.util.Random;
+
+public class AccountId extends LongType<AccountId> implements Identifier {
+    private static Random RANDOM_ID_GENERATOR = new Random();
+
+    public AccountId(Long value) {
         super(value);
     }
 
-    public static Quantity of(int value) {
-        return new Quantity(value);
+    public static AccountId of(long value) {
+        return new AccountId(value);
     }
 
-    public static Quantity ofNullable(Integer value) {
-        return value != null ? new Quantity(value) : null;
+    public static AccountId ofNullable(Long value) {
+        return value != null ? new AccountId(value) : null;
+    }
+
+    public static AccountId random() {
+        return new AccountId(RANDOM_ID_GENERATOR.nextLong());
     }
 }

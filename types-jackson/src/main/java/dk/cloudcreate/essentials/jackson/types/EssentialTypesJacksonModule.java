@@ -46,9 +46,9 @@ public final class EssentialTypesJacksonModule extends SimpleModule {
     }
 
     /**
-     * Convenience method for creating a new {@link ObjectMapper} with our {@link EssentialTypesJacksonModule} added and sensible defaults like explicit JSON mapping, not failing on unknown properties or empty beans, propagation
-     * of transient markers, using FIELDS for serialization (i.e. disabling auto detection of getters and setters and instead using field and allowing ANY visibility
-     * for fields and constructors and none for getters/setters)
+     * Convenience method for creating a new {@link ObjectMapper} with our {@link EssentialTypesJacksonModule} added and sensible defaults like explicit JSON mapping,
+     * not failing on unknown properties or empty beans, propagation of transient markers, using FIELDS for serialization (i.e. disabling auto detection of getters
+     * and setters and instead using field and allowing ANY visibility for fields and constructors and none for getters/setters)
      *
      * @param additionalModules Additional modules that should be added to the {@link ObjectMapper} instance created
      * @return new {@link ObjectMapper} instance configured with sensible defaults and the {@link EssentialTypesJacksonModule} added

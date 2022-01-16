@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-package dk.cloudcreate.essentials.types;
+package dk.cloudcreate.essentials.jackson.model;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import dk.cloudcreate.essentials.types.*;
 
 import java.util.*;
 

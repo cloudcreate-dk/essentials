@@ -14,15 +14,21 @@
  * limitations under the License.
  */
 
-package dk.cloudcreate.essentials.types;
+package dk.cloudcreate.essentials.jackson.model;
 
-import com.fasterxml.jackson.databind.*;
+import dk.cloudcreate.essentials.types.IntegerType;
 
-import java.io.IOException;
+public class Quantity extends IntegerType<Quantity> {
 
-public class ProductIdKeyDeserializer extends KeyDeserializer {
-    @Override
-    public Object deserializeKey(String key, DeserializationContext ctxt) {
-        return ProductId.of(key);
+    public Quantity(Integer value) {
+        super(value);
+    }
+
+    public static Quantity of(int value) {
+        return new Quantity(value);
+    }
+
+    public static Quantity ofNullable(Integer value) {
+        return value != null ? new Quantity(value) : null;
     }
 }

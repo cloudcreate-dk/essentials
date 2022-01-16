@@ -14,26 +14,13 @@
  * limitations under the License.
  */
 
-package dk.cloudcreate.essentials.types;
+package dk.cloudcreate.essentials.jackson.model;
 
-import java.util.Random;
+import com.fasterxml.jackson.databind.*;
 
-public class AccountId extends LongType<AccountId> implements Identifier {
-    private static Random RANDOM_ID_GENERATOR = new Random();
-
-    public AccountId(Long value) {
-        super(value);
-    }
-
-    public static AccountId of(long value) {
-        return new AccountId(value);
-    }
-
-    public static AccountId ofNullable(Long value) {
-        return value != null ? new AccountId(value) : null;
-    }
-
-    public static AccountId random() {
-        return new AccountId(RANDOM_ID_GENERATOR.nextLong());
+public class ProductIdKeyDeserializer extends KeyDeserializer {
+    @Override
+    public Object deserializeKey(String key, DeserializationContext ctxt) {
+        return ProductId.of(key);
     }
 }
