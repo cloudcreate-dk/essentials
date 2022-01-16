@@ -9,7 +9,8 @@ many of the most popular libraries and frameworks such as Jackson, Spring Boot, 
 
 ## Types-Spring-Web
 
-This library focuses purely on providing Spring WebMvc/WebFlux Converter support for the **types** defined in the
+This library focuses purely on providing [Spring](https://spring.io/projects/spring-framework) [WebMvc/MVC](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#spring-web)
+and [WebFlux](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#spring-webflux) `Converter` support for the **types** defined in the
 Essentials `types` library.
 
 **NOTE:**

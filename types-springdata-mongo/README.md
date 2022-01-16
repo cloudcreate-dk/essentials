@@ -9,7 +9,7 @@ many of the most popular libraries and frameworks such as Jackson, Spring Boot, 
 
 ## Types-SpringData-Mongo
 
-This library focuses purely on providing Spring Data Mongo persistence support for the **types** defined in the
+This library focuses purely on providing [Spring Data MongoDB](https://spring.io/projects/spring-data-mongodb) persistence support for the **types** defined in the
 Essentials `types` library.
 
 **NOTE:**
