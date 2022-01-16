@@ -14,28 +14,28 @@
  * limitations under the License.
  */
 
-package dk.cloudcreate.essentials.types.jdbi.types;
+package dk.cloudcreate.essentials.types.jdbi.model;
 
 import dk.cloudcreate.essentials.types.*;
 
 import java.util.Random;
 
-public class OrderId extends LongType<OrderId> implements Identifier {
+public class AccountId extends LongType<AccountId> implements Identifier {
     private static Random RANDOM_ID_GENERATOR = new Random();
 
-    public OrderId(Long value) {
+    public AccountId(Long value) {
         super(value);
     }
 
-    public static OrderId of(long value) {
-        return new OrderId(value);
+    public static AccountId of(long value) {
+        return new AccountId(value);
     }
 
-    public static OrderId ofNullable(Long value) {
-        return value != null ? new OrderId(value) : null;
+    public static AccountId ofNullable(Long value) {
+        return value != null ? new AccountId(value) : null;
     }
 
-    public static OrderId random() {
-        return new OrderId(Math.abs(RANDOM_ID_GENERATOR.nextLong()));
+    public static AccountId random() {
+        return new AccountId(Math.abs(RANDOM_ID_GENERATOR.nextLong()));
     }
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dk.cloudcreate.essentials.types.jdbi.types;
+package dk.cloudcreate.essentials.types.jdbi.model;
 
 import dk.cloudcreate.essentials.types.*;
 

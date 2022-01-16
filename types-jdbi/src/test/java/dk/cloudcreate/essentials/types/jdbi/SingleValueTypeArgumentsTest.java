@@ -17,11 +17,9 @@
 package dk.cloudcreate.essentials.types.jdbi;
 
 import dk.cloudcreate.essentials.types.*;
-import dk.cloudcreate.essentials.types.jdbi.types.*;
+import dk.cloudcreate.essentials.types.jdbi.model.*;
 import org.jdbi.v3.core.Jdbi;
 import org.junit.jupiter.api.Test;
-
-import java.math.BigDecimal;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

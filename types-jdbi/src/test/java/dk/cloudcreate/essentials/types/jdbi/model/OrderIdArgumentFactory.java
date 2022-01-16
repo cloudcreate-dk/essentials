@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-package dk.cloudcreate.essentials.types.jdbi.types;
+package dk.cloudcreate.essentials.types.jdbi.model;
 
-import dk.cloudcreate.essentials.types.jdbi.CharSequenceTypeArgumentFactory;
+import dk.cloudcreate.essentials.types.jdbi.LongTypeArgumentFactory;
 
-public class CustomerIdArgumentFactory extends CharSequenceTypeArgumentFactory<CustomerId> {
+public class OrderIdArgumentFactory extends LongTypeArgumentFactory<OrderId> {
+
 }

@@ -14,28 +14,27 @@
  * limitations under the License.
  */
 
-package dk.cloudcreate.essentials.types.jdbi.types;
+package dk.cloudcreate.essentials.types.jdbi.model;
 
 import dk.cloudcreate.essentials.types.*;
 
-import java.util.Random;
+import java.util.UUID;
 
-public class AccountId extends LongType<AccountId> implements Identifier {
-    private static Random RANDOM_ID_GENERATOR = new Random();
-
-    public AccountId(Long value) {
+public class ProductId extends CharSequenceType<ProductId> implements Identifier {
+    public ProductId(CharSequence value) {
         super(value);
     }
 
-    public static AccountId of(long value) {
-        return new AccountId(value);
+    public static ProductId of(CharSequence value) {
+        return new ProductId(value);
     }
 
-    public static AccountId ofNullable(Long value) {
-        return value != null ? new AccountId(value) : null;
+    public static ProductId ofNullable(CharSequence value) {
+        return value != null ? new ProductId(value) : null;
     }
 
-    public static AccountId random() {
-        return new AccountId(Math.abs(RANDOM_ID_GENERATOR.nextLong()));
+    public static ProductId random() {
+        // You can use any random Id generator like e.g. https://github.com/codahale/time-id
+        return new ProductId(UUID.randomUUID().toString());
     }
 }
