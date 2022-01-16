@@ -9,7 +9,7 @@ many of the most popular libraries and frameworks such as Jackson, Spring Boot, 
 
 ## Types-JDBI
 
-This library focuses purely on providing JDBI **argument** support for the **types** defined in the Essentials `types`
+This library focuses purely on providing [JDBI v3](https://jdbi.org) **argument** support for the **types** defined in the Essentials `types`
 library.
 
 **NOTE:**

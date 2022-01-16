@@ -7,6 +7,8 @@ The Essentials philosophy is to provide high level building blocks and coding co
 strongly typed code, which doesn't depend on other libraries or frameworks, but instead allows easy integrations with
 many of the most popular libraries and frameworks such as Jackson, Spring Boot, Spring Data, JPA, etc.
 
+![Essentials modules overview](Essentials.jpg)
+
 **NOTE:**
 **The libraries are WORK-IN-PROGRESS**
 
@@ -130,7 +132,7 @@ To use `immutable` just add the following Maven dependency:
 
 ## Types Jackson
 
-This library focuses purely on providing https://github.com/FasterXML/jackson serialization and deserialization support
+This library focuses purely on providing [Jackson (FasterXML)](https://github.com/FasterXML/jackson) serialization and deserialization support
 for the **types** defined in the Essentials `types` library.
 
 All you need to do is to add the `dk.cloudcreate.essentials.types.EssentialTypesJacksonModule` to your `ObjectMapper` configuration:
@@ -149,7 +151,7 @@ To use `Types-Jackson` just add the following Maven dependency:
 ```
 
 ## Immutable Jackson
-This library focuses purely on providing https://github.com/FasterXML/jackson deserialization support for immutable classes or other classes that don't have a suitable creator
+This library focuses purely on providing [Jackson (FasterXML)](https://github.com/FasterXML/jackson) deserialization support for immutable classes or other classes that don't have a suitable creator
 (constructor, or no-arg static factory method, etc.).  
 This is very useful for when you're using `Record`'s (in Java 14+) or other types supporting immutable objects, as it allows Jackson to create an object instance without requiring
 a matching constructing.
@@ -197,7 +199,7 @@ To use `Immutable-Jackson` just add the following Maven dependency:
 
 ## Types Spring Data Mongo
 
-This library focuses purely on providing Spring Data Mongo persistence support for the **types** defined in the
+This library focuses purely on providing [Spring Data MongoDB](https://spring.io/projects/spring-data-mongodb) persistence support for the **types** defined in the
 Essentials `types` library.
 
 All you need to do is to register the following Spring Beans to your Spring configuration:
@@ -240,7 +242,7 @@ To use `Types-SpringData-Mongo` just add the following Maven dependency:
 
 ## Types Spring Data JPA
 
-This library focuses purely on providing Spring Data JPA persistence support for the **types** defined in the
+This library focuses purely on providing [Spring Data JPA](https://spring.io/projects/spring-data-jpa) persistence support for the **types** defined in the
 Essentials `types` library. Example:
 
 ```
@@ -272,7 +274,8 @@ To use `Types-SpringData-JPA` just add the following Maven dependency:
 
 ## Types Spring Web
 
-This library focuses purely on providing Spring WebMvc/WebFlux Converter support for the **types** defined in the
+This library focuses purely on providing [Spring](https://spring.io/projects/spring-framework) [WebMvc/MVC](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#spring-web) 
+and [WebFlux](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#spring-webflux) `Converter` support for the **types** defined in the
 Essentials `types` library.
 
 ```
@@ -302,7 +305,7 @@ public Mono<Order> updatePrice(@PathVariable CustomerId customerId,
 
 ## Types JDBI (v3)
 
-This library focuses purely on providing JDBI **argument** support for the **types** defined in the Essentials `types`
+This library focuses purely on providing [JDBI v3](https://jdbi.org) **argument** support for the **types** defined in the Essentials `types`
 library.
 
 You need to register your own `ArgumentFactory` with the `Jdbi` or `Handle` instance:
@@ -354,7 +357,7 @@ To use `Types-JDBI` just add the following Maven dependency:
 ```
 
 ## Types Avro
-This library focuses purely on providing AVRO serialization and deserialization support for the **types** defined in the Essentials `types` library.
+This library focuses purely on providing [AVRO](https://avro.apache.org) serialization and deserialization support for the **types** defined in the Essentials `types` library.
 
 Some concrete `Types` such as `Amount`, `Percentage` and `CurrencyCode` come with supported our of the box.  
 This allows you to define Avro schema/IDL protocol and directly refer these logical-types in your Avro Schema/IDL protocol. 

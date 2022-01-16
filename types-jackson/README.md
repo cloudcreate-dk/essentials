@@ -9,7 +9,7 @@ many of the most popular libraries and frameworks such as Jackson, Spring Boot, 
 
 ## Types-Jackson
 
-This library focuses purely on providing https://github.com/FasterXML/jackson serialization and deserialization support
+This library focuses purely on providing [Jackson (FasterXML)](https://github.com/FasterXML/jackson) serialization and deserialization support
 for the **types** defined in the Essentials `types` library.
 
 **NOTE:**

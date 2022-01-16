@@ -9,7 +9,7 @@ many of the most popular libraries and frameworks such as Jackson, Spring Boot, 
 
 ## Types-SpringData-JPA
 
-This library focuses purely on providing Spring Data JPA persistence support for the **types** defined in the
+This library focuses purely on providing [Spring Data JPA](https://spring.io/projects/spring-data-jpa) persistence support for the **types** defined in the
 Essentials `types` library.
 
 **NOTE:**
