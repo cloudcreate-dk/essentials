@@ -34,7 +34,7 @@ public final class EssentialTypesJacksonModule extends SimpleModule {
      * Configure the Jackson Module
      */
     public EssentialTypesJacksonModule() {
-        super("Essential-Types");
+        super("Essentials-Types");
     }
 
     @Override
@@ -46,7 +46,7 @@ public final class EssentialTypesJacksonModule extends SimpleModule {
     }
 
     /**
-     * Convenience method for creating a new {@link ObjectMapper} with our {@link EssentialTypesJacksonModule} added and sensible defaults like explicit JSON mapping,
+     * Convenience method for creating a new {@link ObjectMapper} with our {@link EssentialTypesJacksonModule} added and opinionated defaults like explicit JSON mapping,
      * not failing on unknown properties or empty beans, propagation of transient markers, using FIELDS for serialization (i.e. disabling auto detection of getters
      * and setters and instead using field and allowing ANY visibility for fields and constructors and none for getters/setters)
      *
