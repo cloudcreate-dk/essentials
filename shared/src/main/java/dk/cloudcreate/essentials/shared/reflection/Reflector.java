@@ -28,7 +28,12 @@ import static dk.cloudcreate.essentials.shared.reflection.Parameters.*;
 
 /**
  * Caching Java Reflection helper<br>
- * Encapsulates {@link Constructors}, {@link Methods} and {@link Fields} while providing high-level method for invoking constructors, method and getting/setting fields
+ * Encapsulates {@link Constructors}, {@link Methods} and {@link Fields} while providing high-level method for invoking constructors, method and getting/setting fields<br>
+ * <br>
+ * Depending on the version of Java you're using you may need to explicitly add something like the following to your Java arguments to ensure
+ * that {@link Reflector} is allowed to perform Java reflection: <code>--add-opens java.base/java.lang=ALL-UNNAMED</code><br>
+ * See https://docs.oracle.com/en/java/javase/17/migrate/migrating-jdk-8-later-jdk-releases.html#GUID-12F945EB-71D6-46AF-8C3D-D354FD0B1781 for more information and to understand
+ * the implications of adding the <code>--add-opens</code> argument.
  *
  * @see Interfaces
  */
