@@ -74,7 +74,7 @@ import java.util.stream.Collectors;
  * <b>Immutability</b><br>
  * <br>
  * The default implementation of {@link #toString()} and {@link #hashCode()} relies upon the assumption that ALL non-transient instance fields are marked <b>final</b> to ensure that they cannot change after they have been assigned a value.<br>
- * To ensure that {@link #toString()} and {@link #hashCode()} calculation only happens once, the {@link ImmutableValueObject} will <b><u>cache</u></b> the output of first call {@link #toString()} and {@link #hashCode()}.
+ * To ensure that {@link #toString()} and {@link #hashCode()} calculation only happens once, the {@link ImmutableValueObject} will <b><u>cache</u></b> the output of the first call to {@link #toString()} and {@link #hashCode()}.
  * <p>
  * This also means that if a field isn't <b>final</b> or if the field type is a mutable type, such as {@link List}, {@link Map}, {@link Set}, etc. then you cannot reliably rely on the output of followup calls to {@link #toString()} and
  * {@link #hashCode()} as the fields used for calculation may have changed value.

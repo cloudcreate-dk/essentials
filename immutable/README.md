@@ -64,7 +64,7 @@ assertThat(thisOrder).isEqualTo(thatOrder);
 
 #### Immutability
 The default implementation of `toString` and `hashCode` relies upon the assumption that ALL *non-transient* instance fields are marked `final` to ensure that they cannot change after they have been assigned a value.  
-To ensure that `toString` and `hashCode` calculation only happens once, the `ImmutableValueObject` will **cache** the output of first call `toString` and `hashCode`.
+To ensure that `toString` and `hashCode` calculation only happens once, the `ImmutableValueObject` will **cache** the output of the first call to `toString` and `hashCode`.
 
 This also means that if a field isn't `final` or if the **field type** is a `mutable` type, such as `List`, `Map`, `Set`, etc. then you **cannot reliably rely** on the output of followup calls
 to `toString` or `hashCode` as the fields used for calculation may have changed value.
