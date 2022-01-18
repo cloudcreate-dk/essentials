@@ -65,6 +65,7 @@
         <revision>DEV-SNAPSHOT</revision>
 
         <junit-version>5.8.2</junit-version>
+        <slf4j-version>1.7.33</slf4j-version>
     </properties>
 
     <modules>
@@ -78,6 +79,7 @@
         <module>types-spring-web</module>
         <module>immutable</module>
         <module>immutable-jackson</module>
+        <module>reactive</module>
     </modules>
 
     <dependencyManagement>
@@ -117,7 +119,7 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.7.33</version>
+            <version>${slf4j-version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
