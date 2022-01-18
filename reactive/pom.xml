@@ -25,20 +25,36 @@
         <version>${revision}</version>
     </parent>
     <description>
-        This library contains the smallest set of supporting building blocks needed for other Essentials libraries, such as:
-        Tuples, Collections, Functional Interfaces, FailFast, SLF4J compatible Message formatter, High level Reflection API
+        This library contains the smallest set of supporting reactive building blocks needed for other Essentials libraries
     </description>
 
-    <artifactId>shared</artifactId>
+    <artifactId>reactive</artifactId>
     <packaging>jar</packaging>
-    <name>essentials-shared</name>
+    <name>essentials-reactive</name>
 
     <dependencies>
+        <dependency>
+            <groupId>dk.cloudcreate.essentials</groupId>
+            <artifactId>shared</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.projectreactor</groupId>
+            <artifactId>reactor-core</artifactId>
+            <version>3.4.14</version>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>${slf4j-version}</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.awaitility</groupId>
+            <artifactId>awaitility</artifactId>
+            <version>4.1.1</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -51,7 +67,7 @@
                     <configuration>
                         <archive>
                             <manifestEntries>
-                                <Automatic-Module-Name>dk.cloudcreate.essentials.shared</Automatic-Module-Name>
+                                <Automatic-Module-Name>dk.cloudcreate.essentials.reactive</Automatic-Module-Name>
                             </manifestEntries>
                         </archive>
                     </configuration>
