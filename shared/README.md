@@ -109,17 +109,19 @@ This is where the `FailFast` class comes in as it supports many more assertion m
 - `requireNonEmpty`
 
 ``` 
+import static dk.cloudcreate.essentials.shared.FailFast.*;
+
 public static Optional<Field> findField(Set<Field> fields,
                                         String fieldName,
                                         Class<?> fieldType) {
-    FailFast.requireNonNull(fields, "You must supply a fields set");
-    FailFast.requireNonBlank(fieldName, "You must supply a fieldName");
-    FailFast.requireNonNull(fieldType, "You must supply a fieldType");
+    requireNonBlank(fieldName, "You must supply a fieldName");
+    requireNonNull(fieldType, "You must supply a fieldType");
     
-    return fields.stream()
-                 .filter(field -> field.getName().equals(fieldName))
-                 .filter(field -> field.getType().equals(fieldType))
-                 .findFirst();
+    return requireNonNull(fields, "You must supply a fields set")
+                   .stream()
+                   .filter(field -> field.getName().equals(fieldName))
+                   .filter(field -> field.getType().equals(fieldType))
+                   .findFirst();
 }
 ```
 
@@ -159,6 +161,47 @@ var mergedEnglishText = MessageFormatter.bind(englishText,
                                                      "lastName", "Doe"));
                                                      
 assertThat(mergedEnglishText).isEqualTo("Dear Doe, John");
+```
+
+### If expression
+An **if expression** is an if and else combination, with multiple optional intermediate elseIf's, 
+which **returns a value of the evaluation of the if expression**, unlike the normal Java if statement.  
+In this way the **if expression** is similar to the Java ternary operation, except that the
+**if expression** supports multiple **elseIf**'s.
+
+With the **if expression** you no longer need to write code like this:
+```
+import static dk.cloudcreate.essentials.shared.logic.IfExpression.If;
+
+int value = getValue();
+String description = If(value < 0, "Negative number")
+                    .ElseIf(value == 0, "Zero")
+                    .Else("Positive number");
+```
+instead of this
+```
+int value = getValue();
+String description;
+if (value < 0) {
+   description = "Negative number";
+} else if (value == 0) {
+   description = "Zero";
+} else {
+   description = "Positive number";
+} 
+```
+
+The **if expression** supports both simple boolean predicate/condition and fixed value return values 
+as well as lambda predicates and return value suppliers:
+```
+import static dk.cloudcreate.essentials.shared.logic.IfExpression.If;
+
+OrderId orderId = ...;
+Amount orderAmount = ...;
+
+var orderProcessingResult = If(() -> orderAmountExceedsAccountThreshold(orderAmount),
+                               () -> cancelOrder(orderId)).
+                            Else(() -> acceptOrder(orderId));
 ```
 
 ### `GenericType` for capturing a generic/parameterized argument type

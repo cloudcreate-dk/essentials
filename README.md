@@ -32,6 +32,12 @@ This library contains the smallest set of supporting building blocks needed for 
       - `CheckedTripleFunction`
 - `FailFast` argument validation (Objects.requireNonNull replacement)
     - E.g. `FailFast.requireNonBlank(fieldName, "You must supply a fieldName");`
+- **`If` expression** that supports both simple boolean predicate/condition and fixed value return values as well as lambda predicates and return value suppliers:
+  - ```
+    String description = If(value < 0, () -> "Negative number").
+                         ElseIf(() -> value == 0, "Zero").
+                         Else("Positive number");
+    ```
 - `GenericType`
     - With `GenericType` you can specify and capture parameterized type information: `var genericType = new GenericType<List<Money>>(){};`
 - `StopWatch` for timing different methods/operations
