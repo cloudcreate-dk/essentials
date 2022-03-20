@@ -34,7 +34,7 @@
     <name>essentials-types-jackson</name>
 
     <properties>
-        <jackson.version>2.13.1</jackson.version>
+        <jackson.version>2.13.2</jackson.version>
     </properties>
 
     <dependencies>
