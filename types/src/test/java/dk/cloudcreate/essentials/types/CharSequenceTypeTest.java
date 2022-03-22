@@ -69,6 +69,13 @@ class CharSequenceTypeTest {
     void test_substring() {
         ProductId productId = ProductId.of("Some-product-id");
         ProductId partOfId = productId.substring(2);
-        Assertions.assertEquals(ProductId.of("me-product-id"), partOfId);
+        assertThat(partOfId.compareTo(ProductId.of("me-product-id"))).isEqualTo(0);
+    }
+
+    @Test
+    void test_substring_with_index() {
+        ProductId productId = ProductId.of("Some-product-id");
+        ProductId partOfId = productId.substring(2,5);
+        assertThat(partOfId.compareTo(ProductId.of("me-"))).isEqualTo(0);
     }
 }
