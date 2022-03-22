@@ -252,14 +252,15 @@ public abstract class CharSequenceType<CONCRETE_TYPE extends CharSequenceType<CO
         return value.toLowerCase().contains(str.toLowerCase());
     }
 
-
-    public String substring(int beginIndex) {
-        return value.substring(beginIndex);
+    @SuppressWarnings("unchecked")
+    public CONCRETE_TYPE substring(int beginIndex) {
+        return (CONCRETE_TYPE) SingleValueType.from(value.substring(beginIndex), this.getClass());
     }
 
-    public String substring(int beginIndex, int endIndex) {
-        return value.substring(beginIndex,
-                               endIndex);
+    @SuppressWarnings("unchecked")
+    public CONCRETE_TYPE substring(int beginIndex, int endIndex) {
+        return (CONCRETE_TYPE) SingleValueType.from(value.substring(beginIndex,
+                                                                    endIndex), this.getClass());
     }
 
     public char[] toCharArray() {

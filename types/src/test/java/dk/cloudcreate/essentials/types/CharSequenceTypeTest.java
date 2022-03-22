@@ -18,6 +18,7 @@ package dk.cloudcreate.essentials.types;
 
 
 import dk.cloudcreate.essentials.types.ids.*;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -62,5 +63,19 @@ class CharSequenceTypeTest {
     @Test
     void test_toString() {
         assertThat(CustomerId.of("Test").toString()).isEqualTo("Test");
+    }
+
+    @Test
+    void test_substring() {
+        ProductId productId = ProductId.of("Some-product-id");
+        ProductId partOfId = productId.substring(2);
+        assertThat((CharSequence) partOfId).isEqualTo(ProductId.of("me-product-id"));
+    }
+
+    @Test
+    void test_substring_with_index() {
+        ProductId productId = ProductId.of("Some-product-id");
+        ProductId partOfId = productId.substring(2,5);
+        assertThat((CharSequence) partOfId).isEqualTo(ProductId.of("me-"));
     }
 }
