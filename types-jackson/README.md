@@ -12,6 +12,15 @@ many of the most popular libraries and frameworks such as Jackson, Spring Boot, 
 This library focuses purely on providing [Jackson (FasterXML)](https://github.com/FasterXML/jackson) serialization and deserialization support
 for the **types** defined in the Essentials `types` library.
 
+To use `Types-Jackson` just add the following Maven dependency:
+```
+<dependency>
+    <groupId>dk.cloudcreate.essentials</groupId>
+    <artifactId>types-jackson</artifactId>
+    <version>0.5.5</version>
+</dependency>
+```
+
 **NOTE:**
 **This library is WORK-IN-PROGRESS**
 

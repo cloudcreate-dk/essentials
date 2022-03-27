@@ -13,6 +13,15 @@ This library focuses purely on providing [Spring](https://spring.io/projects/spr
 and [WebFlux](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#spring-webflux) `Converter` support for the **types** defined in the
 Essentials `types` library.
 
+To use `Types-Spring-Web` just add the following Maven dependency:
+```
+<dependency>
+    <groupId>dk.cloudcreate.essentials</groupId>
+    <artifactId>types-spring-web</artifactId>
+    <version>0.5.5</version>
+</dependency>
+```
+
 **NOTE:**
 **This library is WORK-IN-PROGRESS**
 

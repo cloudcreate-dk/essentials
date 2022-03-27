@@ -7,7 +7,16 @@ instead allows easy integrations with many of the most popular libraries and fra
 
 ## Shared
 
-This library contains the smallest set of supporting building blocks needed for other Essentials libraries, such as:
+This library contains the smallest set of supporting building blocks needed for other Essentials libraries.
+
+To use `Shared` just add the following Maven dependency:
+```
+<dependency>
+    <groupId>dk.cloudcreate.essentials</groupId>
+    <artifactId>shared</artifactId>
+    <version>0.5.5</version>
+</dependency>
+```
 
 ### Tuples
 

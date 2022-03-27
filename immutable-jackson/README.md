@@ -41,6 +41,15 @@ public final class ImmutableOrder {
 }
 ```
 
+To use `Immutable-Jackson` just add the following Maven dependency:
+```
+<dependency>
+    <groupId>dk.cloudcreate.essentials</groupId>
+    <artifactId>immutable-jackson</artifactId>
+    <version>0.5.5</version>
+</dependency>
+```
+
 **NOTE:**
 **This library is WORK-IN-PROGRESS**
 

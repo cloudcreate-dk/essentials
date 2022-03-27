@@ -53,7 +53,7 @@ To use `Shared` just add the following Maven dependency:
 <dependency>
     <groupId>dk.cloudcreate.essentials</groupId>
     <artifactId>shared</artifactId>
-    <version>0.5.1</version>
+    <version>0.5.5</version>
 </dependency>
 ```
 
@@ -91,7 +91,7 @@ To use `Types` just add the following Maven dependency:
 <dependency>
     <groupId>dk.cloudcreate.essentials</groupId>
     <artifactId>types</artifactId>
-    <version>0.5.1</version>
+    <version>0.5.5</version>
 </dependency>
 ```
 
@@ -99,11 +99,12 @@ To use `Types` just add the following Maven dependency:
 
 This library contains the smallest set of supporting reactive building blocks needed for other Essentials libraries
 
+To use `Reactive` just add the following Maven dependency:
 ```
 <dependency>
     <groupId>dk.cloudcreate.essentials</groupId>
     <artifactId>reactive</artifactId>
-    <version>0.5.1</version>
+    <version>0.5.5</version>
 </dependency>
 ```
 
@@ -157,34 +158,15 @@ public class ImmutableOrder extends ImmutableValueObject {
 }
 ```
 
-To use `immutable` just add the following Maven dependency:
+To use `Immutable` just add the following Maven dependency:
 ```
 <dependency>
     <groupId>dk.cloudcreate.essentials</groupId>
     <artifactId>immutable</artifactId>
-    <version>0.5.1</version>
+    <version>0.5.5</version>
 </dependency>
 ```
 
-## Types Jackson
-
-This library focuses purely on providing [Jackson (FasterXML)](https://github.com/FasterXML/jackson) serialization and deserialization support
-for the **types** defined in the Essentials `types` library.
-
-All you need to do is to add the `dk.cloudcreate.essentials.types.EssentialTypesJacksonModule` to your `ObjectMapper` configuration:
-
-```
-objectMapper.registerModule(new EssentialTypesJacksonModule());
-```
-
-To use `Types-Jackson` just add the following Maven dependency:
-```
-<dependency>
-    <groupId>dk.cloudcreate.essentials</groupId>
-    <artifactId>types-jackson</artifactId>
-    <version>0.5.1</version>
-</dependency>
-```
 
 ## Immutable Jackson
 This library focuses purely on providing [Jackson (FasterXML)](https://github.com/FasterXML/jackson) deserialization support for immutable classes or other classes that don't have a suitable creator
@@ -228,7 +210,28 @@ To use `Immutable-Jackson` just add the following Maven dependency:
 <dependency>
     <groupId>dk.cloudcreate.essentials</groupId>
     <artifactId>immutable-jackson</artifactId>
-    <version>0.5.1</version>
+    <version>0.5.5</version>
+</dependency>
+```
+
+
+## Types Jackson
+
+This library focuses purely on providing [Jackson (FasterXML)](https://github.com/FasterXML/jackson) serialization and deserialization support
+for the **types** defined in the Essentials `types` library.
+
+All you need to do is to add the `dk.cloudcreate.essentials.types.EssentialTypesJacksonModule` to your `ObjectMapper` configuration:
+
+```
+objectMapper.registerModule(new EssentialTypesJacksonModule());
+```
+
+To use `Types-Jackson` just add the following Maven dependency:
+```
+<dependency>
+    <groupId>dk.cloudcreate.essentials</groupId>
+    <artifactId>types-jackson</artifactId>
+    <version>0.5.5</version>
 </dependency>
 ```
 
@@ -272,7 +275,7 @@ To use `Types-SpringData-Mongo` just add the following Maven dependency:
 <dependency>
     <groupId>dk.cloudcreate.essentials</groupId>
     <artifactId>types-springdata-mongo</artifactId>
-    <version>0.5.1</version>
+    <version>0.5.5</version>
 </dependency>
 ```
 
@@ -304,7 +307,7 @@ To use `Types-SpringData-JPA` just add the following Maven dependency:
 <dependency>
     <groupId>dk.cloudcreate.essentials</groupId>
     <artifactId>types-springdata-jpa</artifactId>
-    <version>0.5.1</version>
+    <version>0.5.5</version>
 </dependency>
 ```
 
@@ -314,11 +317,12 @@ This library focuses purely on providing [Spring](https://spring.io/projects/spr
 and [WebFlux](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#spring-webflux) `Converter` support for the **types** defined in the
 Essentials `types` library.
 
+To use `Types-Spring-Web` just add the following Maven dependency:
 ```
 <dependency>
     <groupId>dk.cloudcreate.essentials</groupId>
     <artifactId>types-spring-web</artifactId>
-    <version>0.5.1</version>
+    <version>0.5.5</version>
 </dependency>
 ```
 
@@ -388,12 +392,21 @@ To use `Types-JDBI` just add the following Maven dependency:
 <dependency>
     <groupId>dk.cloudcreate.essentials</groupId>
     <artifactId>types-jdbi</artifactId>
-    <version>0.5.1</version>
+    <version>0.5.5</version>
 </dependency>
 ```
 
 ## Types Avro
 This library focuses purely on providing [AVRO](https://avro.apache.org) serialization and deserialization support for the **types** defined in the Essentials `types` library.
+
+To use `Types-Avro` just add the following Maven dependency:
+```
+<dependency>
+    <groupId>dk.cloudcreate.essentials</groupId>
+    <artifactId>types-avro</artifactId>
+    <version>0.5.5</version>
+</dependency>
+```
 
 Some concrete `Types` such as `Amount`, `Percentage` and `CurrencyCode` come with supported our of the box.  
 This allows you to define Avro schema/IDL protocol and directly refer these logical-types in your Avro Schema/IDL protocol. 

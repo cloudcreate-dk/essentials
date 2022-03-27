@@ -12,6 +12,15 @@ many of the most popular libraries and frameworks such as Jackson, Spring Boot, 
 This library focuses purely on providing [JDBI v3](https://jdbi.org) **argument** support for the **types** defined in the Essentials `types`
 library.
 
+To use `Types-JDBI` just add the following Maven dependency:
+```
+<dependency>
+    <groupId>dk.cloudcreate.essentials</groupId>
+    <artifactId>types-jdbi</artifactId>
+    <version>0.5.5</version>
+</dependency>
+```
+
 **NOTE:**
 **This library is WORK-IN-PROGRESS**
 

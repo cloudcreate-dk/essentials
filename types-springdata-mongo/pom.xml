@@ -32,7 +32,7 @@
     <name>essentials-types-springdata-mongo</name>
 
     <properties>
-        <spring-boot.version>2.6.4</spring-boot.version>
+        <spring-boot.version>2.6.5</spring-boot.version>
     </properties>
 
     <dependencyManagement>
@@ -57,7 +57,7 @@
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-mongodb</artifactId>
-            <version>3.3.2</version>
+            <version>3.3.3</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
