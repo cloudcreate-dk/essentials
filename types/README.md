@@ -17,7 +17,7 @@ To use `Types` just add the following Maven dependency:
 <dependency>
     <groupId>dk.cloudcreate.essentials</groupId>
     <artifactId>types</artifactId>
-    <version>0.5.5</version>
+    <version>0.6.1</version>
 </dependency>
 ```
 
