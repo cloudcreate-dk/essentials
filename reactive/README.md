@@ -7,7 +7,16 @@ instead allows easy integrations with many of the most popular libraries and fra
 
 ## Reactive
 
-This library contains the smallest set of supporting reactive building blocks needed for other Essentials libraries
+This library contains the smallest set of supporting reactive building blocks needed for other Essentials libraries.
+
+To use `Reactive` just add the following Maven dependency:
+```
+<dependency>
+    <groupId>dk.cloudcreate.essentials</groupId>
+    <artifactId>reactive</artifactId>
+    <version>0.5.5</version>
+</dependency>
+```
 
 ### LocalEventBus
 Simple event bus that supports both synchronous and asynchronous subscribers that are registered and listening for events published within the local the JVM  

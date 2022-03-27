@@ -12,6 +12,15 @@ many of the most popular libraries and frameworks such as Jackson, Spring Boot, 
 This library focuses purely on providing [Spring Data JPA](https://spring.io/projects/spring-data-jpa) persistence support for the **types** defined in the
 Essentials `types` library.
 
+To use `Types-SpringData-JPA` just add the following Maven dependency:
+```
+<dependency>
+    <groupId>dk.cloudcreate.essentials</groupId>
+    <artifactId>types-springdata-jpa</artifactId>
+    <version>0.5.5</version>
+</dependency>
+```
+
 **NOTE:**
 **This library is WORK-IN-PROGRESS, and currently it only supports simple `AttributeConverter`'s.   
 It e.g. doesn't support Id _autogeneration_ for `@Id` annotated `SingleValueType` field/properties!!!**
