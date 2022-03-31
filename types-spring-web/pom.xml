@@ -32,7 +32,7 @@
     <name>essentials-types-spring-web</name>
 
     <properties>
-        <spring-boot.version>2.6.5</spring-boot.version>
+        <spring-boot.version>2.6.6</spring-boot.version>
         <spring.version>5.3.17</spring.version>
     </properties>
 
