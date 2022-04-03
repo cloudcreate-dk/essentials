@@ -61,6 +61,15 @@ public class WebMvcControllerTest {
     }
 
     @Test
+    public void getOrderForCustomer() throws Exception {
+        var customerId = CustomerId.random();
+        mockMvc.perform(MockMvcRequestBuilders.get("/order/for-customer/{customerId}", customerId))
+               .andExpect(MockMvcResultMatchers.status().isOk())
+               .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+               .andExpect(jsonPath("$.customerId", is(customerId.toString())));
+    }
+
+    @Test
     public void findById() throws Exception {
         var orderId = OrderId.random();
         mockMvc.perform(MockMvcRequestBuilders.get("/order/{id}", orderId))

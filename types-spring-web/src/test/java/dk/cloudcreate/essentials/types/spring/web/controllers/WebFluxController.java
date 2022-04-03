@@ -26,6 +26,26 @@ import java.util.Map;
 @RestController
 public class WebFluxController {
 
+
+    @GetMapping("/reactive-order/for-customer/{customerId}")
+    public Mono<Order> getOrderForCustomer(@PathVariable CustomerId customerId) {
+        var currencyCode = CurrencyCode.of("DKK");
+        var amount       = Amount.of("123.456");
+        var percentage   = Percentage.from("40.5%");
+        return Mono.just(new Order(OrderId.random(),
+                                   customerId,
+                                   AccountId.random(),
+                                   Map.of(ProductId.random(), Quantity.of(10),
+                                          ProductId.random(), Quantity.of(5),
+                                          ProductId.random(), Quantity.of(1)),
+                                   amount,
+                                   percentage,
+                                   currencyCode,
+                                   CountryCode.of("DK"),
+                                   EmailAddress.of("john@nonexistingdomain.com"),
+                                   new Money(amount.add(percentage.of(amount)), currencyCode)));
+    }
+
     @GetMapping("/reactive-order/{id}")
     public Mono<Order> findById(@PathVariable OrderId id) {
         var currencyCode = CurrencyCode.of("DKK");

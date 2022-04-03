@@ -25,10 +25,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class WebFluxControllerIT {
@@ -37,6 +41,21 @@ public class WebFluxControllerIT {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @Test
+    public void getOrderForCustomer() throws Exception {
+        var customerId = CustomerId.random();
+        var result = testClient.get()
+                               .uri("/reactive-order/for-customer/{customerId}", customerId)
+                               .exchange()
+                               .expectStatus()
+                               .isOk()
+                               .expectBody(Order.class)
+                               .returnResult();
+
+        assertThat((CharSequence) result.getResponseBody().customerId).isEqualTo(customerId);
+    }
+
 
     @Test
     public void findById() throws Exception {

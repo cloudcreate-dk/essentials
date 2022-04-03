@@ -25,12 +25,11 @@ public class CustomerId extends CharSequenceType<CustomerId> implements Identifi
         super(value);
     }
 
-    public static CustomerId of(CharSequence value) {
+    /**
+     * Explicitly a static <code>from</code> method and not a static <code>of</code> method
+     */
+    public static CustomerId from(String value) {
         return new CustomerId(value);
-    }
-
-    public static CustomerId ofNullable(CharSequence value) {
-        return value != null ? new CustomerId(value) : null;
     }
 
     public static CustomerId random() {
