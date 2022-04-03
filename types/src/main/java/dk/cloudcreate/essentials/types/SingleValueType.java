@@ -183,17 +183,12 @@ public interface SingleValueType<VALUE_TYPE, CONCRETE_TYPE extends SingleValueTy
      * @param <CONCRETE_TYPE> the concrete {@link SingleValueType}
      * @return an instance of the type with the value
      */
+    @SuppressWarnings("unchecked")
     static <VALUE_TYPE, CONCRETE_TYPE extends SingleValueType<VALUE_TYPE, CONCRETE_TYPE>> CONCRETE_TYPE from(VALUE_TYPE value, Class<CONCRETE_TYPE> concreteType) {
         FailFast.requireNonNull(value, "You must provide a value");
         FailFast.requireNonNull(concreteType, "You must provide a concreteType");
 
-        Reflector reflector = Reflector.reflectOn(concreteType);
-        if (reflector.hasMatchingConstructorBasedOnArguments(value)) {
-            return reflector.newInstance(value);
-        } else {
-            // Assumes best practice of providing a static of method
-            return reflector.invokeStatic("of", value);
-        }
+        return (CONCRETE_TYPE) fromObject(value, concreteType);
     }
 
     /**
