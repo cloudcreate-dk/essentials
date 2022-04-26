@@ -46,7 +46,7 @@ To use `Immutable-Jackson` just add the following Maven dependency:
 <dependency>
     <groupId>dk.cloudcreate.essentials</groupId>
     <artifactId>immutable-jackson</artifactId>
-    <version>0.6.2</version>
+    <version>0.6.5</version>
 </dependency>
 ```
 
