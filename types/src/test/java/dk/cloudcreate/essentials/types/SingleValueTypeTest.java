@@ -54,4 +54,36 @@ class SingleValueTypeTest {
         assertThat((CharSequence) customerId).isInstanceOf(CustomerId.class);
         assertThat(customerId.value()).isEqualTo("id");
     }
+
+    @Test
+    void test_from_with_TransactionId_and_String_value() {
+        var transactionId = SingleValueType.from("id", TransactionId.class);
+        assertThat((CharSequence) transactionId).isNotNull();
+        assertThat((CharSequence) transactionId).isInstanceOf(TransactionId.class);
+        assertThat(transactionId.value()).isEqualTo("id");
+    }
+
+    @Test
+    void test_fromObject_with_TransactionId_and_String_value() {
+        var transactionId = SingleValueType.fromObject("id", TransactionId.class);
+        assertThat((CharSequence) transactionId).isNotNull();
+        assertThat((CharSequence) transactionId).isInstanceOf(TransactionId.class);
+        assertThat(transactionId.value()).isEqualTo("id");
+    }
+
+    @Test
+    void test_from_with_MessageId_and_String_value() {
+        var transactionId = SingleValueType.from("id", MessageId.class);
+        assertThat((CharSequence) transactionId).isNotNull();
+        assertThat((CharSequence) transactionId).isInstanceOf(MessageId.class);
+        assertThat(transactionId.value()).isEqualTo("id");
+    }
+
+    @Test
+    void test_fromObject_with_MessageId_and_String_value() {
+        var transactionId = SingleValueType.fromObject("id", MessageId.class);
+        assertThat((CharSequence) transactionId).isNotNull();
+        assertThat((CharSequence) transactionId).isInstanceOf(MessageId.class);
+        assertThat(transactionId.value()).isEqualTo("id");
+    }
 }

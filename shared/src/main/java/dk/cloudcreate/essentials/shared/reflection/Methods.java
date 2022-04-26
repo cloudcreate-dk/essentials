@@ -17,7 +17,7 @@
 package dk.cloudcreate.essentials.shared.reflection;
 
 
-import java.lang.reflect.Method;
+import java.lang.reflect.*;
 import java.util.*;
 
 import static dk.cloudcreate.essentials.shared.FailFast.*;
@@ -72,6 +72,10 @@ public final class Methods {
         var currentType = type;
         while (currentType != null) {
             for (var declaredMethod : currentType.getDeclaredMethods()) {
+                if (currentType.getPackageName().startsWith("java.") && !Modifier.isPublic(declaredMethod.getModifiers())) {
+                    // Ignore non public method on any base java classes to avoid InaccessibleObjectException
+                    continue;
+                }
                 boolean hasAlreadyBeenOverriddenByASubClass = false;
 
                 for (var alreadyDiscoveredMethod : methods) {
@@ -103,6 +107,10 @@ public final class Methods {
 
         for (var _interface : Interfaces.interfaces(type)) {
             for (var declaredMethod : _interface.getDeclaredMethods()) {
+                if (_interface.getPackageName().startsWith("java.") && !Modifier.isPublic(declaredMethod.getModifiers())) {
+                    // Ignore non public method on any base java classes to avoid InaccessibleObjectException
+                    continue;
+                }
                 boolean hasAlreadyBeenOverriddenByASubClass = false;
                 for (var alreadyDiscoveredMethod : methods) {
                     if (alreadyDiscoveredMethod.getName().equals(declaredMethod.getName()) &&

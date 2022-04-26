@@ -14,26 +14,26 @@
  * limitations under the License.
  */
 
-package dk.cloudcreate.essentials.types.spring.web.model;
+package dk.cloudcreate.essentials.types.ids;
 
 import dk.cloudcreate.essentials.types.*;
 
 import java.util.UUID;
 
-public class CustomerId extends CharSequenceType<CustomerId> implements Identifier {
-    public CustomerId(CharSequence value) {
+public class TransactionId extends CharSequenceType<TransactionId> implements Identifier {
+    private TransactionId(CharSequence value, Object additionalArgumentToForceSingleValueTypeToUseTheStaticFromMethod) {
         super(value);
     }
 
     /**
-     * Explicitly a static <code>from</code> method and not a static <code>of</code> method
+     * Uses static <code>from</code> instead of <code>of</code>
      */
-    public static CustomerId from(String value) {
-        return new CustomerId(value);
+    public static TransactionId from(CharSequence value) {
+        return new TransactionId(value, null);
     }
 
-    public static CustomerId random() {
+    public static TransactionId random() {
         // You can use any random Id generator like e.g. https://github.com/codahale/time-id
-        return new CustomerId(UUID.randomUUID().toString());
+        return new TransactionId(UUID.randomUUID().toString(), null);
     }
 }

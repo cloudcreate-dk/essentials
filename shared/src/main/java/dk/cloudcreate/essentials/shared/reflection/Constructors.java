@@ -16,7 +16,7 @@
 
 package dk.cloudcreate.essentials.shared.reflection;
 
-import java.lang.reflect.Constructor;
+import java.lang.reflect.*;
 import java.util.List;
 import java.util.stream.*;
 
@@ -36,6 +36,12 @@ public final class Constructors {
     public static List<Constructor<?>> constructors(Class<?> type) {
         requireNonNull(type, "No type supplied");
         return Stream.of(type.getDeclaredConstructors())
+                     .filter(constructor -> {
+                         if (type.getPackageName().startsWith("java.")) {
+                             return Modifier.isPublic(constructor.getModifiers());
+                         }
+                         return true;
+                     })
                      .map(Accessibles::accessible)
                      .collect(Collectors.toList());
     }
