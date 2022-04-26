@@ -32,7 +32,7 @@
     <name>essentials-types-springdata-mongo</name>
 
     <properties>
-        <spring-boot.version>2.6.6</spring-boot.version>
+        <spring-boot.version>2.6.7</spring-boot.version>
     </properties>
 
     <dependencyManagement>
@@ -40,7 +40,14 @@
             <dependency>
                 <groupId>org.testcontainers</groupId>
                 <artifactId>testcontainers-bom</artifactId>
-                <version>1.16.3</version>
+                <version>1.17.1</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-framework-bom</artifactId>
+                <version>5.3.19</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -57,7 +64,7 @@
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-mongodb</artifactId>
-            <version>3.3.3</version>
+            <version>3.3.4</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
