@@ -17,7 +17,7 @@
 package dk.cloudcreate.essentials.shared.reflection;
 
 
-import java.lang.reflect.Field;
+import java.lang.reflect.*;
 import java.util.*;
 
 import static dk.cloudcreate.essentials.shared.FailFast.*;
@@ -59,6 +59,11 @@ public class Fields {
         var currentType = type;
         while (currentType != null) {
             for (var declaredField : currentType.getDeclaredFields()) {
+                if (currentType.getPackageName().startsWith("java.") && !Modifier.isPublic(declaredField.getModifiers())) {
+                    // Ignore non public fields on any base java classes to avoid InaccessibleObjectException
+                    continue;
+                }
+
                 if (fields.stream().noneMatch(field -> field.getName().equals(declaredField.getName()))) {
                     fields.add(Accessibles.accessible(declaredField));
                 }
