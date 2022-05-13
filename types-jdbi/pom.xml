@@ -41,7 +41,6 @@
         <dependency>
             <groupId>org.jdbi</groupId>
             <artifactId>jdbi3-core</artifactId>
-            <version>3.28.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
