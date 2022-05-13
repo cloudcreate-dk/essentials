@@ -19,6 +19,7 @@ package dk.cloudcreate.essentials.shared.types;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.ParameterizedType;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -32,10 +33,26 @@ class GenericTypeTest {
     }
 
     @Test
+    void test_resolveGenericType_with_Class_as_argument() {
+        var genericType = new GenericType<String>(){};
+        var actualTypeOption      = GenericType.resolveGenericType(genericType.getClass(), 0);
+        assertThat(actualTypeOption).isPresent();
+        assertThat(actualTypeOption.get()).isEqualTo(String.class);
+    }
+
+    @Test
     void test_using_a_ParameterizedType_as_argument() {
         var genericType = new GenericType<TestSubject<String>>(){};
         assertThat(genericType.getType()).isEqualTo(TestSubject.class);
         assertThat(genericType.getGenericType()).isInstanceOf(ParameterizedType.class);
         assertThat(((ParameterizedType)genericType.getGenericType()).getRawType()).isEqualTo(TestSubject.class);
+    }
+
+    @Test
+    void test_resolveGenericType_with_ParameterizedType_as_argument() {
+        var genericType = new GenericType<TestSubject<String>>(){};
+        var actualTypeOption      = GenericType.resolveGenericType(genericType.getClass(), 0);
+        assertThat(actualTypeOption).isPresent();
+        assertThat(actualTypeOption.get()).isEqualTo(TestSubject.class);
     }
 }
