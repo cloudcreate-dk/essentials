@@ -42,4 +42,18 @@ public final class Exceptions {
         throwable.printStackTrace(new PrintWriter(sw));
         return sw.toString();
     }
+
+    public static Throwable getRootCause(Throwable exception) {
+        var rootCause = exception;
+        var parentCause = rootCause.getCause();
+        while (parentCause != null) {
+            rootCause = parentCause;
+            if (parentCause == parentCause.getCause()) {
+                parentCause = null;
+            } else {
+                parentCause = parentCause.getCause();
+            }
+        }
+        return rootCause;
+    }
 }
