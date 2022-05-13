@@ -16,6 +16,8 @@
 
 package dk.cloudcreate.essentials.types;
 
+import java.util.Objects;
+
 /**
  * Represents a Range which uses Long's to define from and to (both inclusive) in the Range.
  */
@@ -68,11 +70,11 @@ public final class LongRange {
      * larger than <code>fromInclusive</code> and until and inclusive <code>fromInclusive+rangeLength</code>
      *
      * @param fromInclusive the first value included in the range
-     * @param rangeLength   the length of the range (will result in a range from (and inclusive) <code>fromInclusive</code> and until and inclusive <code>fromInclusive+rangeLength</code>)
+     * @param rangeLength   the length of the range (will result in a range from (and inclusive) <code>fromInclusive</code> and until and inclusive <code>fromInclusive+rangeLength-1</code>)
      * @return
      */
     public static LongRange from(long fromInclusive, long rangeLength) {
-        return LongRange.between(fromInclusive, fromInclusive + rangeLength);
+        return LongRange.between(fromInclusive, fromInclusive + rangeLength - 1);
     }
 
     /**
@@ -104,5 +106,24 @@ public final class LongRange {
         }
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof LongRange)) return false;
+        LongRange longRange = (LongRange) o;
+        return fromInclusive == longRange.fromInclusive && Objects.equals(toInclusive, longRange.toInclusive);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(fromInclusive, toInclusive);
+    }
+
+    @Override
+    public String toString() {
+        return "LongRange{" +
+                "fromInclusive=" + fromInclusive +
+                ", toInclusive=" + toInclusive +
+                '}';
+    }
 }

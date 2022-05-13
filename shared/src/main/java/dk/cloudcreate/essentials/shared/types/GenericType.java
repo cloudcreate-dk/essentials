@@ -17,6 +17,10 @@
 package dk.cloudcreate.essentials.shared.types;
 
 import java.lang.reflect.*;
+import java.util.Optional;
+
+import static dk.cloudcreate.essentials.shared.FailFast.requireNonNull;
+import static dk.cloudcreate.essentials.shared.MessageFormatter.msg;
 
 /**
  * Using this class makes it possible to capture a generic/parameterized argument type, such as <code>List&lt;Money></code>,
@@ -28,20 +32,21 @@ import java.lang.reflect.*;
  * <br>
  * <b>You can specify a parameterized type using {@link GenericType}:</b><br>
  * <blockquote>
- *      <code>{@literal var genericType = new GenericType<List<Money>>(){};}</code><br>
- *      <br>
- *      The {@link GenericType#type}/{@link GenericType#getType()} will return <code>List.class</code><br>
- *      And {@link GenericType#genericType}/{@link GenericType#getGenericType()} will return {@link ParameterizedType}, which can be introspected further<br>
+ * <code>{@literal var genericType = new GenericType<List<Money>>(){};}</code><br>
+ * <br>
+ * The {@link GenericType#type}/{@link GenericType#getType()} will return <code>List.class</code><br>
+ * And {@link GenericType#genericType}/{@link GenericType#getGenericType()} will return {@link ParameterizedType}, which can be introspected further<br>
  * </blockquote>
  * <br>
  * <br>
  * <b>You can also supply a non-parameterized type to {@link GenericType}:</b><br>
  * <blockquote>
- *      <code>{@literal var genericType = new GenericType<Money>(){};}</code><br>
- *      <br>
- *      In which case {@link GenericType#type}/{@link GenericType#getType()} will return <code>Money.class</code><br>
- *      And {@link GenericType#genericType}/{@link GenericType#getGenericType()} will return <code>Money.class</code>
+ * <code>{@literal var genericType = new GenericType<Money>(){};}</code><br>
+ * <br>
+ * In which case {@link GenericType#type}/{@link GenericType#getType()} will return <code>Money.class</code><br>
+ * And {@link GenericType#genericType}/{@link GenericType#getGenericType()} will return <code>Money.class</code>
  * </blockquote>
+ *
  * @param <T> the type provided to the {@link GenericType}
  */
 public abstract class GenericType<T> {
@@ -61,6 +66,43 @@ public abstract class GenericType<T> {
             }
         } else {
             throw new IllegalStateException("No generic type information available");
+        }
+    }
+
+    /**
+     * Resolve the concrete parameterized type a given <code>forType</code> has specified with its direct super class.<br>
+     * Example:<br>
+     * <b>Given super-class:</b><br>
+     * <code>{@literal class AggregateRoot<ID, AGGREGATE_TYPE extends AggregateRoot<ID, AGGREGATE_TYPE>> implements Aggregate<ID>}</code><br>
+     * <br>
+     * <b>And sub/concrete class:</b><br>
+     * <code>{@literal class Order extends AggregateRoot<OrderId, Order>}</code>br>
+     * <br>
+     * <b>Then:</b><br>
+     * <code>GenericType.resolveGenericType(Order.class, 0)</code> will return <code>OrderId.class</code><br>
+     * <br>
+     * <b>and</b><br>
+     * <code>GenericType.resolveGenericType(Order.class, 1)</code> will return <code>Order.class</code><br>
+     *
+     * @param forType           the type that is specifying a parameterized type with its super-class
+     * @param typeArgumentIndex the index in the superclasses type parameters (0 based)
+     * @return an optional with the parameterized type or {@link Optional#empty()} if the type couldn't resolved
+     */
+    public static Optional<Class<?>> resolveGenericType(Class<?> forType, int typeArgumentIndex) {
+        requireNonNull(forType, "No forType provided");
+        var genericSuperClass = forType.getGenericSuperclass();
+        if (genericSuperClass instanceof ParameterizedType) {
+            var genericType = ((ParameterizedType) genericSuperClass).getActualTypeArguments()[typeArgumentIndex];
+            if (genericType instanceof Class) {
+                return Optional.of((Class<?>) genericType);
+            } else {
+                // Use the raw type
+                return Optional.of((Class<?>) ((ParameterizedType) genericType).getRawType());
+            }
+        } else {
+            throw new IllegalStateException(msg("No generic type information available on type '{}' for typeArgument with index {}",
+                                                forType.getName(),
+                                                typeArgumentIndex));
         }
     }
 

@@ -57,6 +57,16 @@ public class Pair<T1, T2> implements Tuple<Pair<T1, T2>> {
         this._2 = t2;
     }
 
+    /**
+     * Create a new {@link Tuple} with 2 elements
+     *
+     * @param t1 the first element
+     * @param t2 the second element
+     */
+    public static <T1, T2> Pair<T1, T2> of(T1 t1, T2 t2) {
+        return new Pair<>(t1, t2);
+    }
+
     @Override
     public int arity() {
         return 2;

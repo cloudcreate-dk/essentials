@@ -36,7 +36,7 @@ class LongRangeTest {
     }
 
     @Test
-    void test_from() {
+    void test_from_open_range() {
         var range = LongRange.from(0);
 
         assertThat(range.isClosedRange()).isFalse();
@@ -46,6 +46,20 @@ class LongRangeTest {
         assertThat(range.covers(10)).isTrue();
         assertThat(range.covers(Long.MAX_VALUE)).isTrue();
     }
+
+    @Test
+    void test_from_closed_range() {
+        var range = LongRange.from(1, 10);
+
+        assertThat(range.isClosedRange()).isTrue();
+        assertThat(range.isOpenRange()).isFalse();
+        assertThat(range.covers(0)).isFalse();
+        assertThat(range.covers(1)).isTrue();
+        assertThat(range.covers(10)).isTrue();
+        assertThat(range.covers(11)).isFalse();
+        assertThat(range.covers(Long.MAX_VALUE)).isFalse();
+    }
+
 
     @Test
     void test_only() {

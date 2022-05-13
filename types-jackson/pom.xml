@@ -33,10 +33,6 @@
     <packaging>jar</packaging>
     <name>essentials-types-jackson</name>
 
-    <properties>
-        <jackson.version>2.13.2</jackson.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>dk.cloudcreate.essentials</groupId>
@@ -46,19 +42,16 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>${jackson.version}.2</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jdk8</artifactId>
-            <version>${jackson.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
-            <version>${jackson.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

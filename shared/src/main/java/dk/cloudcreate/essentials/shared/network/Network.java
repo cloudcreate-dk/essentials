@@ -14,18 +14,22 @@
  * limitations under the License.
  */
 
-package dk.cloudcreate.essentials.reactive;
+package dk.cloudcreate.essentials.shared.network;
 
-public class PublishException extends RuntimeException {
-    public final Object event;
+import java.net.*;
 
-    public PublishException(String msg, Object event) {
-        super(msg);
-        this.event = event;
+public final class Network {
+    public static String hostName() {
+        try {
+            return InetAddress.getLocalHost().getHostName();
+        } catch (UnknownHostException e) {
+            throw new NetworkException("Failed to resolve localhost hostname due to " + e.getMessage(), e);
+        }
     }
 
-    public PublishException(String message, Throwable cause, Object event) {
-        super(message, cause);
-        this.event = event;
+    static class NetworkException extends RuntimeException {
+        public NetworkException(String message, Throwable cause) {
+            super(message, cause);
+        }
     }
 }
