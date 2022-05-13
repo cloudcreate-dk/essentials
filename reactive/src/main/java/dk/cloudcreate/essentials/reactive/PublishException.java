@@ -20,6 +20,7 @@ public class PublishException extends RuntimeException {
     public final Object event;
 
     public PublishException(String msg, Object event) {
+        super(msg);
         this.event = event;
     }
 
