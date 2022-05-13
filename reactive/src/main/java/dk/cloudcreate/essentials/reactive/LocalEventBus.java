@@ -47,6 +47,7 @@ import static dk.cloudcreate.essentials.shared.MessageFormatter.msg;
  *
  *     localEventBus.publish(new OrderCreatedEvent());
  * }</pre>
+ *
  * @param <EVENT_TYPE> the event type being published by the event bus
  */
 public class LocalEventBus<EVENT_TYPE> {
@@ -62,9 +63,10 @@ public class LocalEventBus<EVENT_TYPE> {
 
     /**
      * Create a {@link LocalEventBus} with the given name, the given number of parallel asynchronous processing threads
-     * @param busName the name of the bus
+     *
+     * @param busName         the name of the bus
      * @param parallelThreads the number of parallel asynchronous processing threads
-     * @param onErrorHandler the error handler which will be called if any subscriber/consumer fails to handle an event
+     * @param onErrorHandler  the error handler which will be called if any subscriber/consumer fails to handle an event
      */
     public LocalEventBus(String busName, int parallelThreads, OnErrorHandler<EVENT_TYPE> onErrorHandler) {
         this(busName,
@@ -74,9 +76,10 @@ public class LocalEventBus<EVENT_TYPE> {
 
     /**
      * Create a {@link LocalEventBus} with the given name, the given number of parallel asynchronous processing threads
-     * @param busName the name of the bus
+     *
+     * @param busName                   the name of the bus
      * @param asyncSubscribersScheduler the asynchronous event scheduler (for the asynchronous consumers/subscribers)
-     * @param onErrorHandler the error handler which will be called if any subscriber/consumer fails to handle an event
+     * @param onErrorHandler            the error handler which will be called if any subscriber/consumer fails to handle an event
      */
     public LocalEventBus(String busName, Scheduler asyncSubscribersScheduler, OnErrorHandler<EVENT_TYPE> onErrorHandler) {
         this.busName = requireNonNull(busName, "busName was null");
@@ -92,15 +95,18 @@ public class LocalEventBus<EVENT_TYPE> {
     /**
      * Publish the event to all subscribers/consumer<br>
      * First we call all asynchronous subscribers, after which we will call all synchronous subscribers on the calling thread (i.e. on the same thread that the publish method is called on)
+     *
      * @param event the event to publish
      * @return this bus instance
      */
     public LocalEventBus<EVENT_TYPE> publish(EVENT_TYPE event) {
         requireNonNull(event, "No event was supplied");
         log.trace("Publishing {} to {} async-subscribers", event.getClass().getName(), asyncSubscribers.size());
-        Sinks.EmitResult emitResult = eventSink.tryEmitNext(event);
-        if (emitResult.isFailure()) {
-            throw new PublishException(msg("Failed to publish event {} to async-subscribers: {}", event, emitResult), event);
+        if (asyncSubscribers.size() > 0) {
+            var emitResult = eventSink.tryEmitNext(event);
+            if (emitResult.isFailure()) {
+                throw new PublishException(msg("Failed to publish event {} to async-subscribers: {}", event, emitResult), event);
+            }
         }
 
         log.trace("Publishing {} to {} sync-subscribers", event.getClass().getName(), syncSubscribers.size());
@@ -120,6 +126,7 @@ public class LocalEventBus<EVENT_TYPE> {
 
     /**
      * Add an asynchronous subscriber/consumer
+     *
      * @param subscriber the subscriber to add
      * @return this bus instance
      */
@@ -141,6 +148,7 @@ public class LocalEventBus<EVENT_TYPE> {
 
     /**
      * Remove an asynchronous subscriber/consumer
+     *
      * @param subscriber the subscriber to remove
      * @return this bus instance
      */
@@ -155,6 +163,7 @@ public class LocalEventBus<EVENT_TYPE> {
 
     /**
      * Add a synchronous subscriber/consumer
+     *
      * @param subscriber the subscriber to add
      * @return this bus instance
      */
@@ -166,6 +175,7 @@ public class LocalEventBus<EVENT_TYPE> {
 
     /**
      * Remove a synchronous subscriber/consumer
+     *
      * @param subscriber the subscriber to remove
      * @return this bus instance
      */
