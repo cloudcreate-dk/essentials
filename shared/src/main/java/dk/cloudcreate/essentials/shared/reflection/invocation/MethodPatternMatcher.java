@@ -17,7 +17,6 @@
 package dk.cloudcreate.essentials.shared.reflection.invocation;
 
 import java.lang.reflect.Method;
-import java.util.function.Consumer;
 
 /**
  * Strategy interface that determines the mechanics of which methods are candidates for matching,
@@ -28,7 +27,7 @@ import java.util.function.Consumer;
  *                                    Example: Within a single class we have placed a set methods that can handle <code>OrderEvent</code>'s, such as <code>OrderCreated, OrderShipped, OrderAccepted</code>, etc.<br>
  *                                    In this case <code>OrderEvent</code> will be our <code>ARGUMENT_ROOT_TYPE</code> as it forms the root of the type hierarchy.
  */
-interface MethodPatternMatcher<ARGUMENT_COMMON_ROOT_TYPE> {
+public interface MethodPatternMatcher<ARGUMENT_COMMON_ROOT_TYPE> {
     /**
      * Determines if a candidateMethod is a candidate for being invoked by {@link PatternMatchingMethodInvoker}
      *
@@ -65,7 +64,7 @@ interface MethodPatternMatcher<ARGUMENT_COMMON_ROOT_TYPE> {
      * the real payload to supply to the <code>methodToInvoke</code>)
      *
      * @param methodToInvoke                         the method that must be reflectively invoked. You can assume that the method is Acessible already
-     * @param argument                               The argument instance passed to {@link PatternMatchingMethodInvoker#invoke(Object)}/{@link PatternMatchingMethodInvoker#invoke(Object, Consumer)}
+     * @param argument                               The argument instance passed to {@link PatternMatchingMethodInvoker#invoke(Object)}/{@link PatternMatchingMethodInvoker#invoke(Object, NoMatchingMethodsHandler)}
      *                                               and which was used in the call to {@link #resolveInvocationArgumentTypeFromObject(Object)}<br>
      *                                               In simple cases this will be the same type as the <code>argument</code>'s, but for enveloped types
      *                                               (such as Messages that encapsulate a payload) we may want to match methods against
