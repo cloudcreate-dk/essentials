@@ -91,11 +91,20 @@ public class Reflector {
     }
 
     /**
+     * Does the type have a default no-arguments constructor?
+     *
+     * @return true if the type has a default no-arguments constructor, otherwise false
+     */
+    public boolean hasDefaultConstructor() {
+        return this.constructors.stream().filter(_constructor -> _constructor.getParameterCount() == 0).count() == 1;
+    }
+
+    /**
      * Perform constructor matching based on actual argument values (as opposed to {@link #hasMatchingConstructorBasedOnParameterTypes(Class[])})<br>
      * The constructor match doesn't require exact type matches only compatible type matches
      *
      * @param constructorArguments the actual argument values
-     * @return true if there's a single matching constructor
+     * @return true if there's a single matching constructor, otherwise false
      */
     public boolean hasMatchingConstructorBasedOnArguments(Object... constructorArguments) {
         var actualArgumentTypes = argumentTypes(constructorArguments);
@@ -131,9 +140,9 @@ public class Reflector {
         var actualArgumentTypes = argumentTypes(constructorArguments);
 
         var constructor = this.constructors.stream()
-                                                      .filter(_constructor -> parameterTypesMatches(actualArgumentTypes, _constructor.getParameterTypes(), false))
-                                                      .findFirst()
-                                                      .orElseThrow(() -> new ReflectionException(msg("Couldn't find a single constructor that matched {}", Arrays.toString(actualArgumentTypes))));
+                                           .filter(_constructor -> parameterTypesMatches(actualArgumentTypes, _constructor.getParameterTypes(), false))
+                                           .findFirst()
+                                           .orElseThrow(() -> new ReflectionException(msg("Couldn't find a single constructor that matched {}", Arrays.toString(actualArgumentTypes))));
 
         try {
             return (T) constructor.newInstance(constructorArguments);

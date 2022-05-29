@@ -19,7 +19,6 @@ package dk.cloudcreate.essentials.shared.types;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.ParameterizedType;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -27,6 +26,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class GenericTypeTest {
     @Test
     void test_using_a_Class_as_argument() {
+
         var genericType = new GenericType<String>(){};
         assertThat(genericType.getType()).isEqualTo(String.class);
         assertThat(genericType.getGenericType()).isEqualTo(String.class);
@@ -35,9 +35,9 @@ class GenericTypeTest {
     @Test
     void test_resolveGenericType_with_Class_as_argument() {
         var genericType = new GenericType<String>(){};
-        var actualTypeOption      = GenericType.resolveGenericType(genericType.getClass(), 0);
-        assertThat(actualTypeOption).isPresent();
-        assertThat(actualTypeOption.get()).isEqualTo(String.class);
+        var actualTypeOption      = GenericType.resolveGenericTypeOnSuperClass(genericType.getClass(), 0);
+        assertThat(actualTypeOption).isNotNull();
+        assertThat(actualTypeOption).isEqualTo(String.class);
     }
 
     @Test
@@ -49,10 +49,48 @@ class GenericTypeTest {
     }
 
     @Test
-    void test_resolveGenericType_with_ParameterizedType_as_argument() {
+    void test_resolveGenericTypeOnSuperClass_with_ParameterizedType_as_argument() {
         var genericType = new GenericType<TestSubject<String>>(){};
-        var actualTypeOption      = GenericType.resolveGenericType(genericType.getClass(), 0);
-        assertThat(actualTypeOption).isPresent();
-        assertThat(actualTypeOption.get()).isEqualTo(TestSubject.class);
+        var actualTypeOption      = GenericType.resolveGenericTypeOnSuperClass(genericType.getClass(), 0);
+        assertThat(actualTypeOption).isNotNull();
+        assertThat(actualTypeOption).isEqualTo(TestSubject.class);
     }
+
+    @Test
+    void test_resolveGenericTypeForInterface() {
+        var actualTypeWithIndex0 = GenericType.resolveGenericTypeForInterface(Order.class,
+                                                                    WithState.class,
+                                                                    0);
+        var actualTypeWithIndex1 = GenericType.resolveGenericTypeForInterface(Order.class,
+                                                                    WithState.class,
+                                                                    1);
+        var actualTypeWithIndex2 = GenericType.resolveGenericTypeForInterface(Order.class,
+                                                                    WithState.class,
+                                                                    2);
+        assertThat(actualTypeWithIndex0).isEqualTo(String.class);
+        assertThat(actualTypeWithIndex1).isEqualTo(Order.class);
+        assertThat(actualTypeWithIndex2).isEqualTo(OrderState.class);
+    }
+
+    // --------------- Abstract classes that may optionally implement WithState -------------
+    public static abstract class AggregateRoot<ID, AGGREGATE_TYPE extends AggregateRoot<ID, AGGREGATE_TYPE>> {
+
+    }
+
+    public static abstract class AggregateState<ID, AGGREGATE_TYPE extends AggregateRoot<ID, AGGREGATE_TYPE>> {
+
+    }
+
+    public interface WithState<ID, AGGREGATE_TYPE extends AggregateRoot<ID, AGGREGATE_TYPE>, AGGREGATE_STATE extends AggregateState<ID, AGGREGATE_TYPE>> {
+    }
+
+    // ---------------- Concrete classes ------------
+    public static class Order extends AggregateRoot<String, Order> implements WithState<String, Order, OrderState> {
+
+    }
+
+    public static class OrderState extends AggregateState<String, Order> {
+
+    }
+
 }

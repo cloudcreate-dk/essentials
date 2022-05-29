@@ -17,7 +17,7 @@ To use `Types` just add the following Maven dependency:
 <dependency>
     <groupId>dk.cloudcreate.essentials</groupId>
     <artifactId>types</artifactId>
-    <version>0.7.2</version>
+    <version>0.7.3</version>
 </dependency>
 ```
 
@@ -39,6 +39,8 @@ public class CreateOrder {
     ...
 }
 ```
+
+![Ambiguous Command](media/strongly_typed_properties.png)
 
 This code might at the surface look okay, but returning to it after a few weeks is likely to introduce questions like:
 

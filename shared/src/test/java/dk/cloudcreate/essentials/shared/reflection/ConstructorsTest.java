@@ -26,6 +26,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class ConstructorsTest {
     @Test
+    void test_hasDefaultConstructor() {
+        assertThat(Reflector.reflectOn(TestReflectionClass.class).hasDefaultConstructor()).isTrue();
+        assertThat(Reflector.reflectOn(BaseTestReflectionClass.class).hasDefaultConstructor()).isFalse();
+    }
+
+    @Test
     void test_constructors() {
         var constructorsAndParametersMap = Map.of(BaseInterface.class, List.of(),
                                                   TestInterface.class, List.of(),
