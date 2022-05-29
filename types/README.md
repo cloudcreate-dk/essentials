@@ -40,6 +40,8 @@ public class CreateOrder {
 }
 ```
 
+![Ambiguous Command](media/strongly_typed_properties.png)
+
 This code might at the surface look okay, but returning to it after a few weeks is likely to introduce questions like:
 
 - What is the `id` - is it the id of the Order?
