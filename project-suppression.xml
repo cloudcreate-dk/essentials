@@ -127,4 +127,14 @@
         <packageUrl regex="true">^pkg:maven/net\.java\.dev\.jna/jna@.*$</packageUrl>
         <cpe>cpe:/a:oracle:java_se</cpe>
     </suppress>
+    <suppress>
+        <notes><![CDATA[
+    file name: h2-2.1.212.jar
+    This issue has resurfaced again, most likely due to OSSIndex changes - see https://github.com/jeremylong/DependencyCheck/issues/4542
+    The Essentials H2 dependency is defined with scope "test", meaning that all projects that depend on Essentials or Essential Components
+    have to explicitly import H2 if they want to use H2
+   ]]></notes>
+        <packageUrl regex="true">^pkg:maven/com\.h2database/h2@.*$</packageUrl>
+        <vulnerabilityName>CVE-2018-14335</vulnerabilityName>
+    </suppress>
 </suppressions>
