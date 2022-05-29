@@ -18,6 +18,7 @@ package dk.cloudcreate.essentials.shared.types;
 
 import java.lang.reflect.*;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import static dk.cloudcreate.essentials.shared.FailFast.requireNonNull;
 import static dk.cloudcreate.essentials.shared.MessageFormatter.msg;
@@ -65,9 +66,20 @@ public abstract class GenericType<T> {
                 type = (Class<T>) ((ParameterizedType) genericType).getRawType();
             }
         } else {
-            throw new IllegalStateException("No generic type information available");
+            throw new IllegalStateException(msg("No generic type information available on {}", this.getClass()));
         }
     }
+
+
+    public Class<T> getType() {
+        return type;
+    }
+
+    public Type getGenericType() {
+        return genericType;
+    }
+
+    // ---------------------------------- Utility methods ------------------------------------------
 
     /**
      * Resolve the concrete parameterized type a given <code>forType</code> has specified with its direct super class.<br>
@@ -88,16 +100,23 @@ public abstract class GenericType<T> {
      * @param typeArgumentIndex the index in the superclasses type parameters (0 based)
      * @return an optional with the parameterized type or {@link Optional#empty()} if the type couldn't resolved
      */
-    public static Optional<Class<?>> resolveGenericType(Class<?> forType, int typeArgumentIndex) {
+    public static Class<?> resolveGenericTypeOnSuperClass(Class<?> forType, int typeArgumentIndex) {
         requireNonNull(forType, "No forType provided");
         var genericSuperClass = forType.getGenericSuperclass();
         if (genericSuperClass instanceof ParameterizedType) {
-            var genericType = ((ParameterizedType) genericSuperClass).getActualTypeArguments()[typeArgumentIndex];
+            var actualTypeArguments = ((ParameterizedType) genericSuperClass).getActualTypeArguments();
+            if (actualTypeArguments.length <= typeArgumentIndex) {
+                throw new IllegalStateException(msg("{} only has {} type arguments, cannot resolve type argument with index {}",
+                                                    forType,
+                                                    actualTypeArguments.length,
+                                                    typeArgumentIndex));
+            }
+            var genericType = actualTypeArguments[typeArgumentIndex];
             if (genericType instanceof Class) {
-                return Optional.of((Class<?>) genericType);
+                return (Class<?>) genericType;
             } else {
                 // Use the raw type
-                return Optional.of((Class<?>) ((ParameterizedType) genericType).getRawType());
+                return (Class<?>) ((ParameterizedType) genericType).getRawType();
             }
         } else {
             throw new IllegalStateException(msg("No generic type information available on type '{}' for typeArgument with index {}",
@@ -106,11 +125,61 @@ public abstract class GenericType<T> {
         }
     }
 
-    public Class<T> getType() {
-        return type;
+    /**
+     * Resolve a specific parameterized type argument <code>typeArgumentIndex</code> for a given <code>forType</code> which implements a generic/parameterize interface <code>withGenericInterface</code><br>
+     * Example:<br>
+     * Given this <code>withGenericInterface</code>:
+     * <pre>{@code
+     * public interface WithState<ID, AGGREGATE_TYPE extends AggregateRoot<ID, AGGREGATE_TYPE>, AGGREGATE_STATE extends AggregateState<ID, AGGREGATE_TYPE>> {
+     * }
+     * }</pre>
+     * and this <code>forType</code>:
+     * <pre>{@code
+     * public static class Order extends AggregateRoot<String, Order> implements WithState<String, Order, OrderState> {
+     * }
+     * }</pre>
+     * <br>
+     * then calling with these <code>typeArgumentIndex</code> will yield the following results:
+     * <table>
+     *     <tr><td>typeArgumentIndex</td><td>Returned generic type</td></tr>
+     *     <tr><td>0</td><td>String.class</td></tr>
+     *     <tr><td>1</td><td>Order.class</td></tr>
+     *     <tr><td>2</td><td>OrderState.class</td></tr>
+     *     <tr><td>3</td><td>throws IllegalArgumentException</td></tr>
+     * </table>
+     *
+     * @param forType              the type that implement the <code>withGenericInterface</code>
+     * @param withGenericInterface the parameterized/generic interface that specifies a parameterized type at index <code>typeArgumentIndex</code>
+     * @param typeArgumentIndex    the parameterized argument index (0 based)
+     * @return the type
+     * @throws IllegalStateException    in case the type doesn't extend the interface, the interface isn't generic
+     * @throws IllegalArgumentException if the interface doesn't specify a parameterized argument with the specified index
+     */
+    public static Class<?> resolveGenericTypeForInterface(Class<?> forType, Class<?> withGenericInterface, int typeArgumentIndex) {
+        var parameterizedGenericInterface = Stream.of(forType.getGenericInterfaces())
+                                                  .filter(type -> type instanceof ParameterizedType)
+                                                  .map(ParameterizedType.class::cast)
+                                                  .filter(type -> withGenericInterface.equals(type.getRawType()))
+                                                  .findFirst()
+                                                  .orElseThrow(() -> new IllegalStateException(msg("{} doesn't implement generic Interface {} or " +
+                                                                                                           "Interface {} isn't generic/parameterized",
+                                                                                                   forType,
+                                                                                                   withGenericInterface.getName())));
+
+        var actualTypeArguments = parameterizedGenericInterface.getActualTypeArguments();
+        if (actualTypeArguments.length <= typeArgumentIndex) {
+            throw new IllegalArgumentException(msg("{} only has {} type arguments, cannot resolve type argument with index {}",
+                                                   forType,
+                                                   actualTypeArguments.length,
+                                                   typeArgumentIndex));
+        }
+        var genericType = parameterizedGenericInterface.getActualTypeArguments()[typeArgumentIndex];
+        if (genericType instanceof Class) {
+            return (Class<?>) genericType;
+        } else {
+            // Use the raw type
+            return (Class<?>) ((ParameterizedType) genericType).getRawType();
+        }
     }
 
-    public Type getGenericType() {
-        return genericType;
-    }
 }
