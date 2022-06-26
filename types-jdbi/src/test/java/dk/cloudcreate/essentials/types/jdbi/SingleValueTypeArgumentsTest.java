@@ -28,6 +28,7 @@ class SingleValueTypeArgumentsTest {
     void test_jdbi_argument_factories() {
         Jdbi jdbi = Jdbi.create("jdbc:h2:mem:test");
         jdbi.registerArgument(new AmountArgumentFactory());
+        jdbi.registerColumnMapper(new AmountColumnMapper());
         jdbi.registerArgument(new CountryCodeArgumentFactory());
         jdbi.registerArgument(new CurrencyCodeArgumentFactory());
         jdbi.registerArgument(new EmailAddressArgumentFactory());
@@ -89,6 +90,14 @@ class SingleValueTypeArgumentsTest {
             assertThat(result.get("currency")).isEqualTo(currency.value());
             assertThat(result.get("email")).isEqualTo(email.value());
             assertThat(result.get("percentage")).isEqualTo(percentage.value());
+
+
+            var amountResult = handle.inTransaction(_handle -> handle.createQuery("SELECT amount from orders WHERE id = :id")
+                                                               .bind("id", orderId)
+                                                               .mapTo(Amount.class))
+                               .one();
+            assertThat(amountResult).isInstanceOf(Amount.class);
+            assertThat(amountResult).isEqualTo(amount);
         });
 
     }
