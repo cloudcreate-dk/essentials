@@ -18,7 +18,7 @@ To use `Types-Spring-Web` just add the following Maven dependency:
 <dependency>
     <groupId>dk.cloudcreate.essentials</groupId>
     <artifactId>types-spring-web</artifactId>
-    <version>0.7.3</version>
+    <version>0.7.4</version>
 </dependency>
 ```
 
