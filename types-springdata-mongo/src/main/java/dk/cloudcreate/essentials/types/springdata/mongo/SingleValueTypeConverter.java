@@ -17,7 +17,7 @@
 package dk.cloudcreate.essentials.types.springdata.mongo;
 
 import dk.cloudcreate.essentials.types.*;
-import org.bson.types.Decimal128;
+import org.bson.types.*;
 import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.core.convert.converter.GenericConverter;
 
@@ -33,6 +33,8 @@ public class SingleValueTypeConverter implements GenericConverter {
     public Set<ConvertiblePair> getConvertibleTypes() {
         return Set.of(new ConvertiblePair(CharSequenceType.class, String.class),
                       new ConvertiblePair(String.class, CharSequenceType.class),
+                      new ConvertiblePair(CharSequenceType.class, ObjectId.class),
+                      new ConvertiblePair(ObjectId.class, CharSequenceType.class),
                       new ConvertiblePair(NumberType.class, Number.class),
                       new ConvertiblePair(Number.class, NumberType.class));
     }
@@ -40,8 +42,12 @@ public class SingleValueTypeConverter implements GenericConverter {
     @SuppressWarnings("unchecked")
     @Override
     public Object convert(Object source, TypeDescriptor sourceType, TypeDescriptor targetType) {
-        if (source instanceof SingleValueType) {
+        if (source instanceof CharSequenceType && ObjectId.class.isAssignableFrom(targetType.getType()) && ObjectId.isValid(source.toString())) {
+            return new ObjectId(source.toString());
+        } else if (source instanceof SingleValueType) {
             return ((SingleValueType<?, ?>) source).value();
+        } else if (source instanceof ObjectId) {
+            return SingleValueType.fromObject(((ObjectId)source).toString(), (Class<SingleValueType<?, ?>>) targetType.getType());
         } else {
             var convertFromValue = source;
             if (convertFromValue instanceof Decimal128) {
