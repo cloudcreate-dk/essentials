@@ -26,7 +26,8 @@ To use `Types-SpringData-Mongo` just add the following Maven dependency:
 
 ### Configuration
 
-All you need to do is to register the following Spring Beans to your Spring configuration.
+All you need to do is to register the following Spring Beans to your Spring configuration to support
+Types conversions and automatic Id generation.
 
 Example:
 
@@ -42,7 +43,8 @@ public MongoCustomConversions mongoCustomConversions() {
 }
 ```
 
-to support this Entity (including automatic Id generation):
+Additionally, to support this Entity that uses a strongly types Map key, that can contain an `ObjectId#toString` as value, such as the `ProductId` key type in the `orderLines` property defined in the 
+`Order`:
 
 ```
 @Document
@@ -55,4 +57,31 @@ public class Order {
     
     ...
 }    
+```
+
+and where `ProductId` is defined as (note the `random` method uses `new ProductId(ObjectId.get().toString())`):
+```
+public class ProductId extends CharSequenceType<ProductId> implements Identifier {
+    public ProductId(CharSequence value) {
+        super(value);
+    }
+
+    public static ProductId of(CharSequence value) {
+        return new ProductId(value);
+    }
+
+    public static ProductId random() {
+        return new ProductId(ObjectId.get().toString());
+    }
+}
+```
+
+Then you additionally need to explicit define that `ProductId` must be convertable to and from `ObjectId` when configuring the `MongoCustomConversions`:
+
+```
+@Bean
+public MongoCustomConversions mongoCustomConversions() {
+    return new MongoCustomConversions(List.of(
+            new SingleValueTypeConverter(ProductId.class)));
+}
 ```

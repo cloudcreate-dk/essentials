@@ -16,11 +16,13 @@
 
 package dk.cloudcreate.essentials.types.springdata.mongo;
 
+import dk.cloudcreate.essentials.types.springdata.mongo.model.*;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.mongodb.core.convert.MongoCustomConversions;
 
 import java.util.List;
+
 
 @SpringBootApplication
 class TypesSpringDataMongoApplicationTests {
@@ -31,6 +33,7 @@ class TypesSpringDataMongoApplicationTests {
 
     @Bean
     public MongoCustomConversions mongoCustomConversions() {
-        return new MongoCustomConversions(List.of(new SingleValueTypeConverter()));
+        return new MongoCustomConversions(List.of(
+                new SingleValueTypeConverter(ProductId.class)));
     }
 }
