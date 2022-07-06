@@ -28,7 +28,6 @@ import org.springframework.stereotype.Component;
  * If this field has value <code>null</code>, then we will call the <b>static</b>
  * <code>random()</code> method on the concrete {@link SingleValueType}.
  */
-@Component
 public class SingleValueTypeRandomIdGenerator implements BeforeConvertCallback<Object> {
     @Override
     public Object onBeforeConvert(Object entity, String collection) {

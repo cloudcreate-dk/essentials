@@ -17,6 +17,7 @@
 package dk.cloudcreate.essentials.types.springdata.mongo.model;
 
 import dk.cloudcreate.essentials.types.*;
+import org.bson.types.ObjectId;
 
 import java.util.UUID;
 
@@ -34,7 +35,6 @@ public class ProductId extends CharSequenceType<ProductId> implements Identifier
     }
 
     public static ProductId random() {
-        // You can use any random Id generator like e.g. https://github.com/codahale/time-id
-        return new ProductId(UUID.randomUUID().toString());
+        return new ProductId(ObjectId.get().toString());
     }
 }

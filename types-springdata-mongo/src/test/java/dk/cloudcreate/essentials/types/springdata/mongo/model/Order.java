@@ -17,6 +17,7 @@
 package dk.cloudcreate.essentials.types.springdata.mongo.model;
 
 import dk.cloudcreate.essentials.types.*;
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -28,6 +29,17 @@ public class Order {
     public OrderId                  id;
     public CustomerId               customerId;
     public AccountId                accountId;
+    /**
+     * Since {@link ProductId} can contain an {@link ObjectId#toString()} as value, then you explicitly need to define that {@link ProductId} must be convertable
+     * to and from {@link ObjectId} when configuring the {@link org.springframework.data.mongodb.core.convert.MongoCustomConversions}:
+     * <pre>{@code
+     * @Bean
+     * public MongoCustomConversions mongoCustomConversions() {
+     *     return new MongoCustomConversions(List.of(
+     *             new SingleValueTypeConverter(ProductId.class)));
+     * }
+     * }</pre>
+     */
     public Map<ProductId, Quantity> orderLines;
 
     private Amount     amount;
