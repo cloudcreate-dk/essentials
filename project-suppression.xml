@@ -137,4 +137,21 @@
         <packageUrl regex="true">^pkg:maven/com\.h2database/h2@.*$</packageUrl>
         <vulnerabilityName>CVE-2018-14335</vulnerabilityName>
     </suppress>
+    <suppress>
+        <notes><![CDATA[
+        As indicated in https://github.com/marcelstoer/DependencyCheck/commit/99251ab67131ba63a877e3dc9bff48f925951e02 this seems to be a false positive
+   file name: log4j-api-2.18.0.jar
+   ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.apache\.logging\.log4j/log4j\-api@.*$</packageUrl>
+        <cve>CVE-2022-33915</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+        As indicated by https://github.com/jeremylong/DependencyCheck/issues/4641 this is matching the wrong package and this project has already upgraded to
+        org.springframework.data:spring-data-mongodb:jar:3.4.1
+   file name: spring-boot-starter-data-mongodb-2.7.1.jar
+   ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.springframework\.boot/spring\-boot\-starter\-data\-mongodb@.*$</packageUrl>
+        <cve>CVE-2022-22980</cve>
+    </suppress>
 </suppressions>
