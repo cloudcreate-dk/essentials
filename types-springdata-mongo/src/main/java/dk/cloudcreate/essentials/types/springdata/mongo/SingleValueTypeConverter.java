@@ -111,12 +111,13 @@ public class SingleValueTypeConverter implements GenericConverter {
     public Set<ConvertiblePair> getConvertibleTypes() {
         var allConverters = new HashSet<ConvertiblePair>();
         allConverters.addAll(explicitCharSequenceTypeToObjectIdConverters.stream()
-                                                                         .flatMap(singleValueType -> Stream.of(new ConvertiblePair(singleValueType, ObjectId.class),
+                                                                         .flatMap(singleValueType -> Stream.of(new ConvertiblePair(String.class, singleValueType),
                                                                                                                new ConvertiblePair(ObjectId.class, singleValueType)))
                                                                          .collect(Collectors.toList()));
 
         allConverters.addAll(Set.of(
                 new ConvertiblePair(CharSequenceType.class, String.class),
+                new ConvertiblePair(SingleValueType.class, Object.class), // Needed for Map Key conversions
                 new ConvertiblePair(String.class, CharSequenceType.class),
                 new ConvertiblePair(NumberType.class, Number.class),
                 new ConvertiblePair(Number.class, NumberType.class)));
